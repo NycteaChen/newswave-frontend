@@ -13,8 +13,8 @@
     "prepare": "husky install",
     "lint-staged": "lint-staged"
   },
-  "lint-stated": {
-    "*.{js,vue}": [
+  "lint-staged": {
+    "*.{ts,js,vue}": [
       "eslint --fix",
       "git add ."
     ],
