@@ -5,6 +5,41 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true
   },
+  app: {
+    head: {
+      title: 'NewsWave',
+      htmlAttrs: {
+        lang: 'zh-Hant'
+      },
+      meta: [
+        {
+          charset: 'utf-8'
+        },
+        {
+          name: 'description',
+          content:
+            'NewsWave 是一個專注於提供無干擾新聞閱讀體驗的應用程式。無論您是尋找國際新聞、財經資訊、科技趨勢還是娛樂八卦，NewsWave 都能讓您輕鬆快速地瀏覽最新動態，專注於真正重要的內容。'
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1'
+        },
+        {
+          'http-equiv': 'X-UA-Compatible',
+          content: 'ie=edge'
+        },
+        {
+          hid: 'og:title',
+          property: 'og:title',
+          content: 'NewsWave'
+        },
+        {
+          property: 'og:locale',
+          content: 'zh_TW'
+        }
+      ]
+    }
+  },
   typescript: {
     typeCheck: true
   },
