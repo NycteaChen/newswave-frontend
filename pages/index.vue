@@ -7,11 +7,12 @@
   </div>
 </template>
 <script setup lang="ts">
-  const { x, y } = useMouse();
+const { x, y } = useMouse();
 </script>
 
 <style lang="postcss" scoped>
-  .test {
-    color: blue;
-  }
+.test {
+  position: relative;
+  color: blue;
+}
 </style>

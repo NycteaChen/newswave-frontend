@@ -15,4 +15,4 @@
 /node_modules/
 
 # 設定檔
-/assets/scss/helpers/
+/assets/scss/variables/
