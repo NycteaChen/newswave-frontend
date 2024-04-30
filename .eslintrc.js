@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   env: {
     browser: true,
-    es2023: true
+    node: true
   },
   extends: ['@nuxtjs/eslint-config-typescript', 'airbnb-base', 'prettier'],
   parserOptions: {
@@ -17,4 +17,4 @@ module.exports = {
     'linebreak-style': 'off',
     'vue/no-multiple-template-root': 'off'
   }
-}
+};

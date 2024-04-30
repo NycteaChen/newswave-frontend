@@ -8,7 +8,18 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint --ext .ts,.js,.vue .",
-    "stylelint": "stylelint **/*.scss"
+    "check:style": "stylelint **/*.{css,scss,sass,vue}",
+    "lint:style": "stylelint **/*.{css,scss,sass,vue} --fix"
+  },
+  "lint-stated": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "git add ."
+    ],
+    "*.{scss,vue}": [
+      "stylelint --fix",
+      "git add ."
+    ]
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
@@ -33,7 +44,7 @@
     "postcss-scss": "^4.0.9",
     "prettier": "^3.2.5",
     "sass": "^1.75.0",
-    "stylelint": "^16.3.1",
+    "stylelint": "^16.4.0",
     "stylelint-config-standard-scss": "^13.1.0",
     "stylelint-config-standard-vue": "^1.0.0",
     "stylelint-order": "^6.0.4",

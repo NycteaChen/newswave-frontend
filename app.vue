@@ -7,17 +7,17 @@
 </template>
 
 <script setup lang="ts">
-  const userStore = useUserStore();
+const userStore = useUserStore();
 
-  const { account } = storeToRefs(userStore);
+const { account } = storeToRefs(userStore);
 
-  onMounted(() => {
-    userStore.SET_USER_INFO({ account: 'Hexo' });
-  });
+onMounted(() => {
+  userStore.SET_USER_INFO({ account: 'Hexo' });
+});
 </script>
-<style lang="scss" scoped>
-  .word-test {
-    color: red;
-    position: relative;
-  }
+<style lang="postcss" scoped>
+.word-test {
+  position: relative;
+  color: red;
+}
 </style>
