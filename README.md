@@ -1,75 +1,127 @@
-# newswave-frontend
+# NewsWave-Frontend
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+<img width="500" src="https://i.imgur.com/4ARRsXj.jpeg" />
 
-## Setup
+- DEMO: [NewsWave Website](https://newswave-frontend.onrender.com/)
 
-Make sure to install the dependencies:
+## Features
+
+Test Account
 
 ```bash
-# npm
+Account： user@gmail.com
+Password： user1234
+```
+
+- [x] Login
+- [x] Logout
+...
+
+## Views
+
+![範例圖片 1](https://fakeimg.pl/500/)
+![範例圖片 2](https://fakeimg.pl/500/)
+![範例圖片 3](https://fakeimg.pl/500/)
+
+## Install
+
+以下將會引導你如何安裝此專案到你的電腦上。
+
+Node.js 版本建議為：`16.15.0` 以上...
+
+### 取得專案
+
+```bash
+git clone git@github.com:hsiangfeng/README-Example-Template.git
+```
+
+### 移動到專案內
+
+```bash
+cd README-Example-Template
+```
+
+### 安裝套件
+
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
+### 環境變數設定
 
-Start the development server on `http://localhost:3000`:
+請在終端機輸入 `cp .env.example .env` 來複製 .env.example 檔案，並依據 `.env` 內容調整相關欄位。
+
+### 運行專案
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+npm run serve
 ```
 
-## Production
+### 開啟專案
 
-Build the application for production:
+在瀏覽器網址列輸入以下即可看到畫面
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+http://localhost:8080/
 ```
 
-Locally preview production build:
+## 環境變數說明
 
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+```env
+APIPATH= # API 位置
+COUSTOMPATH= # 自訂變數
+...
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Files
+
+- views - 畫面放置處
+- assets - 靜態資源放置處
+  - scss - scss 檔案放置處
+  - images - 圖片放置處
+...
+
+## Technologies
+
+- Node.js v16.15.0
+- Vue v3.2.20
+- Vite v4.0.4
+- Vue Router v4.0.11
+- Axios v0.24.0
+- Bootstrap v5.1.3
+...
+
+## Third-party Service
+
+- Algolia
+- Google Analytics
+...
+
+## CI/CD
+
+此專案有使用 Github Actions，所以發起 PR 時會自動執行以下動作：
+
+- 建立 Node.js 環境
+- 安裝相依套件
+- 編譯程式碼
+- 執行 ESLint 掃描
+- 執行測試
+...
+
+當專案 merge 到 main 時會自動執行以下動作：
+
+- 建立 Node.js 環境
+- 安裝相依套件
+- 編譯程式碼
+- 執行 ESLint 掃描
+- 執行測試
+- 部署到 Github Pages
+...
+
+## Development Team
+
+- [chsiyu](https://github.com/sihyun-user)
+- [chrisT](https://github.com/r37111081)
+- [Ciel](https://github.com/NycteaChen)
+- [kiki880409](https://github.com/kiki880409)
+- [Alan](https://github.com/LOOFOO)
