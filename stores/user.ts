@@ -1,12 +1,16 @@
 import { defineStore } from 'pinia';
 
 interface UserInfo {
-  account: string;
+  id: string;
+  name: string;
+  email: string;
 }
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    account: ''
+    id: '',
+    name: '',
+    email: ''
   }),
   actions: {
     SET_USER_INFO(value: UserInfo): void {
@@ -14,6 +18,9 @@ export const useUserStore = defineStore('user', {
         this[key as keyof UserInfo] = val;
       });
     }
+  },
+  persist: {
+    storage: persistedState.localStorage
   }
 });
 

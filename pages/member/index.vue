@@ -1,6 +1,17 @@
 <template>
   <div>會員中心</div>
-  <nav class="d-flex col-md-4 w-100">
+  <!-- <client-only> -->
+  <div class="mt-3">
+    {{ `會員id: ${id}` }}
+  </div>
+  <div class="mt-3">
+    {{ `會員name: ${name}` }}
+  </div>
+  <div class="mt-3">
+    {{ `會員email: ${email}` }}
+  </div>
+  <!-- </client-only> -->
+  <nav class="d-flex col-md-4 w-100 mt-5">
     <section
       v-for="item in memberSubNav"
       :key="item.title"
@@ -23,4 +34,6 @@
 
 <script setup lang="ts">
 const { memberSubNav } = useNav();
+const userStore = useUserStore();
+const { id, name, email } = storeToRefs(userStore);
 </script>
