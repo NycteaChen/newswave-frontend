@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": " nuxt dev",
+    "dev": "nuxt dev --port 4000",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/stylelint-module": "^5.2.0",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@types/bootstrap": "^5.2.10",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",

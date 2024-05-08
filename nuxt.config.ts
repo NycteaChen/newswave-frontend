@@ -44,7 +44,12 @@ export default defineNuxtConfig({
     typeCheck: true
   },
   css: ['~/assets/scss/main.scss'],
-  modules: ['@nuxtjs/stylelint-module', '@pinia/nuxt', '@vueuse/nuxt'],
+  modules: [
+    '@nuxtjs/stylelint-module',
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    '@vueuse/nuxt'
+  ],
   stylelint: {
     lintOnStart: false, // 專案啟動時不自動檢查所有相關檔案
     chokidar: true // 監聽文件異動進行檢核（文件未列出此選項）
@@ -67,5 +72,10 @@ export default defineNuxtConfig({
       // ... or scan all modules within given directory
       'composables/**'
     ]
+  },
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE
+    }
   }
 });

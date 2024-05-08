@@ -1,37 +1,37 @@
 <template>
   <div>
-    <n-header v-if="showHeader" />
-    <main style="height: '500px'">
+    <n-header v-if="showHeader && !pageLoading" />
+    <div v-if="pageLoading">loading.....</div>
+    <main
+      v-show="!pageLoading"
+      style="height: '500px'"
+    >
       <nuxt-page :page-key="(route) => route.fullPath" />
-
-      <div class="word-test my-5">
-        {{ `從 pinia 設定使用者名稱：${account}` }}
-      </div>
       <nuxt-link
         v-if="$route.name !== 'index'"
         to="/"
-        >返回首頁</nuxt-link
-      >
+        >返回首頁
+      </nuxt-link>
     </main>
     <n-footer />
   </div>
 </template>
-
 <script setup lang="ts">
-const userStore = useUserStore();
 const route = useRoute();
 
-const { account } = storeToRefs(userStore);
+const showHeader = computed(() => route.name !== 'login-register');
 
-const showHeader = computed(() => route.name !== 'loginRegister');
+const nuxtApp = useNuxtApp();
 
-onMounted(() => {
-  userStore.SET_USER_INFO({ account: 'Hexo' });
+const pageLoading = ref(true);
+
+provide('pageLoading', pageLoading);
+
+nuxtApp.hook('page:start', () => {
+  pageLoading.value = true;
+});
+
+nuxtApp.hook('page:finish', () => {
+  pageLoading.value = false;
 });
 </script>
-<style lang="postcss" scoped>
-.word-test {
-  position: relative;
-  color: red;
-}
-</style>
