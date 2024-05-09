@@ -3,7 +3,7 @@ export default defineNuxtPlugin(() => {
   const userStore = useUserStore();
   const $api = $fetch.create({
     baseURL: `${config.public.apiBase}/api/v1`,
-    onRequest({ request, options, error }) {
+    onRequest({ request, options }) {
       const token = useCookie('token');
       if (token.value) {
         options.headers = { authorization: `Bearer ${token.value}` };

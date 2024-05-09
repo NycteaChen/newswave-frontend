@@ -72,8 +72,8 @@
 </template>
 <script setup lang="ts">
 const router = useRouter();
-
 const userStore = useUserStore();
+const { login, register } = useMemberApi();
 
 const cookieOption = {
   maxAge: 60 * 60
@@ -81,7 +81,7 @@ const cookieOption = {
 
 const token: any = useCookie('token', cookieOption);
 
-const mode = ref('login');
+const mode = ref<'login' | 'register'>('login');
 
 const initialState = {
   name: '',
@@ -89,7 +89,7 @@ const initialState = {
   password: ''
 };
 
-const formState = reactive({ ...initialState });
+const formState = reactive<RegisterRequestType>({ ...initialState });
 
 const btnDisabled = computed(
   () =>
@@ -105,50 +105,19 @@ const switchMode = () => {
   Object.assign(formState, initialState);
 };
 
-const login = async () => {
-  try {
-    const res = await useApi('/member/login', {
-      method: 'post',
-      body: {
-        email: formState.email,
-        password: formState.password
-      },
-      credentials: 'include'
-    });
-    return res;
-  } catch (error) {
-    return error;
-  }
-};
-
-const register = async () => {
-  try {
-    const res = await useApi('/member/register', {
-      method: 'post',
-      body: {
-        name: formState.name,
-        email: formState.email,
-        password: formState.password
-      },
-      credentials: 'include'
-    });
-    return res;
-  } catch (error) {
-    return error;
-  }
-};
-
 const submit = async () => {
-  const res: any = mode.value === 'login' ? await login() : await register();
+  const { status, data, message } =
+    mode.value === 'login' ? await login(formState) : await register(formState);
 
-  if (res?.data?.value?.status && res?.data?.value?.data?.id) {
-    userStore.SET_USER_INFO(res?.data?.value?.data);
-    token.value = res?.data?.value?.data?.token;
+  if (status) {
+    userStore.SET_USER_INFO(data);
+    token.value = data?.token;
+
     setTimeout(() => {
       router.replace('/news');
     }, 3000);
   } else {
-    warnMessage.value = res?.error?.value?.data?.message;
+    warnMessage.value = message;
   }
 };
 </script>

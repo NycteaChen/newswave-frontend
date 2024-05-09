@@ -1,11 +1,5 @@
 import { defineStore } from 'pinia';
 
-interface UserInfo {
-  id: string;
-  name: string;
-  email: string;
-}
-
 export const useUserStore = defineStore('user', {
   state: () => ({
     id: '',

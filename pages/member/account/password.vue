@@ -50,13 +50,15 @@
   </form>
 </template>
 <script lang="ts" setup>
+const { updatePassword } = useMemberApi();
+
 const initState = {
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''
 };
 
-const formState = reactive({ ...initState });
+const formState = reactive<{ [key: string]: PasswordType }>({ ...initState });
 
 const hintMessage = ref<string>('');
 
@@ -67,32 +69,14 @@ const btnDisabled = computed(
     !formState.confirmPassword?.trim()
 );
 
-const updatePassword = async () => {
-  try {
-    const res = await useApi('/member/password', {
-      method: 'patch',
-      body: {
-        oldPassword: formState.oldPassword,
-        newPassword: formState.newPassword
-      },
-      credentials: 'include'
-    });
-    return res;
-  } catch (error) {
-    return error;
-  }
-};
-
 const submit = async () => {
-  const res: any = await updatePassword();
+  const { status, message } = await updatePassword(formState);
 
-  if (res?.data?.value?.status) {
+  if (status) {
     Object.assign(formState, initState);
-    hintMessage.value = res?.data?.value?.message;
+    hintMessage.value = message;
   } else {
-    hintMessage.value = res?.error?.value?.data?.message;
+    hintMessage.value = message;
   }
-
-  console.log('password :>> ', res);
 };
 </script>
