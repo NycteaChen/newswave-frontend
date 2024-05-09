@@ -5,8 +5,8 @@ export default defineNuxtRouteMiddleware(() => {
     return;
   }
 
-  const isLogin = useCookie('isLogin');
-  if (isLogin.value) {
+  const token = useCookie('token');
+  if (token.value) {
     return;
   }
   // eslint-disable-next-line consistent-return

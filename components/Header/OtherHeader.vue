@@ -12,7 +12,7 @@
       </nuxt-link>
     </nav>
     <button
-      v-if="isLogin"
+      v-if="token"
       @click="logout"
     >
       登出
@@ -20,7 +20,7 @@
   </header>
 </template>
 <script lang="ts" setup>
-const isLogin: any = useCookie('isLogin');
+const token: any = useCookie('token');
 
 const userStore = useUserStore();
 
@@ -31,7 +31,7 @@ const navList = computed<any>(() => {
     { name: '訂閱', path: '/subscription-plan' },
     { name: '搜尋', path: '/search' }
   ];
-  const list = isLogin.value ? authPath : notAuthPath;
+  const list = token.value ? authPath : notAuthPath;
   return [...list, ...commonPath];
 });
 
@@ -40,7 +40,7 @@ const logout = async () => {
     method: 'post',
     credentials: 'include'
   });
-  isLogin.value = undefined;
+  token.value = undefined;
   userStore.$reset();
 };
 </script>

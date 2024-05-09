@@ -4,12 +4,12 @@
   <div>{{ text }}</div>
 </template>
 <script lang="ts" setup>
-const isLogin = useCookie('isLogin');
+const token: any = useCookie('token');
 
 const text = ref<string>('');
 
 const subscribe = () => {
-  if (isLogin.value) {
+  if (token.value) {
     text.value = '確認為登入狀態可以訂閱';
   } else {
     text.value = '請先登入！';

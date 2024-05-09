@@ -7,13 +7,13 @@
 </template>
 <script setup lang="ts">
 const route = useRoute();
-const isLogin: any = useCookie('isLogin');
+const token: any = useCookie('token');
 
 const articleType = computed(() =>
   route.params.articleId[0] === 'M' ? '雜誌' : '新聞'
 );
 
 const hiddenArticle = computed(
-  () => !isLogin.value && articleType.value === '雜誌'
+  () => !token.value && articleType.value === '雜誌'
 );
 </script>

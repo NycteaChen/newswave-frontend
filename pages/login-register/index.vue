@@ -59,7 +59,7 @@
     >
       Submit
     </button>
-    <template v-if="isLogin">
+    <template v-if="token">
       <div>3秒後跳轉至新聞....</div>
     </template>
     <p
@@ -74,7 +74,12 @@
 const router = useRouter();
 
 const userStore = useUserStore();
-const isLogin: any = useCookie('isLogin');
+
+const cookieOption = {
+  maxAge: 60 * 60
+};
+
+const token: any = useCookie('token', cookieOption);
 
 const mode = ref('login');
 
@@ -138,7 +143,7 @@ const submit = async () => {
 
   if (res?.data?.value?.status && res?.data?.value?.data?.id) {
     userStore.SET_USER_INFO(res?.data?.value?.data);
-    isLogin.value = 'true';
+    token.value = res?.data?.value?.data?.token;
     setTimeout(() => {
       router.replace('/news');
     }, 3000);
