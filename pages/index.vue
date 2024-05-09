@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <navbar-test /> -->
-    <!-- <n-buttons /> -->
+    <n-buttons />
     <nuxt-link
       class="mx-2"
       to="/news"

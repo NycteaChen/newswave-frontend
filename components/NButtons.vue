@@ -53,10 +53,4 @@
   >
     Link
   </button>
-  <button
-    type="button"
-    class="btn btn-link"
-  >
-    Link
-  </button>
 </template>
