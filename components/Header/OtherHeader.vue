@@ -13,7 +13,7 @@
     </nav>
     <button
       v-if="token"
-      @click="logout"
+      @click="logoutHandler"
     >
       登出
     </button>
@@ -23,6 +23,7 @@
 const token: any = useCookie('token');
 
 const userStore = useUserStore();
+const { logout } = useMemberApi();
 
 const navList = computed<any>(() => {
   const authPath = [{ name: '會員中心', path: '/member' }];
@@ -35,12 +36,11 @@ const navList = computed<any>(() => {
   return [...list, ...commonPath];
 });
 
-const logout = async () => {
-  await useApi('/member/logout', {
-    method: 'post',
-    credentials: 'include'
-  });
-  token.value = undefined;
-  userStore.$reset();
+const logoutHandler = async () => {
+  const { status } = await logout();
+  if (status) {
+    token.value = undefined;
+    userStore.$reset();
+  }
 };
 </script>

@@ -70,7 +70,9 @@ export default defineNuxtConfig({
       // ... or scan modules nested one level deep with a specific name and file extension
       'composables/*/index.{ts,js,mjs,mts}',
       // ... or scan all modules within given directory
-      'composables/**'
+      'composables/**',
+      'types/*.ts',
+      'types/**/*.ts'
     ]
   },
   runtimeConfig: {
