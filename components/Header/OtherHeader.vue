@@ -1,6 +1,6 @@
 <template>
   <header class="other-header">
-    <div>Other head</div>
+    <n-logo />
     <nav class="row">
       <nuxt-link
         v-for="item in navList"

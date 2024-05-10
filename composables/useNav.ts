@@ -81,7 +81,19 @@ const memberNav = [
 
 const memberSubNav = memberNav.filter((e) => e.childrenRoute?.length);
 
+const homeNav = [
+  {
+    title: '關於我們',
+    path: '/about'
+  },
+  {
+    title: '方案介紹',
+    path: '#'
+  }
+];
+
 export default () => ({
   memberNav,
-  memberSubNav
+  memberSubNav,
+  homeNav
 });

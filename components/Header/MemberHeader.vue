@@ -1,5 +1,6 @@
 <template>
   <header class="member-center">
+    <n-logo />
     <div>Member Center header</div>
     <nav>
       <section>
