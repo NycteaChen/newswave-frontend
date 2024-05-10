@@ -40,10 +40,28 @@ export default defineNuxtConfig({
       ]
     }
   },
+  css: ['~/assets/scss/main.scss'],
+  postcss: {
+    plugins: {
+      autoprefixer: true
+    }
+  },
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: `
+            @import "bootstrap/scss/functions";
+            @import "~/assets/scss/variables/_variables.scss";
+            @import "bootstrap/scss/mixins";
+          `
+        }
+      }
+    }
+  },
   typescript: {
     typeCheck: true
   },
-  css: ['~/assets/scss/main.scss'],
   modules: [
     '@nuxtjs/stylelint-module',
     '@pinia/nuxt',

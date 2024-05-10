@@ -1,0 +1,27 @@
+/* stylelint-disable scss/no-global-function-names */
+$utilities: map-merge(
+  $utilities,
+  (
+    'background': (
+      property: 'background',
+      class: 'bg',
+      values: (
+        'primary-gradient': linear-gradient(90deg, $blue-800 0%, $primary 100%),
+        'transparent': transparent,
+        'mask': rgba($blue-900, 0.9)
+      )
+    )
+  )
+);
+$utilities: map-merge(
+  $utilities,
+  (
+    'color': (
+      property: 'color',
+      class: 'text',
+      values: (
+        'primary-white': $gray-100
+      )
+    )
+  )
+);
