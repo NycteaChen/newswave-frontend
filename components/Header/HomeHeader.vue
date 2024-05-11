@@ -5,7 +5,7 @@
   >
     <nav class="navbar navbar-expand-md bg-primary-gradient">
       <div class="container-fluid px-3 px-md-5">
-        <n-logo />
+        <n-logo logo-type="light" />
         <button
           ref="toggleBtnRef"
           class="navbar-toggler ms-2 p-2"
@@ -56,7 +56,17 @@
 </template>
 
 <script setup lang="ts">
-const { homeNav } = useNav();
+const homeNav = [
+  {
+    title: '關於我們',
+    path: '/about'
+  },
+  {
+    title: '方案介紹',
+    path: '#'
+  }
+];
+
 const mask = useEventBus('mask');
 
 const toggleBtnRef = ref<any>('');
