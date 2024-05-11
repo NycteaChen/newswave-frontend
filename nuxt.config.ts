@@ -53,7 +53,7 @@ export default defineNuxtConfig({
         scss: {
           additionalData: `
             @import "bootstrap/scss/functions";
-            @import "~/assets/scss/variables/_variables.scss";
+            @import "~/assets/scss/config/_variables.scss";
             @import "bootstrap/scss/mixins";
           `
         }

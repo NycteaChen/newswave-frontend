@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     to="/"
-    class="logo d-block overflow-hidden w-100"
+    class="logo w-100 link-text-hidden"
     :style="backgroundImage"
     alt="logo"
   >
@@ -28,7 +28,5 @@ const backgroundImage = computed(() => ({
   background-position-y: center;
   background-size: contain;
   background-repeat: no-repeat;
-  text-indent: 101%;
-  white-space: nowrap;
 }
 </style>
