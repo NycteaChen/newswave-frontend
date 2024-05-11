@@ -9,19 +9,17 @@
   </nuxt-link>
 </template>
 <script setup lang="ts">
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
+interface NLogoProps {
+  logoType?: 'light' | 'dark';
+}
 
-const route = useRoute();
-
-const logoType = ref<'light' | 'dark'>('light');
+const props = withDefaults(defineProps<NLogoProps>(), {
+  logoType: 'dark'
+});
 
 const backgroundImage = computed(() => ({
-  backgroundImage: `url(${requireImage(`site/logo-${logoType.value}.svg`)})`
+  backgroundImage: `url(${requireImage(`site/logo-${props.logoType}.svg`)})`
 }));
-
-watchImmediate(route, (val: RouteLocationNormalizedLoaded) => {
-  logoType.value = val.name === 'index' ? 'light' : 'dark';
-});
 </script>
 <style lang="scss" scoped>
 .logo {

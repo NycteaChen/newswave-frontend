@@ -20,7 +20,8 @@ $utilities: map-merge(
       property: 'color',
       class: 'text',
       values: (
-        'primary-white': $gray-100
+        'primary-white': $gray-100,
+        'blue-400': $blue-400
       )
     )
   )

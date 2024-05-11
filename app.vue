@@ -1,7 +1,13 @@
 <template>
   <div>
     <n-header v-if="showHeader && !pageLoading" />
-    <div v-if="pageLoading">loading.....</div>
+    <div
+      v-if="pageLoading"
+      class="spinner-border text-primary"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <NuxtLayout class="layouts">
       <nuxt-page :page-key="(route) => route.fullPath" />
       <nuxt-link
