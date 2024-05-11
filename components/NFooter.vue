@@ -14,6 +14,7 @@
         <cite class="fst-normal">
           Illustration by
           <a
+            target="_blank"
             class="footer-link"
             href="https://www.behance.net/STRELKAX"
           >
@@ -21,6 +22,7 @@
           </a>
           from
           <a
+            target="_blank"
             class="footer-link"
             href="https://icons8.com/illustrations"
           >
