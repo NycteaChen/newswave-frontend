@@ -1,5 +1,5 @@
 <template>
-  <footer class="mt-3 bg-primary-gradient text-primary-white py-3">
+  <footer class="n-footer bg-primary-gradient text-body-white pt-3">
     <div class="container row mx-auto text-center text-md-start gx-5 py-3">
       <section class="footer-desc col-12 text-blue-400 col-md-6 fs-sm">
         <n-logo
@@ -7,7 +7,7 @@
           class="mx-auto mx-md-0"
         />
         <img
-          class="wave-logo"
+          class="wave-icon"
           :src="requireImage('icon/wave.svg')"
         />
         <p>© 2024 NewsWave 專題使用</p>
@@ -62,7 +62,7 @@
             >
               <nuxt-link
                 :to="link.path"
-                class="text-primary-white"
+                class="text-body-white"
                 :class="{ 'link-text-hidden': item.type === 'socialMedia' }"
                 :target="item.target || ''"
                 :style="
@@ -137,11 +137,20 @@ const footerNav = [
   }
 ];
 
+// Illustration by <a href="https://icons8.com/illustrations/author/cj62pzCRUq1N">Julia Buzatti</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+// Illustration by <a href="https://icons8.com/illustrations/author/mNCLibjicqSz">Julia K</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+
+// Illustration by <a href="https://icons8.com/illustrations/author/Go8GMpKPAq1W">Polina M.</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+// Illustration by <a href="https://icons8.com/illustrations/author/JTmm71Rqvb2T">Dani Grapevine</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
 const renderSocialMedia = (type: string) => ({
   backgroundImage: `url(${requireImage(`icon/${type}.svg`)})`
 });
 </script>
 <style lang="scss" scoped>
+.n-footer {
+  padding-bottom: 80px;
+}
+
 .footer-desc {
   font-size: $font-size-sm;
 }
@@ -151,9 +160,10 @@ const renderSocialMedia = (type: string) => ({
   text-decoration: underline;
 }
 
-.wave-logo {
+.wave-icon {
   margin-top: 32px;
   margin-bottom: 32px;
+  width: 36px;
 }
 
 .social-media-item {

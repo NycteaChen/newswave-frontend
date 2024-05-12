@@ -28,8 +28,8 @@
     "@vueuse/core": "^10.9.0",
     "@vueuse/nuxt": "^10.9.0",
     "bootstrap": "^5.3.3",
-    "dayjs": "^1.11.11",
     "nuxt": "^3.11.2",
+    "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",
     "vue-router": "^4.3.0"

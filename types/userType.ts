@@ -3,10 +3,14 @@ declare global {
 
   type TokenType = string;
 
-  interface UserInfo {
+  interface UserInfoType {
     id: string;
     name: string;
     email: string;
+  }
+
+  interface UserStatusType {
+    isVip: boolean;
   }
 }
 

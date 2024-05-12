@@ -1,10 +1,11 @@
 <template>
   <nuxt-link
     to="/news"
-    class="d-block w-100"
+    class="d-inline-block"
+    :class="{ 'w-100': color === 'light' }"
   >
     <n-button
-      class="w-100"
+      :class="color === 'accent' ? 'fixed-width' : 'w-100'"
       v-bind="props"
       text="前往使用"
       :icon-src="requireImage('icon/ship.svg')"
@@ -26,3 +27,10 @@ const props = withDefaults(defineProps<GoUseBtnProps>(), {
   size: 'lg'
 });
 </script>
+<style lang="scss" scoped>
+.fixed-width {
+  @media screen and (width >= 375px) {
+    width: 250px;
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <section
     v-if="showMask"
-    class="mask fixed-top bg-mask z-2 w-100 h-100"
+    class="mask fixed-top bg-mask z-mask w-100 h-100"
   />
 </template>
 <script lang="ts" setup>
