@@ -63,16 +63,15 @@
               <nuxt-link
                 :to="link.path"
                 class="text-primary-white"
-                :target="item.type === 'socialMedia' ? '_blank' : ''"
+                :class="{ 'link-text-hidden': item.type === 'socialMedia' }"
+                :target="item.target || ''"
                 :style="
                   item.type === 'socialMedia'
                     ? renderSocialMedia(link.title)
                     : {}
                 "
               >
-                <template v-if="item.type !== 'socialMedia'">
-                  {{ link.title }}
-                </template>
+                {{ link.title }}
               </nuxt-link>
             </li>
           </ul>
@@ -120,6 +119,7 @@ const footerNav = [
   {
     navTitle: '追蹤我們',
     type: 'socialMedia',
+    target: '_blank',
     linkList: [
       {
         title: 'facebook',
