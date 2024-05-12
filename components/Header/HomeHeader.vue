@@ -37,7 +37,7 @@
               @click="mask.emit(false)"
             >
               <nuxt-link
-                class="text-primary-white"
+                class="text-primary-white fs-5"
                 :to="item.path"
                 >{{ item.title }}
               </nuxt-link>
@@ -46,7 +46,10 @@
               class="go-use-btn-container d-md-flex ms-md-auto"
               @click="mask.emit(false)"
             >
-              <go-use-button />
+              <go-use-button
+                color="light"
+                type="outline"
+              />
             </li>
           </ul>
         </div>
