@@ -4,3 +4,25 @@
   text-indent: 101%;
   white-space: nowrap;
 }
+
+%limit-line {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+}
+
+// 需另外搭配寬度(width)使用
+.limit-line-three {
+  @extend %limit-line;
+
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.limit-line-two {
+  @extend %limit-line;
+
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}

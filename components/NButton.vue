@@ -1,7 +1,7 @@
 <template>
   <button
     type="button"
-    class="n-button fw-bold rounded-1"
+    class="n-button rounded-2"
     :disabled="disabled || loading"
     :class="btnClass"
   >
@@ -10,7 +10,7 @@
       :class="{ 'flex-row-reverse': iconPosition === 'left' }"
     >
       <span
-        class="btn-text flex-fill"
+        class="btn-text flex-fill fw-bold"
         :class="size === 'sm' ? 'mx-1' : 'mx-4'"
       >
         {{ text }}
@@ -20,7 +20,7 @@
         is-small
       />
       <img
-        v-else
+        v-else-if="iconSrc"
         class="btn-icon"
         :src="iconSrc"
       />
@@ -68,7 +68,8 @@ const btnClass = computed(() => {
   transition: $btn-transition;
 
   .btn-icon {
-    height: 18px;
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -88,6 +89,7 @@ const btnClass = computed(() => {
   font-size: $btn-font-size-sm;
 
   .btn-icon {
+    width: 12px;
     height: 12px;
   }
 }

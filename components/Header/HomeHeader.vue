@@ -1,9 +1,13 @@
 <template>
   <header
-    class="home-header fixed-top w-100 z-3"
+    ref="headerRef"
+    class="home-header fixed-top w-100 z-header"
     :class="{ 'bg-primary-gradient': isNavExpanded }"
   >
-    <nav class="navbar navbar-expand-md bg-primary-gradient">
+    <nav
+      class="navbar navbar-expand-md position-relative"
+      :class="renderNavBg"
+    >
       <div class="container-fluid px-3 px-md-5">
         <n-logo logo-type="light" />
         <button
@@ -20,6 +24,7 @@
           <img
             class="navbar-toggler-icon"
             :class="buttonIconType"
+            style="background-image: none"
             :src="requireImage(`icon/${buttonIconType}.svg`)"
             alt="expand-icon"
           />
@@ -37,10 +42,18 @@
               @click="mask.emit(false)"
             >
               <nuxt-link
-                class="text-primary-white fs-5"
+                v-if="item.path"
+                class="text-body-white fs-5"
                 :to="item.path"
                 >{{ item.title }}
               </nuxt-link>
+              <span
+                v-else
+                class="go-plan text-body-white fs-5"
+                @click="goToPlan"
+              >
+                {{ item.title }}</span
+              >
             </li>
             <li
               class="go-use-btn-container d-md-flex ms-md-auto"
@@ -52,6 +65,13 @@
               />
             </li>
           </ul>
+          <div
+            v-if="isMobile"
+            class="content-bottom position-absolute start-0 w-100"
+            :style="{
+              backgroundImage: `url(${requireImage('header/bottom-wave.svg')})`
+            }"
+          />
         </div>
       </div>
     </nav>
@@ -66,7 +86,7 @@ const homeNav = [
   },
   {
     title: '方案介紹',
-    path: '#'
+    path: ''
   }
 ];
 
@@ -92,6 +112,23 @@ watchEffect(() => {
     mask.emit(isNavExpanded.value);
   }
 });
+
+const scrollY = inject<any>('scrollY');
+const isPcScrollDown = ref<boolean>(false);
+const renderNavBg = computed(() =>
+  isMobile.value || isPcScrollDown.value
+    ? 'bg-primary-gradient'
+    : 'bg-transparent'
+);
+
+const goToPlan = () => {
+  const plusIntroRef: HTMLElement | null = document.querySelector('#plusIntro');
+  scrollY.value = plusIntroRef?.offsetTop || 0;
+};
+
+watch([() => scrollY.value, () => isMobile.value], (val) => {
+  isPcScrollDown.value = !val[1] && val[0] > 30;
+});
 </script>
 <style lang="scss" scoped>
 .navbar-toggler {
@@ -108,6 +145,20 @@ watchEffect(() => {
 
   &.close {
     width: 15px;
+  }
+}
+
+.navbar-collapse {
+  .content-bottom {
+    height: 0;
+    background-size: cover;
+    transition: height 0.01s ease-in;
+  }
+
+  &.show {
+    .content-bottom {
+      height: 30px;
+    }
   }
 }
 
@@ -128,6 +179,10 @@ watchEffect(() => {
 
         .go-use-btn-container {
           align-items: center;
+
+          ::v-deep(.n-button) {
+            min-width: 192px;
+          }
         }
       }
     }
@@ -143,5 +198,9 @@ watchEffect(() => {
       margin-top: 40px;
     }
   }
+}
+
+.go-plan {
+  cursor: pointer;
 }
 </style>

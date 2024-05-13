@@ -6,15 +6,15 @@ declare global {
   }
 
   interface LoginRequestType {
-    email: UserInfo['email'];
+    email: UserInfoType['email'];
     password: PasswordType;
   }
 
   interface RegisterRequestType extends LoginRequestType {
-    name: UserInfo['name'];
+    name: UserInfoType['name'];
   }
 
-  interface LoginRegisterResponseType extends UserInfo {
+  interface LoginRegisterResponseType extends UserInfoType {
     token: TokenType;
   }
 }

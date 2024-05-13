@@ -8,7 +8,9 @@ $utilities: map-merge(
       values: (
         'primary-gradient': linear-gradient(90deg, $blue-800 0%, $primary 100%),
         'transparent': transparent,
-        'mask': rgba($blue-900, 0.9)
+        'mask': rgba($blue-900, 0.9),
+        'body': $gray-100,
+        'body-light': $blue-100
       )
     )
   )
@@ -20,8 +22,59 @@ $utilities: map-merge(
       property: 'color',
       class: 'text',
       values: (
-        'primary-white': $gray-100,
-        'blue-400': $blue-400
+        'body': $dark,
+        'body-white': $gray-100,
+        'primary': $primary,
+        'blue-400': $blue-400,
+        'muted': $text-muted,
+        'accent': $danger
+      )
+    )
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'border-color': (
+      property: 'border-color',
+      class: 'border',
+      values: (
+        'layout': $gray-300
+      )
+    )
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'white-space': (
+      property: 'white-space',
+      class: 'whitespace',
+      values: (
+        'nowrap': nowrap
+      )
+    )
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'z-index': (
+      property: 'z-index',
+      class: 'z',
+      values: (
+        'header': 10,
+        'mask': 8,
+        'to-top': 7,
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5
       )
     )
   )
