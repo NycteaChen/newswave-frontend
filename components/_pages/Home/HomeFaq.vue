@@ -8,7 +8,7 @@
       />
 
       <img
-        v-if="!isPc"
+        v-show="!isPc"
         class="seagull-img"
         :src="requireImage(`home/seagull.svg`)"
       />
@@ -19,7 +19,7 @@
     />
 
     <img
-      v-if="isPc"
+      v-show="isPc"
       class="seagull-img mt-0 position-absolute"
       :src="requireImage(`home/seagull.svg`)"
     />

@@ -15,8 +15,8 @@
           class="navbar-toggler ms-2 p-2"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target="#homeNavbarContent"
+          aria-controls="homeNavbarContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
           @click="toggleHandler"
@@ -30,7 +30,7 @@
           />
         </button>
         <div
-          id="navbarSupportedContent"
+          id="homeNavbarContent"
           class="collapse navbar-collapse mt-3 mt-md-0"
         >
           <ul class="navbar-nav px-2 px-md-0 me-auto ms-md-4">
@@ -66,7 +66,7 @@
             </li>
           </ul>
           <div
-            v-if="isMobile"
+            v-show="isMobile"
             class="content-bottom position-absolute start-0 w-100"
             :style="{
               backgroundImage: `url(${requireImage('header/bottom-wave.svg')})`
@@ -121,7 +121,15 @@ const renderNavBg = computed(() =>
     : 'bg-transparent'
 );
 
+const { $bs }: any = useNuxtApp();
+
 const goToPlan = () => {
+  if (isMobile.value) {
+    const collapse = new $bs.Collapse('#homeNavbarContent');
+    collapse.hide();
+    toggleHandler();
+  }
+
   const plusIntroRef: HTMLElement | null = document.querySelector('#plusIntro');
   scrollY.value = plusIntroRef?.offsetTop || 0;
 };
