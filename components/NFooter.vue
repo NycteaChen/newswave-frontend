@@ -15,7 +15,7 @@
           Illustration by
           <a
             target="_blank"
-            class="footer-link"
+            class="footer-link is-btn"
             href="https://www.behance.net/STRELKAX"
           >
             Julia K
@@ -23,7 +23,7 @@
           from
           <a
             target="_blank"
-            class="footer-link"
+            class="footer-link is-btn"
             href="https://icons8.com/illustrations"
           >
             Ouch
@@ -62,7 +62,7 @@
             >
               <nuxt-link
                 :to="link.path"
-                class="text-body-white"
+                class="text-body-white is-btn"
                 :class="{ 'link-text-hidden': item.type === 'socialMedia' }"
                 :target="item.target || ''"
                 :style="
@@ -198,7 +198,7 @@ const renderSocialMedia = (type: string) => ({
     margin-top: 35px;
   }
 
-  ::v-deep(.logo) {
+  ::v-deep(.n-logo) {
     max-width: 415px;
     height: 63px;
   }

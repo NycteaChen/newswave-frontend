@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     to="/"
-    class="logo w-100 link-text-hidden"
+    class="n-logo w-100 link-text-hidden"
     :style="backgroundImage"
     alt="logo"
   >
@@ -22,7 +22,7 @@ const backgroundImage = computed(() => ({
 }));
 </script>
 <style lang="scss" scoped>
-.logo {
+.n-logo {
   max-width: 198px;
   height: 30px;
   background-position-y: center;

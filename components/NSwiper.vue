@@ -4,11 +4,11 @@
     :class="`n-swiper-${mode}`"
   >
     <div
-      class="customize-swiper-button swiper-button-next"
+      class="customize-swiper-button swiper-button-next is-btn"
       @click="slideNext"
     />
     <div
-      class="customize-swiper-button swiper-button-prev"
+      class="customize-swiper-button swiper-button-prev is-btn"
       @click="slidePrev"
     />
     <swiper

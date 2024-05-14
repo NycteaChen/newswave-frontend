@@ -11,10 +11,14 @@ module.exports = {
   plugins: ['prettier'],
   rules: {
     'prettier/prettier': 'error',
+    'no-unused-vars': 'off',
     'no-console': 'off',
     'no-debugger': 'off',
     'no-undef': 'off',
     'linebreak-style': 'off',
-    'vue/no-multiple-template-root': 'off'
+    'no-shadow': 'off',
+    'vue/no-multiple-template-root': 'off',
+    '@typescript-eslint/no-shadow': 'warn',
+    '@typescript-eslint/no-unused-vars': ['error']
   }
 };
