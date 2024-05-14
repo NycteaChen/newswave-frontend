@@ -17,6 +17,11 @@ declare global {
   interface LoginRegisterResponseType extends UserInfoType {
     token: TokenType;
   }
+
+  interface HotNewsListResponseType {
+    type: 'hot' | 'news';
+    limit: number;
+  }
 }
 
 export {};
