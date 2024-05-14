@@ -1,6 +1,6 @@
 <template>
   <div
-    class="n-to-top position-fixed z-to-top border border-layout rounded-pill bg-body d-flex flex-column justify-content-between align-items-center"
+    class="n-to-top cursor-pointer position-fixed z-to-top border border-layout rounded-pill bg-body d-flex flex-column justify-content-between align-items-center"
     :class="{ show: scrollY > 30 }"
     @click="goToTop"
   >
@@ -25,7 +25,6 @@ const goToTop = () => {
   height: 80px;
   color: $blue-300;
   font-size: 12px;
-  cursor: pointer;
   transition: bottom 0.3s ease-in-out;
 
   &.show {

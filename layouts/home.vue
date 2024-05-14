@@ -1,6 +1,5 @@
 <template>
   <main
-    ref="homeLayoutRef"
     class="home-layout w-100 h-100 bg-primary-gradient overflow-hidden position-relative"
   >
     <slot />

@@ -8,8 +8,7 @@
       />
 
       <img
-        v-show="!isPc"
-        class="seagull-img"
+        class="seagull-img d-xl-none"
         :src="requireImage(`home/seagull.svg`)"
       />
     </div>
@@ -19,8 +18,7 @@
     />
 
     <img
-      v-show="isPc"
-      class="seagull-img mt-0 position-absolute"
+      class="seagull-img mt-0 position-absolute d-none d-xl-inline-block"
       :src="requireImage(`home/seagull.svg`)"
     />
   </section>
@@ -45,8 +43,6 @@ const list = ref<accordionItem[]>([
       'NewsWavePlus是NewsWave提供的訂閱服務，一個月最多只要100元，便能專享限定的雜誌內容，豐富您的閱讀生活。'
   }
 ]);
-
-const isPc = inject<boolean>('isPc');
 </script>
 
 <style lang="scss" scoped>

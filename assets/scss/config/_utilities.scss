@@ -5,6 +5,7 @@ $utilities: map-merge(
     'background': (
       property: 'background',
       class: 'bg',
+      responsive: true,
       values: (
         'primary-gradient': linear-gradient(90deg, $blue-800 0%, $primary 100%),
         'transparent': transparent,
@@ -21,6 +22,7 @@ $utilities: map-merge(
     'color': (
       property: 'color',
       class: 'text',
+      responsive: true,
       values: (
         'body': $dark,
         'body-white': $gray-100,
@@ -52,6 +54,7 @@ $utilities: map-merge(
     'white-space': (
       property: 'white-space',
       class: 'whitespace',
+      responsive: true,
       values: (
         'nowrap': nowrap
       )
@@ -65,6 +68,7 @@ $utilities: map-merge(
     'z-index': (
       property: 'z-index',
       class: 'z',
+      responsive: true,
       values: (
         'header': 10,
         'mask': 8,
@@ -75,6 +79,19 @@ $utilities: map-merge(
         3: 3,
         4: 4,
         5: 5
+      )
+    )
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'cursor': (
+      property: 'cursor',
+      responsive: true,
+      values: (
+        'pointer': pointer
       )
     )
   )

@@ -1,12 +1,15 @@
 <template>
   <header
-    ref="headerRef"
     class="home-header fixed-top w-100 z-header"
     :class="{ 'bg-primary-gradient': isNavExpanded }"
   >
     <nav
       class="navbar navbar-expand-md position-relative"
-      :class="renderNavBg"
+      :class="
+        isPcScrollDown
+          ? 'bg-md-primary-gradient'
+          : 'bg-primary-gradient bg-md-transparent'
+      "
     >
       <div class="container-fluid px-3 px-md-5">
         <n-logo logo-type="light" />
@@ -43,13 +46,13 @@
             >
               <nuxt-link
                 v-if="item.path"
-                class="text-body-white fs-5"
+                class="text-body-white fs-5 is-btn"
                 :to="item.path"
                 >{{ item.title }}
               </nuxt-link>
               <span
                 v-else
-                class="go-plan text-body-white fs-5"
+                class="is-btn text-body-white fs-5 is-btn"
                 @click="goToPlan"
               >
                 {{ item.title }}</span
@@ -66,8 +69,7 @@
             </li>
           </ul>
           <div
-            v-show="isMobile"
-            class="content-bottom position-absolute start-0 w-100"
+            class="content-bottom position-absolute start-0 w-100 d-md-none"
             :style="{
               backgroundImage: `url(${requireImage('header/bottom-wave.svg')})`
             }"
@@ -115,11 +117,6 @@ watchEffect(() => {
 
 const scrollY = inject<any>('scrollY');
 const isPcScrollDown = ref<boolean>(false);
-const renderNavBg = computed(() =>
-  isMobile.value || isPcScrollDown.value
-    ? 'bg-primary-gradient'
-    : 'bg-transparent'
-);
 
 const { $bs }: any = useNuxtApp();
 
@@ -133,6 +130,10 @@ const goToPlan = () => {
   const plusIntroRef: HTMLElement | null = document.querySelector('#plusIntro');
   scrollY.value = plusIntroRef?.offsetTop || 0;
 };
+
+onMounted(() => {
+  isPcScrollDown.value = !isMobile.value && scrollY.value > 30;
+});
 
 watch([() => scrollY.value, () => isMobile.value], (val) => {
   isPcScrollDown.value = !val[1] && val[0] > 30;
@@ -206,9 +207,5 @@ watch([() => scrollY.value, () => isMobile.value], (val) => {
       margin-top: 40px;
     }
   }
-}
-
-.go-plan {
-  cursor: pointer;
 }
 </style>

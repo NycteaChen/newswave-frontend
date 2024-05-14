@@ -6,10 +6,11 @@
     :class="btnClass"
   >
     <div
-      class="d-flex align-items-center"
+      class="btn-content d-flex align-items-center justify-content-center"
       :class="{ 'flex-row-reverse': iconPosition === 'left' }"
     >
       <span
+        v-if="!loading"
         class="btn-text flex-fill fw-bold"
         :class="size === 'sm' ? 'mx-1' : 'mx-4'"
       >
@@ -66,6 +67,10 @@ const btnClass = computed(() => {
   outline: 0;
   line-height: 24px;
   transition: $btn-transition;
+
+  .btn-content {
+    height: 24px;
+  }
 
   .btn-icon {
     width: 22px;
