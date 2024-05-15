@@ -1,3 +1,30 @@
+/* stylelint-disable selector-id-pattern */
+/* stylelint-disable-next-line selector-max-id */
+#__nuxt {
+  overflow: hidden auto;
+  height: 100%;
+  background-color: $gray-100;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+
+  @media screen and (width >= 768px) {
+    width: 5px;
+    height: 10px;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: $blue-100;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background: linear-gradient(180deg, $blue-800 0%, $primary 100%);
+}
+
 a {
   outline: 0;
   text-decoration: none;
