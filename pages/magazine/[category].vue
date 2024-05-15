@@ -4,10 +4,10 @@
 
   <nuxt-link :to="`/article/${articleId}`"><div>雜誌文章1</div></nuxt-link>
   <NPagination
-    :total-pages="10"
+    :total-pages="20"
     :current-page="currentPage"
     @page-change="handlePageChange"
-  />
+  ></NPagination>
 </template>
 <script setup lang="ts">
 import NPagination from '@/components/NPagination.vue';
