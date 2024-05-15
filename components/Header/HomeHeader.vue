@@ -5,11 +5,12 @@
   >
     <nav
       class="navbar navbar-expand-md position-relative"
-      :class="
+      :class="[
         isPcScrollDown
           ? 'bg-md-primary-gradient'
-          : 'bg-primary-gradient bg-md-transparent'
-      "
+          : 'bg-primary-gradient bg-md-transparent',
+        { 'is-expand': isNavExpanded }
+      ]"
     >
       <div class="container-fluid px-3 px-md-5">
         <n-logo logo-type="light" />
@@ -42,12 +43,12 @@
               :key="item.title"
               class="nav-item px-4 pt-3 pb-2 fs-5"
               :class="{ 'mt-2 mt-md-0 ms-md-2': index }"
-              @click="mask.emit(false)"
             >
               <nuxt-link
                 v-if="item.path"
                 class="text-body-white fs-5 is-btn"
                 :to="item.path"
+                @click="mask.emit(false)"
                 >{{ item.title }}
               </nuxt-link>
               <span
@@ -68,12 +69,6 @@
               />
             </li>
           </ul>
-          <div
-            class="content-bottom position-absolute start-0 w-100 d-md-none"
-            :style="{
-              backgroundImage: `url(${requireImage('header/bottom-wave.svg')})`
-            }"
-          />
         </div>
       </div>
     </nav>
@@ -157,20 +152,6 @@ watch([() => scrollY.value, () => isMobile.value], (val) => {
   }
 }
 
-.navbar-collapse {
-  .content-bottom {
-    height: 0;
-    background-size: cover;
-    transition: height 0.01s ease-in;
-  }
-
-  &.show {
-    .content-bottom {
-      height: 30px;
-    }
-  }
-}
-
 @include media-breakpoint-up(md) {
   .home-header {
     height: 78px;
@@ -199,6 +180,17 @@ watch([() => scrollY.value, () => isMobile.value], (val) => {
 }
 
 @include media-breakpoint-down(md) {
+  .navbar.is-expand::after {
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-image: url('@/assets/image/header/bottom-wave.svg');
+    background-size: cover;
+    content: '';
+  }
+
   .navbar-nav {
     padding-top: 40px;
     padding-bottom: 40px;
