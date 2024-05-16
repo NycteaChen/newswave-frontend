@@ -8,6 +8,7 @@
       v-bind="props"
       text="載入更多"
       :icon-src="requireImage('icon/more.svg')"
+      @click.prevent="handlePageChange"
     />
   </div>
   <nav
@@ -38,7 +39,7 @@
         <!-- 顯示第一頁-->
         <li
           class="page-item"
-          :class="{ active: activePageRef === 1 }"
+          :class="{ active: pageIndex === 1 }"
         >
           <a
             class="page-link"
@@ -47,33 +48,32 @@
             >1</a
           >
         </li>
-        <li class="page-item disabled">
-          <span class="page-link">...</span>
-        </li>
-        <template
-          v-for="i in showPage"
-          :key="i"
-        >
-          <li
-            class="page-item"
-            :class="{ active: activePageRef === i + 1 }"
-          >
-            <a
-              class="page-link"
-              href="#"
-              @click.prevent="handlePageClick(i + 1)"
-              >{{ i }}</a
-            >
+        <template v-if="currentPage - 1 > 3">
+          <li class="page-item disabled">
+            <span class="page-link">...</span>
           </li>
         </template>
-        <template v-if="totalPages - currentPage > 2">
+        <li
+          v-for="i in showPage"
+          :key="i"
+          class="page-item"
+          :class="{ active: pageIndex === i + 1 }"
+        >
+          <a
+            class="page-link"
+            href="#"
+            @click.prevent="handlePageClick(i + 1)"
+            >{{ i + 1 }}</a
+          >
+        </li>
+        <template v-if="totalPages - currentPage > 3">
           <li class="page-item disabled">
             <span class="page-link">...</span>
           </li>
         </template>
         <li
           class="page-item"
-          :class="{ active: activePageRef === totalPages }"
+          :class="{ active: pageIndex === totalPages }"
         >
           <a
             class="page-link"
@@ -84,23 +84,20 @@
         </li>
       </template>
       <!-- 如果總頁數小於 10，顯示所有頁碼 -->
-      <template v-if="totalPages < 10">
-        <template
+      <template v-else>
+        <li
           v-for="i in totalPages"
           :key="i"
+          class="page-item"
+          :class="{ active: pageIndex === i }"
         >
-          <li
-            class="page-item"
-            :class="{ active: activePageRef === i }"
+          <a
+            class="page-link"
+            href="#"
+            @click.prevent="handlePageClick(i)"
+            >{{ i }}</a
           >
-            <a
-              class="page-link"
-              href="#"
-              @click.prevent="handlePageClick(i)"
-              >{{ i }}</a
-            >
-          </li>
-        </template>
+        </li>
       </template>
       <li
         class="page-item"
@@ -129,7 +126,7 @@ import type { NBtnProps } from '@/components/NButton.vue';
 export interface NPaginationProps {
   totalPages: number;
   currentPage: number;
-  // eslint-disable-next-line no-unused-vars, vue/require-default-prop
+  // eslint-disable-next-line vue/require-default-prop
   onPageChange?: (page: number) => void;
   color?: NBtnProps['color'];
   type?: NBtnProps['type'];
@@ -142,41 +139,68 @@ const props = withDefaults(defineProps<NPaginationProps>(), {
   size: 'sm'
 });
 
-const currentPageRef = ref(props.currentPage);
-const isFirstPage = computed(() => currentPageRef.value === 1);
-const isLastPage = computed(() => currentPageRef.value === props.totalPages);
+const pageIndex = ref(props.currentPage);
+const isFirstPage = computed(() => pageIndex.value === 1);
+const isLastPage = computed(() => pageIndex.value === props.totalPages);
 const showPage = computed(() => {
-  const start = Math.max(currentPageRef.value - 3, 1);
-  const end = Math.min(currentPageRef.value + 1, props.totalPages);
+  let start: number;
+  let end: number;
+
+  if (pageIndex.value - 1 > 3) {
+    start = Math.max(pageIndex.value - 3, 1);
+    if (props.totalPages - pageIndex.value < 3) {
+      end = props.totalPages - 2;
+      start = props.totalPages - 5;
+    } else {
+      end = Math.min(pageIndex.value + 1, props.totalPages);
+    }
+  } else {
+    end = 5;
+    start = 1;
+  }
+
+  console.log('pageIndex.value >', pageIndex.value);
+  console.log('start >', start);
+  console.log('end >', end);
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
 
 const emitPageChange = () => {
   if (props.onPageChange) {
-    props.onPageChange(currentPageRef.value);
+    props.onPageChange(pageIndex.value);
   }
 };
 
 const handlePreviousPage = () => {
-  currentPageRef.value = Math.max(currentPageRef.value - 1, 1);
+  pageIndex.value = Math.max(pageIndex.value - 1, 1);
   emitPageChange();
 };
 
 const handleNextPage = () => {
-  currentPageRef.value = Math.min(currentPageRef.value + 1, props.totalPages);
+  pageIndex.value = Math.min(pageIndex.value + 1, props.totalPages);
   emitPageChange();
 };
-const activePageRef = ref(props.currentPage);
 
 const handlePageClick = (page: number) => {
-  activePageRef.value = page;
-  currentPageRef.value = page;
+  pageIndex.value = page;
   emitPageChange();
+};
+
+const loadMoreData = () => {
+  pageIndex.value += 1;
+};
+
+const handlePageChange = (page: number) => {
+  pageIndex.value = page;
+  emitPageChange();
+
+  loadMoreData();
 };
 </script>
 <style lang="scss" scoped>
 .pagination .page-item.active .page-link {
-  background-color: primary;
-  color: #fff;
+  background: $primary;
+  background-color: $primary;
+  color: $gray-100;
 }
 </style>

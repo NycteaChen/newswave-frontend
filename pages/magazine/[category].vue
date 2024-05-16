@@ -10,14 +10,15 @@
   ></NPagination>
 </template>
 <script setup lang="ts">
-import NPagination from '@/components/NPagination.vue';
-
 const articleId = ref<string>('M-123');
-
 const currentPage = ref(1);
+
+const emit = defineEmits<{
+  (e: 'page-change', page: number): void;
+}>();
 
 const handlePageChange = (page: number) => {
   currentPage.value = page;
-  // 在這裡實現分頁相關的邏輯
+  emit('page-change', page);
 };
 </script>
