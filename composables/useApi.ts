@@ -1,9 +1,6 @@
 import type { UseFetchOptions } from 'nuxt/app';
 
-export default async function useApi<T>(
-  url: string | (() => string),
-  options: UseFetchOptions<T> = {}
-) {
+export default async function useApi<T>(url: string | (() => string), options: UseFetchOptions<T> = {}) {
   const { data, error }: any = await useFetch(url, {
     ...options,
     credentials: 'include',

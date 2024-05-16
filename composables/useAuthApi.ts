@@ -1,7 +1,5 @@
 class authApi {
-  static async register(
-    params: RegisterRequestType
-  ): Promise<ApiResponseType<LoginRegisterResponseType>> {
+  static async register(params: RegisterRequestType): Promise<ApiResponseType<LoginRegisterResponseType>> {
     const body = {
       name: params.name,
       email: params.email,
@@ -15,9 +13,7 @@ class authApi {
     return res;
   }
 
-  static async login(
-    params: LoginRequestType
-  ): Promise<ApiResponseType<LoginRegisterResponseType>> {
+  static async login(params: LoginRequestType): Promise<ApiResponseType<LoginRegisterResponseType>> {
     const body = {
       email: params.email,
       password: params.password

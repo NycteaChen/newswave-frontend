@@ -1,5 +1,5 @@
 <template>
-  <main class="login-layout">
+  <main class="info-layout">
     <slot />
   </main>
 </template>

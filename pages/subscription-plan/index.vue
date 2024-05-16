@@ -4,6 +4,9 @@
   <div>{{ text }}</div>
 </template>
 <script lang="ts" setup>
+definePageMeta({
+  layout: 'info'
+});
 const token: any = useCookie('token');
 
 const text = ref<string>('');
