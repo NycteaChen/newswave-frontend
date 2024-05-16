@@ -1,4 +1,4 @@
-class memberApi {
+class authApi {
   static async register(
     params: RegisterRequestType
   ): Promise<ApiResponseType<LoginRegisterResponseType>> {
@@ -7,7 +7,7 @@ class memberApi {
       email: params.email,
       password: params.password
     };
-    const res = await useApi('/member/register', {
+    const res = await useApi('/auth/register', {
       method: 'post',
       body
     });
@@ -22,7 +22,7 @@ class memberApi {
       email: params.email,
       password: params.password
     };
-    const res = await useApi('/member/login', {
+    const res = await useApi('/auth/login', {
       method: 'post',
       body
     });
@@ -31,27 +31,12 @@ class memberApi {
   }
 
   static async logout(): Promise<ApiResponseType<undefined>> {
-    const res = await useApi('/member/logout', {
+    const res = await useApi('/auth/logout', {
       method: 'post'
-    });
-
-    return res;
-  }
-
-  static async updatePassword(params: {
-    [key: string]: PasswordType;
-  }): Promise<ApiResponseType<undefined>> {
-    const body = {
-      oldPassword: params.oldPassword,
-      newPassword: params.newPassword
-    };
-    const res = await useApi('/member/password', {
-      method: 'patch',
-      body
     });
 
     return res;
   }
 }
 
-export default () => memberApi;
+export default () => authApi;
