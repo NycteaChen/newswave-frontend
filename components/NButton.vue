@@ -11,7 +11,7 @@
     >
       <span
         v-if="!loading"
-        class="btn-text flex-fill fw-bold"
+        class="btn-text flex-fill fw-bold whitespace-nowrap"
         :class="size === 'sm' ? 'mx-1' : 'mx-4'"
       >
         {{ text }}

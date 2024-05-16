@@ -5,7 +5,8 @@ export const useUserStore = defineStore('user', {
     id: '',
     name: '',
     email: '',
-    isVip: false
+    isVip: false,
+    avatar: ''
   }),
   actions: {
     SET_USER_INFO(value: UserInfoType): void {

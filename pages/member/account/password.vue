@@ -50,7 +50,7 @@
   </form>
 </template>
 <script lang="ts" setup>
-const { updatePassword } = useMemberApi();
+const { updatePassword } = useUserApi();
 
 const initState = {
   oldPassword: '',

@@ -3,7 +3,6 @@
 </template>
 <script setup lang="ts">
 const HomeHeader = resolveComponent('HomeHeader');
-const MemberHeader = resolveComponent('MemberHeader');
 const OtherHeader = resolveComponent('OtherHeader');
 
 const route = useRoute();
@@ -13,9 +12,18 @@ const getComponent = computed(() => {
     case 'index':
       return HomeHeader;
     default:
-      return String(route.name)?.startsWith('member')
-        ? MemberHeader
-        : OtherHeader;
+      return OtherHeader;
   }
 });
 </script>
+<style lang="scss" scoped>
+header {
+  height: $mobile-header-height;
+}
+
+@include media-breakpoint-up(md) {
+  header {
+    height: $pc-header-height;
+  }
+}
+</style>

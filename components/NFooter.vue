@@ -1,6 +1,6 @@
 <template>
   <footer class="n-footer bg-primary-gradient text-body-white pt-3">
-    <div class="container row mx-auto text-center text-md-start gx-5 py-3">
+    <div class="container-xxl row mx-auto text-center text-md-start gx-5 py-3">
       <section class="footer-desc col-12 text-blue-400 col-md-6 fs-sm">
         <n-logo
           logo-type="light"

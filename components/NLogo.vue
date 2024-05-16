@@ -1,6 +1,6 @@
 <template>
   <nuxt-link
-    to="/"
+    :to="targetPath"
     class="n-logo w-100 link-text-hidden"
     :style="backgroundImage"
     alt="logo"
@@ -11,10 +11,12 @@
 <script setup lang="ts">
 interface NLogoProps {
   logoType?: 'light' | 'dark';
+  targetPath?: string;
 }
 
 const props = withDefaults(defineProps<NLogoProps>(), {
-  logoType: 'dark'
+  logoType: 'dark',
+  targetPath: '/'
 });
 
 const backgroundImage = computed(() => ({

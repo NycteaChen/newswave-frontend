@@ -12,7 +12,7 @@
         { 'is-expand': isNavExpanded }
       ]"
     >
-      <div class="container-fluid px-3 px-md-5">
+      <div class="container-fluid px-3 px-xl-5">
         <n-logo logo-type="light" />
         <button
           ref="toggleBtnRef"
@@ -154,8 +154,6 @@ watch([() => scrollY.value, () => isMobile.value], (val) => {
 
 @include media-breakpoint-up(md) {
   .home-header {
-    height: 78px;
-
     .navbar {
       padding-top: 12px;
       padding-bottom: 12px;

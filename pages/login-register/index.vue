@@ -81,9 +81,13 @@ interface fieldType {
   hidden?: boolean;
 }
 
-const router = useRouter();
+definePageMeta({
+  layout: 'login'
+});
+
+const route = useRoute();
 const userStore = useUserStore();
-const { login, register } = useMemberApi();
+const { login, register } = useAuthApi();
 
 const cookieOption = {
   maxAge: 60 * 60
@@ -112,6 +116,13 @@ const modeText = computed(() => {
   };
   return modeObj[mode.value];
 });
+
+watchImmediate(
+  () => route,
+  (val) => {
+    mode.value = (val.query.mode as 'register' | 'login') || 'login';
+  }
+);
 
 const initialState: RegisterRequestType = {
   name: '',
@@ -194,7 +205,9 @@ const submit = async () => {
     userStore.SET_USER_INFO(data);
     token.value = data?.token;
 
-    await router.replace('/news');
+    await navigateTo('/news', {
+      replace: true
+    });
   } else {
     warnMessage.value = message;
   }
