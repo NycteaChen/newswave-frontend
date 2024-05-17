@@ -4,10 +4,6 @@
   </main>
 </template>
 <style lang="scss" scoped>
-.home-layout {
-  padding-top: 56px;
-}
-
 @include media-breakpoint-up(md) {
   .home-layout {
     padding-top: 78px;

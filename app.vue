@@ -27,3 +27,11 @@ const isPc = computed<boolean>(() => width.value >= 1200);
 provide('isMobile', isMobile);
 provide('isPc', isPc);
 </script>
+<style lang="scss" scoped>
+@include media-breakpoint-down(md) {
+  .layouts,
+  ::v-deep(.layouts) {
+    padding-top: $mobile-header-height;
+  }
+}
+</style>
