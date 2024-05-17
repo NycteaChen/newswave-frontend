@@ -46,8 +46,8 @@ const changeTab = (tabItem: TabItemType) => {
   navigateTo(tabItem.value);
 };
 
-onMounted(() => {
+watchEffect(() => {
   currentTab.value =
-    (route.query.category as string) || newsNav.find((e) => String(route.path).includes(e.value))?.label || '首頁';
+    (route.query.category as string) || newsNav.find((e) => String(route.path).includes(e.value))?.label || '';
 });
 </script>

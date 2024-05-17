@@ -1,9 +1,9 @@
 <template>
-  <main class="member-layout container-xxl pt-2">
+  <main class="member-layout container-xxl">
     <client-only>
       <nav
         v-if="!isMobile"
-        class="mb-2 mb-md-4"
+        class="mb-md-3"
       >
         <n-tabs
           v-model:currentTab="currentTab"
@@ -19,7 +19,9 @@
           {{ subItem.label }}
         </nuxt-link>
       </nav>
-      <slot />
+      <div class="pt-2">
+        <slot />
+      </div>
     </client-only>
   </main>
 </template>

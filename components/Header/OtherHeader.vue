@@ -1,5 +1,5 @@
 <template>
-  <header class="other-header d-flex align-items-center">
+  <header class="other-header w-100 d-flex align-items-center bg-body z-header">
     <section class="header-container container-xxl border-bottom py-2 py-md-0">
       <nav class="d-flex justify-content-between align-items-center gap-3">
         <n-logo target-path="/news" />
@@ -71,6 +71,14 @@ const isMobile = inject('isMobile');
 @include media-breakpoint-up(md) {
   .header-container {
     border-bottom: 0 !important;
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .other-header {
+    position: fixed;
+    top: 0;
+    left: 0;
   }
 }
 </style>
