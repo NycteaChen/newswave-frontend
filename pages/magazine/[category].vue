@@ -13,12 +13,7 @@
 const articleId = ref<string>('M-123');
 const currentPage = ref(1);
 
-const emit = defineEmits<{
-  (e: 'page-change', page: number): void;
-}>();
-
 const handlePageChange = (page: number) => {
   currentPage.value = page;
-  emit('page-change', page);
 };
 </script>

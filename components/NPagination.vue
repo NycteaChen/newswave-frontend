@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="d-inline-block"
-    :class="{ 'w-100': color === 'primary' }"
-  >
+  <div class="d-inline-block">
     <n-button
       class="w-100 d-md-none"
       v-bind="props"
@@ -13,7 +10,7 @@
   </div>
   <nav
     aria-label="Page navigation example "
-    class="d-sm-none d-md-block d-none d-sm-block"
+    class="d-md-block d-none"
   >
     <ul class="pagination">
       <li
@@ -48,11 +45,12 @@
             >1</a
           >
         </li>
-        <template v-if="currentPage - 1 > 3">
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
-        </template>
+        <li
+          v-if="currentPage - 1 > 3"
+          class="page-item disabled"
+        >
+          <span class="page-link">...</span>
+        </li>
         <li
           v-for="i in showPage"
           :key="i"
@@ -66,11 +64,12 @@
             >{{ i + 1 }}</a
           >
         </li>
-        <template v-if="totalPages - currentPage > 3">
-          <li class="page-item disabled">
-            <span class="page-link">...</span>
-          </li>
-        </template>
+        <li
+          v-if="totalPages - currentPage > 3"
+          class="page-item disabled"
+        >
+          <span class="page-link">...</span>
+        </li>
         <li
           class="page-item"
           :class="{ active: pageIndex === totalPages }"
@@ -158,10 +157,6 @@ const showPage = computed(() => {
     end = 5;
     start = 1;
   }
-
-  console.log('pageIndex.value >', pageIndex.value);
-  console.log('start >', start);
-  console.log('end >', end);
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
 
@@ -182,25 +177,29 @@ const handleNextPage = () => {
 };
 
 const handlePageClick = (page: number) => {
-  pageIndex.value = page;
+  pageIndex.value = Math.max(1, Math.min(page, props.totalPages));
   emitPageChange();
 };
 
-const loadMoreData = () => {
-  pageIndex.value += 1;
-};
+const emit = defineEmits<{ (e: 'page-change', page: number): void }>();
 
 const handlePageChange = (page: number) => {
-  pageIndex.value = page;
-  emitPageChange();
-
-  loadMoreData();
+  if (typeof page === 'number') {
+    let newPageIndex = page;
+    if (page === props.totalPages) {
+      newPageIndex = page;
+    } else {
+      newPageIndex = page + 1;
+    }
+    pageIndex.value = Math.max(1, Math.min(newPageIndex, props.totalPages));
+    emitPageChange();
+    emit('page-change', pageIndex.value);
+  }
 };
 </script>
 <style lang="scss" scoped>
 .pagination .page-item.active .page-link {
   background: $primary;
-  background-color: $primary;
   color: $gray-100;
 }
 </style>
