@@ -1,7 +1,5 @@
 class userApi {
-  static async updatePassword(params: {
-    [key: string]: PasswordType;
-  }): Promise<ApiResponseType<undefined>> {
+  static async updatePassword(params: { [key: string]: PasswordType }): Promise<ApiResponseType<undefined>> {
     const body = {
       oldPassword: params.oldPassword,
       newPassword: params.newPassword

@@ -15,10 +15,7 @@ const emptyValidator = (value: string): ValidatorReturnType => {
   };
 };
 
-const nameValidator = (
-  value: string,
-  required: boolean = true
-): ValidatorReturnType => {
+const nameValidator = (value: string, required: boolean = true): ValidatorReturnType => {
   if (required && !emptyValidator(value).pass) {
     return {
       pass: false,
@@ -30,10 +27,7 @@ const nameValidator = (
   };
 };
 
-const passwordValidator = (
-  value: string,
-  required: boolean = true
-): ValidatorReturnType => {
+const passwordValidator = (value: string, required: boolean = true): ValidatorReturnType => {
   if (required && !emptyValidator(value).pass) {
     return {
       pass: false,
@@ -51,10 +45,7 @@ const passwordValidator = (
   };
 };
 
-const emailValidator = (
-  value: string,
-  required: boolean = true
-): ValidatorReturnType => {
+const emailValidator = (value: string, required: boolean = true): ValidatorReturnType => {
   if (required && !emptyValidator(value).pass) {
     return {
       pass: false,

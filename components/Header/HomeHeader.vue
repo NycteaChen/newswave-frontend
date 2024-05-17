@@ -6,9 +6,7 @@
     <nav
       class="navbar navbar-expand-md position-relative"
       :class="[
-        isPcScrollDown
-          ? 'bg-md-primary-gradient'
-          : 'bg-primary-gradient bg-md-transparent',
+        isPcScrollDown ? 'bg-md-primary-gradient' : 'bg-primary-gradient bg-md-transparent',
         { 'is-expand': isNavExpanded }
       ]"
     >
@@ -95,8 +93,7 @@ const buttonIconType = ref<'expand' | 'close'>('expand');
 const isNavExpanded = computed(() => buttonIconType.value === 'close');
 
 const toggleHandler = () => {
-  buttonIconType.value =
-    toggleBtnRef.value?.ariaExpanded === 'true' ? 'close' : 'expand';
+  buttonIconType.value = toggleBtnRef.value?.ariaExpanded === 'true' ? 'close' : 'expand';
   mask.emit(toggleBtnRef.value?.ariaExpanded === 'true');
 };
 

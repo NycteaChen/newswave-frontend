@@ -1,87 +1,94 @@
 const memberNav = [
   {
-    title: '會員中心',
-    routeName: ''
+    label: '會員中心',
+    value: ''
   },
   {
-    title: '帳戶管理',
-    routeName: 'account',
+    label: '帳戶管理',
+    value: 'account',
     childrenRoute: [
       {
-        title: '修改個人資料',
-        routeName: 'basic'
+        label: '修改個人資料',
+        value: 'basic'
       },
       {
-        title: '修改密碼',
-        routeName: 'password'
+        label: '修改密碼',
+        value: 'password'
       }
     ]
   },
   {
-    title: '訂閱管理',
-    routeName: 'subscription',
+    label: '訂閱管理',
+    value: 'subscription',
     childrenRoute: [
       {
-        title: '訂閱資訊',
-        routeName: 'info'
+        label: '訂閱資訊',
+        value: 'info'
       },
       {
-        title: '訂單記錄',
-        routeName: 'order'
+        label: '訂單記錄',
+        value: 'order'
       }
     ]
   },
   {
-    title: '文章管理',
-    routeName: 'article',
+    label: '文章管理',
+    value: 'article',
     childrenRoute: [
       {
-        title: '我的收藏',
-        routeName: 'collect'
+        label: '我的收藏',
+        value: 'collect'
       },
       {
-        title: '我的追蹤',
-        routeName: 'follow'
+        label: '我的追蹤',
+        value: 'follow'
       },
       {
-        title: '我的留言',
-        routeName: 'comment'
+        label: '我的留言',
+        value: 'comment'
       }
     ]
   },
   {
-    title: '通知中心',
-    routeName: 'notification',
+    label: '通知中心',
+    value: 'notification',
     childrenRoute: [
       {
-        title: '最新公告',
-        routeName: 'announcement'
+        label: '最新公告',
+        value: 'announcement'
       },
       {
-        title: '我的通知',
-        routeName: 'personal'
+        label: '我的通知',
+        value: 'personal'
       }
     ]
   }
 ].map((e) => {
-  const parentRouteName = `member${e.routeName ? `-${e.routeName}` : ''}`;
+  const parentRouteName = `member${e.value ? `-${e.value}` : ''}`;
   let childrenRoute;
   if (e.childrenRoute?.length) {
     childrenRoute = e.childrenRoute.map((el) => ({
       ...el,
-      routeName: `${parentRouteName}-${el.routeName}`
+      value: `${parentRouteName}-${el.value}`
     }));
   }
   return {
     ...e,
-    routeName: parentRouteName,
     childrenRoute
   };
 });
 
 const memberSubNav = memberNav.filter((e) => e.childrenRoute?.length);
 
+const newsNav = ['首頁', '國際', '社會', '科技', '財經', '體育', '娛樂']
+  .map((e, index) => ({
+    label: e,
+    value: index ? `/news?category=${e}` : '/news'
+  }))
+  .concat({ label: '精選雜誌', value: '/magazine' });
+
 export default () => ({
   memberNav,
-  memberSubNav
+  memberSubNav,
+  newsNav
 });

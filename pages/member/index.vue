@@ -1,6 +1,5 @@
 <template>
   <div>會員中心</div>
-  <!-- <client-only> -->
   <div class="mt-3">
     {{ `會員id: ${id}` }}
   </div>
@@ -10,21 +9,23 @@
   <div class="mt-3">
     {{ `會員email: ${email}` }}
   </div>
-  <!-- </client-only> -->
   <nav class="d-flex col-md-4 w-100 mt-5">
     <section
-      v-for="item in memberSubNav"
-      :key="item.title"
+      v-for="(item, index) in memberSubNav"
+      :key="item.label"
       class="col"
     >
-      <h3>{{ item.title }}</h3>
+      <h3>{{ item.label }}</h3>
       <ul>
         <li
           v-for="subItem in item.childrenRoute"
-          :key="subItem.title"
+          :key="subItem.label"
         >
-          <nuxt-link :to="{ name: subItem.routeName }">
-            {{ subItem.title }}
+          <nuxt-link
+            :to="{ name: subItem.value }"
+            @click="nTabs.emit({ ...item, children: subItem.value }, index)"
+          >
+            {{ subItem.label }}
           </nuxt-link>
         </li>
       </ul>
@@ -36,4 +37,6 @@
 const { memberSubNav } = useNav();
 const userStore = useUserStore();
 const { id, name, email } = storeToRefs(userStore);
+
+const nTabs = useEventBus('nTabs');
 </script>
