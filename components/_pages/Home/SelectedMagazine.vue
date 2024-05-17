@@ -1,8 +1,6 @@
 <template>
   <section class="selected-magazine bg-primary-gradient position-relative">
-    <div
-      class="selected-magazine-container container text-center position-relative z-3"
-    >
+    <div class="selected-magazine-container container text-center position-relative z-3">
       <h2 class="text-body-white">精選雜誌</h2>
 
       <n-swiper
@@ -28,7 +26,7 @@
   </section>
 </template>
 <script lang="ts" setup>
-const { getMagazineCategoryList } = useArticleApi();
+const { getMagazineCategoryList } = useGuestApi();
 const categoryImg =
   'https://s3-alpha-sig.figma.com/img/ab7f/370b/4c812551f6d82b1de68bffdd918870d7?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qc5XFY-yjwy0cvxg5QFeYVJjy5dzIwOaCYh3BOOjBjPLJvF5xS7RFqNbDofJZ5kb6bW2ufTfNNiXhArFsqg5knrnpzOtD3iVQQbUyXIrnzIw8nUmmPkpvaWoXr~53UQFi3yKGtSmATPjiON7QXbcKVhqchbYtxHujmcqCRgZq492k-~1ixVwxlXGc9A40dNetDKitNoVgm5yXyfCZ4t-a24b6cgWDkVEXpVAzhdBJ9Fwr9R8XVFeUz2uWFAetCnm4Cy6OlNDCyWZB3LGGMxghdG94Rhn9BHjpdknOhIkp5Ya4Zu5GU75qanbOzB0CI92J5H1OFAljsSEqb6IrHNiYA__';
 
@@ -46,9 +44,10 @@ const getMagazineCategoryListHandler = async () => {
   }
 };
 
-const nuxtApp = useNuxtApp();
-nuxtApp.hook('page:finish', () => {
-  getMagazineCategoryListHandler();
+onMounted(async () => {
+  await nextTick(() => {
+    getMagazineCategoryListHandler();
+  });
 });
 </script>
 

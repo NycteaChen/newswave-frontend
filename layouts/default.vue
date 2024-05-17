@@ -23,7 +23,7 @@ import type { TabItemType } from '@/components/NTabs.vue';
 const token: any = useCookie('token');
 
 const userStore = useUserStore();
-const { logout } = useAuthApi();
+const { logout } = useUserApi();
 const route = useRoute();
 
 const { newsNav } = useNav();

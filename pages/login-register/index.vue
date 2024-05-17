@@ -87,7 +87,7 @@ definePageMeta({
 
 const route = useRoute();
 const userStore = useUserStore();
-const { login, register } = useAuthApi();
+const { login, register } = useUserApi();
 
 const cookieOption = {
   maxAge: 60 * 60
@@ -198,8 +198,7 @@ const submit = async () => {
 
   btnLoading.value = true;
 
-  const { status, data, message } =
-    mode.value === 'login' ? await login(formState) : await register(formState);
+  const { status, data, message } = mode.value === 'login' ? await login(formState) : await register(formState);
 
   if (status) {
     userStore.SET_USER_INFO(data);
@@ -239,18 +238,15 @@ const imageList = [
 
 const bgImageObj = ref<any>({});
 
-watch(
-  [() => loginRegisterRef.value, () => formBoxContainerRef.value],
-  (val) => {
-    if (val[0] && val[1]) {
-      bgImageObj.value = imageList[Math.round(Math.random())] || imageList[0];
-      const bgImage = `url(${bgImageObj.value.img})`;
-      val.forEach((e: HTMLElement | null) => {
-        e?.style.setProperty('--bg-image', bgImage);
-      });
-    }
+watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => {
+  if (val[0] && val[1]) {
+    bgImageObj.value = imageList[Math.round(Math.random())] || imageList[0];
+    const bgImage = `url(${bgImageObj.value.img})`;
+    val.forEach((e: HTMLElement | null) => {
+      e?.style.setProperty('--bg-image', bgImage);
+    });
   }
-);
+});
 </script>
 <style lang="scss" scoped>
 .login-register {
@@ -294,12 +290,7 @@ watch(
 
 @include media-breakpoint-down(lg) {
   .login-register {
-    background-image: linear-gradient(
-        90deg,
-        rgba($blue-800, 0.9) 0%,
-        rgba($primary, 0.9) 100%
-      ),
-      var(--bg-image);
+    background-image: linear-gradient(90deg, rgba($blue-800, 0.9) 0%, rgba($primary, 0.9) 100%), var(--bg-image);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -345,12 +336,7 @@ watch(
     justify-content: flex-end;
     padding: 80px 24px;
     max-width: 950px;
-    background-image: linear-gradient(
-        285deg,
-        rgba($blue-100, 0.9) 47%,
-        transparent 47.2%
-      ),
-      var(--bg-image);
+    background-image: linear-gradient(285deg, rgba($blue-100, 0.9) 47%, transparent 47.2%), var(--bg-image);
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -360,12 +346,7 @@ watch(
 @include media-breakpoint-up(xl) {
   .form-box-container {
     max-width: 1100px;
-    background-image: linear-gradient(
-        285deg,
-        rgba($blue-100, 0.9) 42%,
-        transparent 42.2%
-      ),
-      var(--bg-image);
+    background-image: linear-gradient(285deg, rgba($blue-100, 0.9) 42%, transparent 42.2%), var(--bg-image);
   }
 
   .image-footer {

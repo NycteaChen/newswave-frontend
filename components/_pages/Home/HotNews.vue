@@ -21,16 +21,13 @@
   </section>
 </template>
 <script lang="ts" setup>
-const nuxtApp = useNuxtApp();
-
 const news: articleType = {
   topic: ['社會'],
   editor: '聯合新聞網',
   articleId: 'N-1006',
   title: '婚禮前48小時…岳母激戰女婿！人妻婚後2年才知真相淚崩',
   publishedAt: '2024-01-06 10:13',
-  imageDescribe:
-    '一名女網友分享,結婚前48小時,未婚夫竟與岳母發生性關係,雖隨後照樣結婚,但兩年後她知道真相後崩潰痛哭。',
+  imageDescribe: '一名女網友分享,結婚前48小時,未婚夫竟與岳母發生性關係,雖隨後照樣結婚,但兩年後她知道真相後崩潰痛哭。',
   image:
     'https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2024/01/30/0/28853794.jpg&s=Y&x=0&y=0&sw=1025&sh=683&exp=3600',
   content:
@@ -42,8 +39,10 @@ const news: articleType = {
 };
 const newsList = ref<articleType[]>([]);
 
-nuxtApp.hook('page:finish', () => {
-  newsList.value = [news, news, news, news, news, news];
+onMounted(async () => {
+  await nextTick(() => {
+    newsList.value = [news, news, news, news, news, news];
+  });
 });
 </script>
 <style lang="scss" scoped>
