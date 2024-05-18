@@ -1,32 +1,38 @@
 <template>
   <main class="default-layout container-xxl">
-    <div class="pt-3 pt-md-4 row flex-column flex-lg-row align-items-start">
-      <section
-        v-if="$route.path?.startsWith('/news') || ($route?.name === 'magazine' && !$route.params?.category)"
-        ref="pageRef"
-        v-touch:swipe.left="swiperHeader"
-        v-touch:swipe.right="swiperHeader"
-        v-touch:press="pressHandler"
-        v-touch:release="releaseHandler"
-        class="page-container col-12"
-        :class="{ 'col-lg-9 ': $route.path?.startsWith('/news') }"
-        :style="transformStyle"
-      >
-        <slot />
-      </section>
-      <section
-        v-else
-        class="col-12"
-      >
-        <slot />
-      </section>
+    <div class="pt-3 pt-md-4">
+      <client-only>
+        <n-breadcrumb class="mb-2" />
+      </client-only>
+      <div class="row flex-column flex-lg-row align-items-start">
+        <section
+          v-if="$route.path?.startsWith('/news') || ($route?.name === 'magazine' && !$route.params?.category)"
+          ref="pageRef"
+          v-touch:swipe.left="swiperHeader"
+          v-touch:swipe.right="swiperHeader"
+          v-touch:press="pressHandler"
+          v-touch:release="releaseHandler"
+          class="page-container col-12"
+          :class="{ 'col-lg-9 ': $route.path?.startsWith('/news') }"
+          :style="transformStyle"
+        >
+          <slot />
+        </section>
+        <section
+          v-else
+          class="col-12"
+        >
+          <slot />
+        </section>
 
-      <template v-if="$route.path?.startsWith('/news')">
-        <aside class="d-flex flex-column gap-3 flex-lg-column-reverse col-12 col-lg-3">
+        <aside
+          v-if="$route.path?.startsWith('/news')"
+          class="d-flex flex-column gap-3 flex-lg-column-reverse col-12 col-lg-3"
+        >
           <news-aside-info />
           <weather-report />
         </aside>
-      </template>
+      </div>
     </div>
   </main>
 </template>
@@ -42,16 +48,15 @@ const route = useRoute();
 const { newsNav } = useNav();
 
 const currentTab = computed(() => {
-  if (route.name === 'news' && !route.query.category) {
-    return newsNav.find((e) => e.value === '/news')?.label;
+  switch (route.name) {
+    case 'news':
+      return newsNav.find((e) => (route.query.category ? e.label === route.query.category : e.value === '/news'))
+        ?.label;
+    case 'magazine':
+      return newsNav.find((e) => e.value === '/magazine')?.label;
+    default:
+      return '';
   }
-  if (route.name === 'news' && route.query.category) {
-    return newsNav.find((e) => e.label === route.query.category)?.label;
-  }
-  if (route.name === 'magazine') {
-    return newsNav.find((e) => e.value === '/magazine')?.label;
-  }
-  return '';
 });
 
 const swiperRoute = computed(() => {
@@ -87,6 +92,19 @@ const swiperHeader = (direction: string) => {
     navigateTo(swiperRoute.value.prev);
   }
 };
+
+const guestStore = useGuestStore();
+const { magazineCategoryList } = storeToRefs(guestStore);
+
+watchImmediate([() => route.fullPath, () => magazineCategoryList.value], () => {
+  if (route.name === 'article-category-articleId') return;
+  const list = renderBreadcrumb();
+  guestStore.SET_BREADCRUMB_NAV(list);
+});
+
+onUnmounted(() => {
+  guestStore.SET_BREADCRUMB_NAV([]);
+});
 </script>
 <style lang="scss" scoped>
 .page-container {

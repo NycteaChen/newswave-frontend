@@ -7,6 +7,10 @@
 <script lang="ts" setup>
 import type { ColumnItemType } from '@/components/NTableList.vue';
 
+definePageMeta({
+  title: '訂閱管理 - 訂單記錄'
+});
+
 const { getSubscriptionList } = useUserApi();
 
 const tableColumn: ColumnItemType[] = [

@@ -37,13 +37,13 @@
   </div>
 </template>
 <script setup lang="ts">
-export type accordionItem = {
+export type AccordionItem = {
   title: string;
   content: string;
 };
 
 interface NAccordionProps {
-  accordionList?: accordionItem[];
+  accordionList?: AccordionItem[];
 }
 
 withDefaults(defineProps<NAccordionProps>(), {

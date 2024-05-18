@@ -24,9 +24,9 @@
   </section>
 </template>
 <script setup lang="ts">
-import type { accordionItem } from '@/components/NAccordion.vue';
+import type { AccordionItem } from '@/components/NAccordion.vue';
 
-const list = ref<accordionItem[]>([
+const list = ref<AccordionItem[]>([
   {
     title: 'NewsWave 是什麼？',
     content:

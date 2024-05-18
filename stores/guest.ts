@@ -4,9 +4,13 @@ const guestApi = useGuestApi();
 
 export const useGuestStore = defineStore('guest', {
   state: () => ({
-    magazineCategoryList: [] as MagazineCategoryType[]
+    magazineCategoryList: [] as MagazineCategoryType[],
+    breadcrumbNav: [] as NavItemType[]
   }),
   actions: {
+    SET_BREADCRUMB_NAV(value: NavItemType[]) {
+      this.breadcrumbNav = value;
+    },
     async getMagazineCategoryList() {
       const { data, status } = await guestApi.getMagazineCategoryList();
       if (status) {
