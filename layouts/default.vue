@@ -7,19 +7,24 @@
         @change-tab="changeTab"
       />
     </nav>
-    <div
-      v-if="$route.path.startsWith('/news') || ($route.name === 'magazine' && !$route.params.category)"
-      ref="pageRef"
-      v-touch:swipe.left="swiperHeader"
-      v-touch:swipe.right="swiperHeader"
-      v-touch:press="pressHandler"
-      v-touch:release="releaseHandler"
-      class="page-container"
-      :style="transformStyle"
-    >
-      <slot />
+    <div>
+      <section
+        v-if="$route.path?.startsWith('/news') || ($route?.name === 'magazine' && !$route.params?.category)"
+        ref="pageRef"
+        v-touch:swipe.left="swiperHeader"
+        v-touch:swipe.right="swiperHeader"
+        v-touch:press="pressHandler"
+        v-touch:release="releaseHandler"
+        class="page-container"
+        :style="transformStyle"
+      >
+        <slot />
+      </section>
+      <section v-else>
+        <slot />
+      </section>
+      <news-aside-info v-if="$route.path?.startsWith('/news')" />
     </div>
-    <slot v-else />
     <button
       v-if="token"
       @click="logoutHandler"
@@ -50,7 +55,7 @@ const logoutHandler = async () => {
     token.value = undefined;
     userStore.$reset();
 
-    if (route.path.startsWith('/member')) {
+    if (route.path?.startsWith('/member')) {
       navigateTo('/news');
     }
   }
@@ -65,8 +70,8 @@ const changeTab = (tabItem: TabItemType) => {
 watchEffect(() => {
   currentTab.value =
     (route.query.category as string) ||
-    newsNav.find((e) => String(route.path).includes(e.value))?.label ||
-    ((route.params.articleId as string).startsWith('M-') && newsNav.find((e) => e.value === '/magazine')?.label) ||
+    newsNav.find((e) => String(route.path)?.includes(e.value))?.label ||
+    (String(route.params.articleId)?.startsWith('M-') && newsNav.find((e) => e.value === '/magazine')?.label) ||
     (route.params.category as string) ||
     '';
 });

@@ -36,7 +36,7 @@ const route = useRoute();
 
 const currentChildrenRoute = computed(() => {
   if (String(route.name) === 'member') return [];
-  return memberSubNav?.find((e) => String(route.name).includes(e.value))?.childrenRoute || [];
+  return memberSubNav?.find((e) => String(route.name)?.includes(e.value))?.childrenRoute || [];
 });
 
 const currentTab = ref<TabItemType['label']>('');
@@ -49,6 +49,6 @@ const changeTab = (tabItem: any) => {
 };
 
 watchEffect(() => {
-  currentTab.value = memberSubNav.find((e) => String(route.name).includes(e.value))?.label || '會員中心';
+  currentTab.value = memberSubNav.find((e) => String(route.name)?.includes(e.value))?.label || '會員中心';
 });
 </script>

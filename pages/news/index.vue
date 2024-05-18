@@ -26,13 +26,13 @@ definePageMeta({
         (e) =>
           e.label === from.query.category ||
           (from.name === 'news' && !from.query.category) ||
-          (e.value === '/magazine' && String(from.name).includes('magazine'))
+          (e.value === '/magazine' && String(from.name)?.includes('magazine'))
       );
       const toIndex = newsNav.findIndex(
         (e) =>
           e.label === to.query.category ||
           (to.name === 'news' && !to.query.category) ||
-          (e.value === '/magazine' && String(to.name).includes('magazine'))
+          (e.value === '/magazine' && String(to.name)?.includes('magazine'))
       );
       // eslint-disable-next-line no-param-reassign
       to.meta.pageTransition.name = +toIndex > +fromIndex ? 'slide-left' : 'slide-right';
