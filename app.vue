@@ -31,7 +31,9 @@ provide('isPc', isPc);
 @include media-breakpoint-down(md) {
   .layouts,
   ::v-deep(.layouts) {
-    padding-top: $mobile-header-height;
+    &:not(.login-layout) {
+      padding-top: $mobile-header-height;
+    }
   }
 }
 </style>
