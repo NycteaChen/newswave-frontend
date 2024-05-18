@@ -1,10 +1,14 @@
 <template>
   <h1>雜誌文章列表 5-2</h1>
+<<<<<<< HEAD
 
   <nuxt-link :to="`/article/${$route.params.category}/${articleId}`">
     <div>{{ `${$route.params.category}文章` }}</div>
   </nuxt-link>
   <section class="container d-flex p-3">
+=======
+  <section class="container d-flex p-3 mb-4 title-backgroundcolor">
+>>>>>>> 2f9e9e3 (feat(issue36): 雜誌文章列表)
     <div class="title-img me-4">
       <img
         src="https://s3-alpha-sig.figma.com/img/28f5/1841/4a4a211181a9778ab18e8509f1c601e3?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PNp9w9dAynMK-jDxXLiSsJDggsv~~bX~cGZz6TASYgpjBxc7wYZbVjJg0sunkMcYrIbleK~AdQB752ogwn2AH2fXmPyQ40C6ujelUi0azjNfvTRKoB1b72xDlJqlPsCb5X3rSNXrDLIwzZwtb-Y3bmPQuVDQDR3R5EEa2sGyrYQ6PAgGrlSWhqOtutC4ejSb2PaQV0xOxYETsl3VeFblpt1umgpvCyV~ktGfAw9s8~z6ssprkl6u4JLQnRYSJdf191KX5WYWVEUGkOo84vBCioPPF2DCj8-XFrd4Emv62dzdhM8r6F8FESDSUv6gYRag2BVSAND~MOC6lcRiESUywA__"
@@ -43,13 +47,14 @@
         </nuxt-link>
       </div>
     </div>
+    <div class="d-flex justify-content-center pagination-position">
+      <NPagination
+        :total-pages="20"
+        :current-page="currentPage"
+        @page-change="handlePageChange"
+      ></NPagination>
+    </div>
   </section>
-  <nuxt-link :to="`/article/${articleId}`"><div>雜誌文章1</div></nuxt-link>
-  <NPagination
-    :total-pages="20"
-    :current-page="currentPage"
-    @page-change="handlePageChange"
-  ></NPagination>
 </template>
 <script setup lang="ts">
 const articleId = ref<string>('M-123');
@@ -67,5 +72,14 @@ const handlePageChange = (page: number) => {
 
 .magazine-title {
   color: $primary;
+}
+
+.pagination-position {
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+.title-backgroundcolor {
+  background-color: $light;
 }
 </style>
