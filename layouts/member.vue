@@ -48,7 +48,7 @@ const changeTab = (tabItem: any) => {
   }
 };
 
-onMounted(() => {
+watchEffect(() => {
   currentTab.value = memberSubNav.find((e) => String(route.name).includes(e.value))?.label || '會員中心';
 });
 </script>
