@@ -57,6 +57,8 @@ const slideTabHandler = (index: number) => {
 };
 
 const clickTab: any = (item: TabItemType, index: number): void => {
+  if (currentTab.value === item?.label) return;
+
   slideTabHandler(index);
 
   currentTab.value = item.label;
@@ -69,13 +71,23 @@ onMounted(() => {
   nTabs.on(clickTab);
 });
 
-watchImmediate(
+const initTabHandler = () => {
+  const index = props.tabList.findIndex((e) => e.label === currentTab.value);
+  slideTabHandler(index === -1 ? 0 : index);
+};
+
+onMounted(async () => {
+  await nextTick(() => {
+    initTabHandler();
+  });
+});
+
+watch(
   () => currentTab.value,
-  (newVal, oldVal) => {
-    if (!oldVal && newVal) {
-      const index = props.tabList.findIndex((e) => e.label === newVal);
-      slideTabHandler(index === -1 ? 0 : index);
-    }
+  async () => {
+    await nextTick(() => {
+      initTabHandler();
+    });
   }
 );
 </script>
