@@ -2,7 +2,9 @@
   <div>{{ $route.params.category }}</div>
   <h1>雜誌文章列表 5-2</h1>
 
-  <nuxt-link :to="`/article/${articleId}`"><div>雜誌文章1</div></nuxt-link>
+  <nuxt-link :to="`/article/${$route.params.category}/${articleId}`"
+    ><div>{{ `${$route.params.category}文章` }}</div></nuxt-link
+  >
   <NPagination
     :total-pages="20"
     :current-page="currentPage"
