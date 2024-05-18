@@ -125,8 +125,6 @@ import type { NBtnProps } from '@/components/NButton.vue';
 export interface NPaginationProps {
   totalPages: number;
   currentPage: number;
-  // eslint-disable-next-line vue/require-default-prop
-  onPageChange?: (page: number) => void;
   color?: NBtnProps['color'];
   type?: NBtnProps['type'];
   size?: NBtnProps['size'];
@@ -159,11 +157,10 @@ const showPage = computed(() => {
   }
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
+const emit = defineEmits<{ (e: 'page-change', page: number): void }>();
 
 const emitPageChange = () => {
-  if (props.onPageChange) {
-    props.onPageChange(pageIndex.value);
-  }
+  emit('page-change', pageIndex.value);
 };
 
 const handlePreviousPage = () => {
@@ -180,8 +177,6 @@ const handlePageClick = (page: number) => {
   pageIndex.value = Math.max(1, Math.min(page, props.totalPages));
   emitPageChange();
 };
-
-const emit = defineEmits<{ (e: 'page-change', page: number): void }>();
 
 const handlePageChange = (page: number) => {
   if (typeof page === 'number') {
