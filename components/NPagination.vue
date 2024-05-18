@@ -188,7 +188,6 @@ const handlePageChange = (page: number) => {
     }
     pageIndex.value = Math.max(1, Math.min(newPageIndex, props.totalPages));
     emitPageChange();
-    emit('page-change', pageIndex.value);
   }
 };
 </script>
