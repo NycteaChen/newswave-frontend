@@ -1,6 +1,6 @@
 <template>
   <main class="default-layout container-xxl">
-    <div class="pt-3 pt-md-4">
+    <div class="pt-3 pt-md-4 row flex-column flex-lg-row align-items-start">
       <section
         v-if="$route.path?.startsWith('/news') || ($route?.name === 'magazine' && !$route.params?.category)"
         ref="pageRef"
@@ -8,15 +8,25 @@
         v-touch:swipe.right="swiperHeader"
         v-touch:press="pressHandler"
         v-touch:release="releaseHandler"
-        class="page-container"
+        class="page-container col-12"
+        :class="{ 'col-lg-9 ': $route.path?.startsWith('/news') }"
         :style="transformStyle"
       >
         <slot />
       </section>
-      <section v-else>
+      <section
+        v-else
+        class="col-12 col-lg-9"
+      >
         <slot />
       </section>
-      <news-aside-info v-if="$route.path?.startsWith('/news')" />
+
+      <template v-if="$route.path?.startsWith('/news')">
+        <aside class="d-flex flex-column gap-3 flex-lg-column-reverse col-12 col-lg-3">
+          <news-aside-info />
+          <weather-report />
+        </aside>
+      </template>
     </div>
   </main>
 </template>
