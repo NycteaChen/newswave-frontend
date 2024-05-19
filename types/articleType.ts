@@ -1,13 +1,14 @@
 declare global {
-  interface articleType {
+  interface ArticleType {
+    articleId: string;
     topic: string[];
     editor: string;
-    articleId: string;
     title: string;
-    publishedAt: Date | string;
+    publishedAt: string;
     imageDescribe: string;
     image: string;
     content: string;
+    tags: string[];
     source: {
       name: string;
       url: string;

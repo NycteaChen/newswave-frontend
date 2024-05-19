@@ -34,9 +34,7 @@
           >
             {{ newsData.editor }}
           </div>
-          <div
-            class="publish-date text-muted text-end border-start border-layout mt-2"
-          >
+          <div class="publish-date text-muted text-end border-start border-layout mt-2">
             {{ publishDate }}
           </div>
         </div>
@@ -62,15 +60,24 @@ const publishDate = useDateFormat(props.newsData.publishedAt, 'YYYY/MM/DD');
 .card-img-top {
   overflow: hidden;
   height: 250px;
-
-  img {
-    transition: transform 0.3s ease-in-out;
-  }
 }
 
-.news-card-container:hover {
-  .card-img-top img {
-    transform: scale(1.2);
+@include media-breakpoint-up(md) {
+  .news-card-container {
+    .card-img-top img,
+    .card-title {
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:hover {
+      .card-img-top img {
+        transform: scale(1.2);
+      }
+
+      .card-title {
+        opacity: 0.5;
+      }
+    }
   }
 }
 
