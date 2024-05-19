@@ -30,8 +30,11 @@
         <div class="mb-3 fw-bold fs-3">{{ $route.params.category }}</div>
         <div>
           <div v-if="!isMobile || showFullContent">{{ magazineContent }}</div>
-          <div v-else>
-            {{ magazineContentShort + '...' }}
+          <div
+            v-else
+            class="limit-line-two"
+          >
+            {{ magazineContent }}
           </div>
         </div>
       </div>
@@ -102,7 +105,6 @@ const { width } = useWindowSize();
 const isMobile = computed(() => width.value < 768);
 const magazineContent =
   '「新電子科技雜誌」隸屬於城邦出版集團，創立於1986年，是台灣半導體科技領域最專業的B2B產業雜誌，以促進台灣半導體與電子科技產業創新與蓬勃為使命，幫助產業人士掌握市場脈動、提升產品技術研發實力。';
-const magazineContentShort = computed(() => magazineContent.slice(0, 35));
 const showFullContent = ref(false);
 const toggleMagazineContent = () => {
   showFullContent.value = !showFullContent.value;
@@ -182,5 +184,9 @@ const toggleMagazineContent = () => {
   border-radius: 20px;
   background-color: $blue-300;
   color: $gray-100;
+}
+
+h5 {
+  color: $primary;
 }
 </style>
