@@ -1,13 +1,6 @@
 <template>
   <main class="default-layout container-xxl">
-    <nav class="mb-2 mb-md-4">
-      <n-tabs
-        v-model:currentTab="currentTab"
-        :tab-list="newsNav"
-        @change-tab="changeTab"
-      />
-    </nav>
-    <div>
+    <div class="pt-3 pt-md-4">
       <section
         v-if="$route.path?.startsWith('/news') || ($route?.name === 'magazine' && !$route.params?.category)"
         ref="pageRef"
@@ -25,55 +18,30 @@
       </section>
       <news-aside-info v-if="$route.path?.startsWith('/news')" />
     </div>
-    <button
-      v-if="token"
-      @click="logoutHandler"
-    >
-      登出
-    </button>
   </main>
 </template>
 
 <script lang="ts" setup>
-import type { TabItemType } from '@/components/NTabs.vue';
-
-const token: any = useCookie('token');
 const pageRef = ref<HTMLElement | null>(null);
 const swiperRef = useSwipe(pageRef);
 
 const isMobile = inject<any>('isMobile');
 
-const userStore = useUserStore();
-const { logout } = useUserApi();
 const route = useRoute();
 
 const { newsNav } = useNav();
 
-const logoutHandler = async () => {
-  const { status } = await logout();
-  if (status) {
-    token.value = undefined;
-    userStore.$reset();
-
-    if (route.path?.startsWith('/member')) {
-      navigateTo('/news');
-    }
+const currentTab = computed(() => {
+  if (route.name === 'news' && !route.query.category) {
+    return newsNav.find((e) => e.value === '/news')?.label;
   }
-};
-
-const currentTab = ref<TabItemType['label']>('');
-
-const changeTab = (tabItem: TabItemType) => {
-  navigateTo(tabItem.value);
-};
-
-watchEffect(() => {
-  currentTab.value =
-    (route.query.category as string) ||
-    newsNav.find((e) => String(route.path)?.includes(e.value))?.label ||
-    (String(route.params.articleId)?.startsWith('M-') && newsNav.find((e) => e.value === '/magazine')?.label) ||
-    (route.params.category as string) ||
-    '';
+  if (route.name === 'news' && route.query.category) {
+    return newsNav.find((e) => e.label === route.query.category)?.label;
+  }
+  if (route.name === 'magazine') {
+    return newsNav.find((e) => e.value === '/magazine')?.label;
+  }
+  return '';
 });
 
 const swiperRoute = computed(() => {

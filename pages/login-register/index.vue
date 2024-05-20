@@ -9,7 +9,10 @@
     >
       <div class="field-container">
         <header>
-          <n-logo class="mx-auto" />
+          <n-logo
+            class="mx-auto"
+            target-path="/news"
+          />
           <h3 class="text-center my-4">{{ modeText.name }}</h3>
         </header>
         <form
@@ -95,23 +98,18 @@ const cookieOption = {
 
 const token: any = useCookie('token', cookieOption);
 
-enum modeTypeEnum {
-  LOGIN = '登入',
-  REGISTER = '註冊'
-}
-
 const mode = ref<'login' | 'register'>('login');
 const modeText = computed(() => {
   const modeObj = {
     login: {
-      name: modeTypeEnum.LOGIN,
+      name: '登入',
       hint: '沒有帳號？前往',
-      action: modeTypeEnum.REGISTER
+      action: '註冊'
     },
     register: {
-      name: modeTypeEnum.REGISTER,
+      name: '註冊',
       hint: '已有帳號？前往',
-      action: modeTypeEnum.LOGIN
+      action: '登入'
     }
   };
   return modeObj[mode.value];

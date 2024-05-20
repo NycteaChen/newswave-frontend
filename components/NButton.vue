@@ -101,6 +101,7 @@ const btnClass = computed(() => {
 
 // 按鈕實色、outline 樣式
 %btn-fill {
+  border-width: 1px !important;
   border-color: transparent !important;
 }
 

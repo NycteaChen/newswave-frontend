@@ -34,6 +34,11 @@ provide('isPc', isPc);
     &:not(.login-layout) {
       padding-top: $mobile-header-height;
     }
+
+    &.default-layout,
+    &.member-layout {
+      padding-top: $mobile-header-tab-height;
+    }
   }
 }
 </style>

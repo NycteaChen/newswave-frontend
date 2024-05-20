@@ -10,9 +10,7 @@
           <h4 class="plan-title">{{ item.title }}</h4>
           <h5 class="text-blue-400 mb-0">
             $
-            <span class="plan-price text-body-white px-1">{{
-              item.price
-            }}</span>
+            <span class="plan-price text-body-white px-1">{{ item.price }}</span>
             /月
           </h5>
           <div
@@ -39,9 +37,7 @@
                     class="me-2"
                     :src="requireImage(`icon/${access.value}.svg`)"
                   />
-                  <span :class="{ 'text-accent': access.value === 'discount' }">
-                    {{ access.label }}</span
-                  >
+                  <span :class="{ 'text-accent': access.value === 'discount' }"> {{ access.label }}</span>
                 </div>
               </li>
             </ul>
@@ -52,16 +48,8 @@
               <nuxt-link :to="item.redirectPath">
                 <n-button
                   class="w-100"
-                  :text="
-                    item.redirectPath === '/subscription-plan'
-                      ? '立即訂閱'
-                      : '前往使用'
-                  "
-                  :color="
-                    item.redirectPath === '/subscription-plan'
-                      ? 'purchase'
-                      : 'secondary'
-                  "
+                  :text="item.redirectPath === '/subscription-plan' ? '立即訂閱' : '前往使用'"
+                  :color="item.redirectPath === '/subscription-plan' ? 'purchase' : 'secondary'"
                 />
               </nuxt-link>
             </div>

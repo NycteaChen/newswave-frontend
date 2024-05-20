@@ -17,13 +17,21 @@ const getComponent = computed(() => {
 });
 </script>
 <style lang="scss" scoped>
-header {
+::v-deep(.home-header) {
   height: $mobile-header-height;
 }
 
+::v-deep(.other-header) {
+  height: $mobile-header-tab-height;
+}
+
 @include media-breakpoint-up(md) {
-  header {
-    height: $pc-header-height;
+  ::v-deep(.home-header) {
+    height: $mobile-header-tab-height;
+  }
+
+  ::v-deep(.other-header) {
+    height: $pc-header-tab-height;
   }
 }
 </style>
