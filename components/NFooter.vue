@@ -37,18 +37,13 @@
           v-for="item in footerNav"
           :key="item.navTitle"
           class="text-blue-400"
-          :class="
-            item.type === 'socialMedia'
-              ? 'col-12 follow-us col-xl-4'
-              : 'col-6 col-xl-4 pe-4'
-          "
+          :class="item.type === 'socialMedia' ? 'col-12 follow-us col-xl-4' : 'col-6 col-xl-4 pe-4'"
         >
           <h5 class="mb-3">{{ item.navTitle }}</h5>
           <ul
             class="navbar-nav"
             :class="{
-              'flex-row justify-content-center justify-content-md-start':
-                item.type === 'socialMedia'
+              'flex-row justify-content-center justify-content-md-start': item.type === 'socialMedia'
             }"
           >
             <li
@@ -65,11 +60,7 @@
                 class="text-body-white is-btn"
                 :class="{ 'link-text-hidden': item.type === 'socialMedia' }"
                 :target="item.target || ''"
-                :style="
-                  item.type === 'socialMedia'
-                    ? renderSocialMedia(link.title)
-                    : {}
-                "
+                :style="item.type === 'socialMedia' ? renderSocialMedia(link.title) : {}"
               >
                 {{ link.title }}
               </nuxt-link>
@@ -100,6 +91,10 @@ const footerNav = [
       {
         title: '隱私權政策',
         path: '/privacy-policy'
+      },
+      {
+        title: '方案介紹',
+        path: '/subscription-plan'
       }
     ]
   },

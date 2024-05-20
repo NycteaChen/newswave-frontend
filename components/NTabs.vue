@@ -1,24 +1,32 @@
 <template>
-  <ul
-    v-if="tabList.length"
-    ref="tabsRef"
-    class="n-tabs d-flex overflow-x-auto border-bottom"
-  >
-    <li
-      v-for="(item, index) in tabList"
-      :key="item.value"
-      :ref="
-        (el) => {
-          tabItemRefs[index] = el;
-        }
-      "
-      class="n-tab-item py-2 px-4 cursor-pointer position-relative whitespace-nowrap"
-      :class="{ 'n-tab-item-active text-primary fw-bold': currentTab === item?.label }"
-      @click="clickTab(item, index)"
+  <nav class="n-tabs-container border-bottom w-100 position-relative">
+    <ul
+      v-if="tabList.length"
+      ref="tabsRef"
+      class="n-tabs d-flex overflow-x-auto w-100"
     >
-      {{ item.label }}
-    </li>
-  </ul>
+      <li
+        v-for="(item, index) in tabList"
+        :key="item.value"
+        :ref="
+          (el) => {
+            tabItemRefs[index] = el;
+          }
+        "
+        class="n-tab-item py-2 px-4 cursor-pointer position-relative whitespace-nowrap"
+        :class="{ 'n-tab-item-active text-primary fw-bold': currentTab === item?.label }"
+        @click="clickTab(item, index)"
+      >
+        {{ item.label }}
+      </li>
+    </ul>
+    <div
+      class="slide-hint position-absolute end-0 top-0 d-md-none"
+      :class="arrivedState.right ? 'opacity-0 z-minus' : 'opacity-100'"
+    >
+      <img :src="requireImage('icon/arrow-right.svg')" />
+    </div>
+  </nav>
 </template>
 <script setup lang="ts">
 export type TabItemType = {
@@ -42,7 +50,7 @@ const currentTab = defineModel('currentTab', { type: String, default: '' });
 
 const tabsRef = ref<HTMLUListElement | null>(null);
 const tabItemRefs = ref<HTMLUListElement[] | any[]>([]);
-const { x } = useScroll(tabsRef);
+const { x, arrivedState } = useScroll(tabsRef);
 
 const slideTabHandler = (index: number) => {
   const tabsWrapperWidth: number = tabsRef.value?.offsetWidth || 0;
@@ -126,6 +134,16 @@ watch(
   ::-webkit-scrollbar {
     width: 0;
     height: 0;
+  }
+}
+
+.slide-hint {
+  padding: 8px 15px;
+  background: linear-gradient(90deg, $body-bg 0%, $blue-100 100%);
+  transition: opacity 0.3s ease-in-out;
+
+  img {
+    width: 10px;
   }
 }
 </style>

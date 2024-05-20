@@ -8,9 +8,16 @@
     :style="{ height: `${size}px`, width: `${size}px` }"
   >
     <img
+      v-if="avatarPhoto"
       :src="avatarPhoto"
       :alt="type"
     />
+    <div
+      v-else
+      class="default-avatar d-flex align-items-center justify-content-center w-100 h-100"
+    >
+      <img :src="requireImage('icon/avatar.svg')" />
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -32,10 +39,24 @@ const props = withDefaults(defineProps<NAvatarProps>(), {
   shape: 'square'
 });
 
+const token: any = useCookie('token');
+
 const userPhoto =
   'https://s3-alpha-sig.figma.com/img/a35f/96e0/420a808247c645c5bfe34b5608c3eac7?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=DLStYGTm3nASL6a0fZKPC1fvCjJk6DySa1hrG0HrrXIyoCSBKTyCRahRMbgapQUaxk3jexvUV5nFZ9V5-EN3lYTUzyzzvQjXw1pGdWQ9qHzZnKEUPn29M6KiO41gTOLC1765l9esO6qNH1d5pjh-2s4J-jZGJCdicTG5RTm1ru6hLo6J44l9tgy-2~Cxwn-KQpTTMWl0~xoL3D-d1lHXGz8xQ07m2gwkG~LMHt96l9uj3OdsYRejDJ70cU0EIOz-A9ZfS7mymboCsvlP3S1MomZpGsw-DojZgJQaccGjGEqKPOypndaYYCmA6hfI1XPc1cX9tGJ44iIa1VUyOrjZIw__';
 
-const avatarPhoto = computed(() =>
-  props.type === 'user' ? userPhoto : props.imgSrc
-);
+const avatarPhoto = computed(() => {
+  if (token.value) {
+    return props.type === 'user' ? userPhoto : props.imgSrc;
+  }
+  return '';
+});
 </script>
+<style lang="scss" scoped>
+.default-avatar {
+  background: $blue-300;
+
+  img {
+    max-width: 45%;
+  }
+}
+</style>

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <p>
-      {{ $route.query.category }}
-    </p>
     <p>新聞首頁 3-1</p>
     <nuxt-link
       v-for="item in newsArticleList"
