@@ -13,8 +13,8 @@
             tabItemRefs[index] = el;
           }
         "
-        class="n-tab-item py-2 px-4 cursor-pointer position-relative whitespace-nowrap"
-        :class="{ 'n-tab-item-active text-primary fw-bold': currentTab === item?.label }"
+        class="n-tab-item py-2 px-4 cursor-pointer position-relative whitespace-nowrap text-center"
+        :class="{ 'n-tab-item-active text-primary fw-bold': currentTab === item[keyField] }"
         @click="clickTab(item, index)"
       >
         {{ item.label }}
@@ -36,10 +36,15 @@ export type TabItemType = {
 
 interface NTabsProps {
   tabList: TabItemType[];
+  /*
+   * currentTab 要比較的欄位，參照 TabItemType 內的欄位
+   */
+  keyField?: 'label' | 'value';
 }
 
 const props = withDefaults(defineProps<NTabsProps>(), {
-  tabList: () => []
+  tabList: () => [],
+  keyField: 'label'
 });
 
 const emit = defineEmits<{
@@ -48,8 +53,8 @@ const emit = defineEmits<{
 
 const currentTab = defineModel('currentTab', { type: String, default: '' });
 
-const tabsRef = ref<HTMLUListElement | null>(null);
-const tabItemRefs = ref<HTMLUListElement[] | any[]>([]);
+const tabsRef = ref<HTMLElement | null>(null);
+const tabItemRefs = ref<HTMLElement[] | any[]>([]);
 const { x, arrivedState } = useScroll(tabsRef);
 
 const slideTabHandler = (index: number) => {
@@ -65,11 +70,11 @@ const slideTabHandler = (index: number) => {
 };
 
 const clickTab: any = (item: TabItemType, index: number): void => {
-  if (currentTab.value === item?.label) return;
+  if (currentTab.value === item[props.keyField]) return;
 
   slideTabHandler(index);
 
-  currentTab.value = item.label;
+  currentTab.value = item[props.keyField];
 
   emit('changeTab', item);
 };
@@ -80,7 +85,7 @@ onMounted(() => {
 });
 
 const initTabHandler = () => {
-  const index = props.tabList.findIndex((e) => e.label === currentTab.value);
+  const index = props.tabList.findIndex((e) => e[props.keyField] === currentTab.value);
   slideTabHandler(index === -1 ? 0 : index);
 };
 

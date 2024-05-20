@@ -27,6 +27,13 @@
   line-clamp: 2;
 }
 
+.limit-line-four {
+  @extend %limit-line;
+
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
 .is-btn {
   opacity: 1;
   cursor: pointer;
@@ -55,4 +62,10 @@ form.was-invalidated {
   .invalid-feedback {
     display: block !important;
   }
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

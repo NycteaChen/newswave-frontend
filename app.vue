@@ -35,9 +35,24 @@ provide('isPc', isPc);
       padding-top: $mobile-header-height;
     }
 
+    &:not(.login-layout),
+    &:not(.home-layout) {
+      padding-bottom: 48px;
+    }
+
     &.default-layout,
     &.member-layout {
       padding-top: $mobile-header-tab-height;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .layouts,
+  ::v-deep(.layouts) {
+    &:not(.login-layout),
+    &:not(.home-layout) {
+      padding-bottom: 80px;
     }
   }
 }

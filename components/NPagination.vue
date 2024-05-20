@@ -1,122 +1,124 @@
 <template>
-  <div class="d-inline-block">
-    <n-button
-      class="w-100 d-md-none"
-      v-bind="props"
-      text="載入更多"
-      :icon-src="requireImage('icon/more.svg')"
-      @click.prevent="handlePageChange"
-    />
-  </div>
-  <nav
-    aria-label="Page navigation example "
-    class="d-md-block d-none"
-  >
-    <ul class="pagination">
-      <li
-        class="page-item"
-        :class="{ disabled: isFirstPage }"
-      >
-        <a
-          class="page-link"
-          href="#"
-          aria-label="Previous"
-          @click.prevent="handlePreviousPage"
+  <div class="text-center">
+    <div class="d-inline-block">
+      <n-button
+        class="w-100 d-md-none"
+        v-bind="props"
+        text="載入更多"
+        :icon-src="requireImage('icon/more.svg')"
+        @click.prevent="handlePageChange"
+      />
+    </div>
+    <nav
+      aria-label="Page navigation example "
+      class="d-md-block d-none"
+    >
+      <ul class="pagination justify-content-center">
+        <li
+          class="page-item"
+          :class="{ disabled: isFirstPage }"
         >
-          <img
-            src="/assets/image/icon/previous.svg"
-            alt="Previous"
-            aria-hidden="true"
-          />
-        </a>
-      </li>
+          <a
+            class="page-link"
+            href="#"
+            aria-label="Previous"
+            @click.prevent="handlePreviousPage"
+          >
+            <img
+              src="/assets/image/icon/previous.svg"
+              alt="Previous"
+              aria-hidden="true"
+            />
+          </a>
+        </li>
 
-      <!-- 總頁數大於9，顯示中間五頁-->
-      <template v-if="totalPages > 9">
-        <!-- 顯示第一頁-->
+        <!-- 總頁數大於9，顯示中間五頁-->
+        <template v-if="totalPages > 9">
+          <!-- 顯示第一頁-->
+          <li
+            class="page-item"
+            :class="{ active: pageIndex === 1 }"
+          >
+            <a
+              class="page-link"
+              href="#"
+              @click.prevent="handlePageClick(1)"
+              >1</a
+            >
+          </li>
+          <li
+            v-if="currentPage - 1 > 3"
+            class="page-item disabled"
+          >
+            <span class="page-link">...</span>
+          </li>
+          <li
+            v-for="i in showPage"
+            :key="i"
+            class="page-item"
+            :class="{ active: pageIndex === i + 1 }"
+          >
+            <a
+              class="page-link"
+              href="#"
+              @click.prevent="handlePageClick(i + 1)"
+              >{{ i + 1 }}</a
+            >
+          </li>
+          <li
+            v-if="totalPages - currentPage > 3"
+            class="page-item disabled"
+          >
+            <span class="page-link">...</span>
+          </li>
+          <li
+            class="page-item"
+            :class="{ active: pageIndex === totalPages }"
+          >
+            <a
+              class="page-link"
+              href="#"
+              @click.prevent="handlePageClick(totalPages)"
+              >{{ totalPages }}</a
+            >
+          </li>
+        </template>
+        <!-- 如果總頁數小於 10，顯示所有頁碼 -->
+        <template v-else>
+          <li
+            v-for="i in totalPages"
+            :key="i"
+            class="page-item"
+            :class="{ active: pageIndex === i }"
+          >
+            <a
+              class="page-link"
+              href="#"
+              @click.prevent="handlePageClick(i)"
+              >{{ i }}</a
+            >
+          </li>
+        </template>
         <li
           class="page-item"
-          :class="{ active: pageIndex === 1 }"
+          :class="{ disabled: isLastPage }"
         >
           <a
             class="page-link"
             href="#"
-            @click.prevent="handlePageClick(1)"
-            >1</a
+            aria-label="Next"
+            @click.prevent="handleNextPage"
           >
+            <img
+              src="/assets/image/icon/next.svg"
+              alt="Previous"
+              aria-hidden="true"
+            />
+          </a>
         </li>
-        <li
-          v-if="currentPage - 1 > 3"
-          class="page-item disabled"
-        >
-          <span class="page-link">...</span>
-        </li>
-        <li
-          v-for="i in showPage"
-          :key="i"
-          class="page-item"
-          :class="{ active: pageIndex === i + 1 }"
-        >
-          <a
-            class="page-link"
-            href="#"
-            @click.prevent="handlePageClick(i + 1)"
-            >{{ i + 1 }}</a
-          >
-        </li>
-        <li
-          v-if="totalPages - currentPage > 3"
-          class="page-item disabled"
-        >
-          <span class="page-link">...</span>
-        </li>
-        <li
-          class="page-item"
-          :class="{ active: pageIndex === totalPages }"
-        >
-          <a
-            class="page-link"
-            href="#"
-            @click.prevent="handlePageClick(totalPages)"
-            >{{ totalPages }}</a
-          >
-        </li>
-      </template>
-      <!-- 如果總頁數小於 10，顯示所有頁碼 -->
-      <template v-else>
-        <li
-          v-for="i in totalPages"
-          :key="i"
-          class="page-item"
-          :class="{ active: pageIndex === i }"
-        >
-          <a
-            class="page-link"
-            href="#"
-            @click.prevent="handlePageClick(i)"
-            >{{ i }}</a
-          >
-        </li>
-      </template>
-      <li
-        class="page-item"
-        :class="{ disabled: isLastPage }"
-      >
-        <a
-          class="page-link"
-          href="#"
-          aria-label="Next"
-          @click.prevent="handleNextPage"
-        >
-          <img
-            src="/assets/image/icon/next.svg"
-            alt="Previous"
-            aria-hidden="true"
-          />
-        </a>
-      </li>
-    </ul>
-  </nav>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script lang="ts" setup>

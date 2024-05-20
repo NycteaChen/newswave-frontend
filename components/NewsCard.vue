@@ -2,7 +2,7 @@
   <div class="news-card-container rounded-2">
     <nuxt-link
       class="d-block news-card card p-3 bg-body text-start d-flex flex-column"
-      :to="`/article/${newsData.articleId}`"
+      :to="`/article/${newsData.topic[0]}/${newsData.articleId}`"
     >
       <div class="card-img-top rounded-1 mb-2">
         <img

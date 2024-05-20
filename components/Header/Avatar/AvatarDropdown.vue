@@ -13,7 +13,7 @@
       <template v-if="token">
         <li
           v-if="token && !isVip"
-          class="mb-1 d-md-none"
+          class="d-md-none pb-0 mb-3"
         >
           <n-button
             class="w-100"
@@ -46,7 +46,7 @@
         <li
           v-for="(item, index) in loginRegisterBtnGroup"
           :key="index"
-          :class="{ 'mb-1': !index }"
+          :class="{ 'pb-0 mb-1': !index }"
         >
           <n-button
             class="w-100"
