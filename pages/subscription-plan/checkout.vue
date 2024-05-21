@@ -1,12 +1,9 @@
 <template>
-  <div class="member-center mb-3">
-    <nuxt-page />
-  </div>
+  <div>訂閱 checkout 頁</div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  layout: 'member',
   middleware: ['auth']
 });
 </script>
