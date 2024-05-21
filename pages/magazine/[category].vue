@@ -1,22 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <h1>雜誌文章列表 5-2</h1>
-<<<<<<< HEAD
-
-  <nuxt-link :to="`/article/${$route.params.category}/${articleId}`">
-    <div>{{ `${$route.params.category}文章` }}</div>
-  </nuxt-link>
-  <section class="container d-flex p-3">
-=======
-  <section class="container d-flex p-3 mb-4 title-backgroundcolor">
->>>>>>> 2f9e9e3 (feat(issue36): 雜誌文章列表)
-    <div class="title-img me-4">
-      <img
-        src="https://s3-alpha-sig.figma.com/img/28f5/1841/4a4a211181a9778ab18e8509f1c601e3?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PNp9w9dAynMK-jDxXLiSsJDggsv~~bX~cGZz6TASYgpjBxc7wYZbVjJg0sunkMcYrIbleK~AdQB752ogwn2AH2fXmPyQ40C6ujelUi0azjNfvTRKoB1b72xDlJqlPsCb5X3rSNXrDLIwzZwtb-Y3bmPQuVDQDR3R5EEa2sGyrYQ6PAgGrlSWhqOtutC4ejSb2PaQV0xOxYETsl3VeFblpt1umgpvCyV~ktGfAw9s8~z6ssprkl6u4JLQnRYSJdf191KX5WYWVEUGkOo84vBCioPPF2DCj8-XFrd4Emv62dzdhM8r6F8FESDSUv6gYRag2BVSAND~MOC6lcRiESUywA__"
-        alt="Mimage"
-        class="img-fluid"
-      />
-=======
   <section class="container title-backgroundcolor mb-4 p-3">
     <div class="d-flex">
       <div class="title-img me-4">
@@ -38,7 +20,7 @@
           </div>
         </div>
       </div>
->>>>>>> cf058a5 (feat(issue36): 雜誌文章列表頁)
+      >>>>>>> cf058a5 (feat(issue36): 雜誌文章列表頁)
     </div>
     <div class="d-flex flex-row-reverse">
       <button
@@ -52,7 +34,11 @@
   </section>
   <section class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col">
+      <div
+        v-for="articleId in MagazineArticlePage"
+        :key="articleId.toString()"
+        class="col"
+      >
         <nuxt-link :to="`/article/${articleId}`">
           <div class="card h-100 .image-container">
             <img
@@ -69,7 +55,9 @@
             </div>
 
             <div class="card-body">
-              <h5 class="card-title">探索未來科技趨勢:人工智慧、虛擬現實、區塊鏈和綠色創新的新革命</h5>
+              <h5 class="card-title">
+                {{ MagazineArticlePage }}
+              </h5>
               <div class="d-flex justify-content-between author">
                 <div class="d-flex align-items-center">
                   <img
@@ -95,8 +83,21 @@
   </section>
 </template>
 <script setup lang="ts">
-const articleId = ref<string>('M-123');
+const route = useRoute();
+const { getMagazineArticlePage } = useGuestApi();
+const MagazineArticlePage = ref<MagazineArticlePageType[]>([]);
+const category = route.params.category as string;
 const currentPage = ref(1);
+const getMagazineArticlePageHandler = async () => {
+  const { status, data } = await getMagazineArticlePage(category, currentPage.value);
+  if (status) {
+    MagazineArticlePage.value = data.map((e) => ({
+      ...e
+    }));
+  } else {
+    MagazineArticlePage.value = [];
+  }
+};
 
 const handlePageChange = (page: number) => {
   currentPage.value = page;
@@ -109,6 +110,12 @@ const showFullContent = ref(false);
 const toggleMagazineContent = () => {
   showFullContent.value = !showFullContent.value;
 };
+
+onMounted(async () => {
+  await nextTick(() => {
+    getMagazineArticlePageHandler();
+  });
+});
 </script>
 <style lang="scss" scoped>
 .title-img {

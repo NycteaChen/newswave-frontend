@@ -21,6 +21,28 @@ declare global {
     categoryDescribe: string;
     categoryImg: string;
   }
+
+  interface MagazineArticlePageType {
+    articles: [
+      {
+        articleId: String;
+        title: String;
+        tags: String;
+        publishedAt: Number;
+        image: String;
+        source: {
+          name: String;
+          url: String;
+        };
+      }
+    ];
+    firstPage: Boolean;
+    lastPage: Boolean;
+    empty: Boolean;
+    totalElements: Number;
+    totalPages: Number;
+    tagetPage: Number;
+  }
 }
 
 export {};
