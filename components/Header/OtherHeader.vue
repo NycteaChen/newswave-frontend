@@ -1,5 +1,8 @@
 <template>
-  <header class="other-header w-100 d-flex align-items-center flex-column bg-body z-header">
+  <header
+    class="other-header w-100 d-flex align-items-center flex-column bg-body z-header"
+    :class="{ 'subscription-header': isSubscriptionPage }"
+  >
     <section class="header-container container-xxl py-2 pt-md-4 px-xxl-0">
       <nav class="d-flex justify-content-between align-items-center gap-3">
         <n-logo target-path="/news" />
@@ -46,6 +49,7 @@
       </nav>
     </section>
     <n-tabs
+      v-show="!isSubscriptionPage"
       v-model:currentTab="currentTab"
       class="container-xxl px-xxl-0"
       :tab-list="tabList"
@@ -68,6 +72,7 @@ const { newsNav, memberNav, memberSubNav } = useNav();
 const currentTab = ref<TabItemType['label']>('');
 
 const isMemberCenter = computed(() => route.path.startsWith('/member'));
+const isSubscriptionPage = computed(() => route.path.startsWith('/subscription-plan'));
 
 const changeTab = (tabItem: any) => {
   if (isMemberCenter.value) {
@@ -109,6 +114,10 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
 ]);
 </script>
 <style lang="scss" scoped>
+.subscription-header {
+  box-shadow: 0 16px 64px 0 rgba($dark, 0.122);
+}
+
 .header-icon {
   padding: 8px 10px;
   width: 40px;
@@ -118,6 +127,13 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
 @include media-breakpoint-up(md) {
   .header-container {
     border-bottom: 0 !important;
+  }
+
+  .subscription-header {
+    .header-container {
+      padding-top: 12px !important;
+      padding-bottom: 12px !important;
+    }
   }
 }
 

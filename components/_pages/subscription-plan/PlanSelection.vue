@@ -2,6 +2,7 @@
   <div class="plan-selection row justify-content-center">
     <div
       v-for="item in planList"
+      :id="`${item.type}Plan`"
       :key="item.title"
       class="col-12 col-xl-4"
     >
@@ -45,13 +46,12 @@
               class="px-4 mb-3"
               :class="{ 'current-hint': item.isCurrentPlan }"
             >
-              <nuxt-link :to="item.redirectPath">
-                <n-button
-                  class="w-100"
-                  :text="item.redirectPath === '/subscription-plan' ? '立即訂閱' : '前往使用'"
-                  :color="item.redirectPath === '/subscription-plan' ? 'purchase' : 'secondary'"
-                />
-              </nuxt-link>
+              <n-button
+                class="w-100"
+                :text="item.btnText"
+                :color="item.btnColor"
+                @click="goToPage(item.redirectPath)"
+              />
             </div>
           </div>
           <img :src="requireImage('subscription-plan/bottom-wave.svg')" />
@@ -61,10 +61,15 @@
   </div>
 </template>
 <script lang="ts" setup>
+const token = useCookie('token');
 const userStore = useUserStore();
 const { isVip } = storeToRefs(userStore);
 
 const currentStatus = '';
+
+const route = useRoute();
+
+const isSubscriptionPage = computed(() => route.name === 'subscription-plan');
 
 const accessList = [
   {
@@ -85,6 +90,17 @@ const accessList = [
   }
 ];
 
+const redirectPath = computed(() => {
+  if (isVip.value) {
+    return '/magazine';
+  }
+
+  if (isSubscriptionPage.value) {
+    return token.value ? '/subscription-plan/checkout' : '';
+  }
+  return '/subscription-plan';
+});
+
 const planList = computed(() => {
   const list = [
     {
@@ -97,22 +113,35 @@ const planList = computed(() => {
       title: '1 個月',
       type: 'month',
       price: 100,
-      redirectPath: isVip.value ? '/magazine' : '/subscription-plan'
+      redirectPath: redirectPath.value
     },
     {
       title: '12 個月',
       type: 'year',
       price: 80,
       recommend: true,
-      redirectPath: isVip.value ? '/magazine' : '/subscription-plan'
+      redirectPath: redirectPath.value
     }
   ];
   return list.map((e, index) => ({
     ...e,
     accessList: accessList.slice(0, index + 2),
-    isCurrentPlan: currentStatus === e.type
+    btnText: !e.redirectPath || e.redirectPath.startsWith('/subscription-plan') ? '立即訂閱' : '前往使用',
+    btnColor: (!e.redirectPath || e.redirectPath.startsWith('/subscription-plan') ? 'purchase' : 'secondary') as
+      | 'purchase'
+      | 'secondary',
+    isCurrentPlan:
+      isSubscriptionPage.value && (currentStatus === e.type || (e.type === 'free' && !isVip.value && token.value))
   }));
 });
+
+const goToPage = (path: string) => {
+  if (path) {
+    navigateTo(path);
+  } else {
+    alert('請先登入');
+  }
+};
 </script>
 <style lang="scss" scoped>
 .card {

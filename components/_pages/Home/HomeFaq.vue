@@ -35,12 +35,12 @@ const list = ref<accordionItem[]>([
   {
     title: 'NewsWave可閱讀什麼樣內容',
     content:
-      'NewsWave為您整理的六大熱門新聞主題，不論國際新聞、財經資訊、科技趨勢還是娛樂八卦，都能在 NewsWave 找到您想要的新聞！'
+      'NewsWave 為您整理的六大熱門新聞主題，不論國際新聞、財經資訊、科技趨勢還是娛樂八卦，都能在 NewsWave 找到您想要的新聞！'
   },
   {
     title: 'NewsWave Plus 是什麼？',
     content:
-      'NewsWavePlus是NewsWave提供的訂閱服務，一個月最多只要100元，便能專享限定的雜誌內容，豐富您的閱讀生活。'
+      'NewsWave Plus 是 NewsWave 提供的訂閱服務，一個月最多只要 100 元，便能專享限定的雜誌內容，豐富您的閱讀生活。'
   }
 ]);
 </script>

@@ -71,7 +71,7 @@ export default defineNuxtConfig({
     'nuxt-swiper'
   ],
   swiper: {
-    modules: ['navigation', 'pagination']
+    modules: ['navigation', 'pagination', 'autoplay']
   },
   stylelint: {
     lintOnStart: false, // 專案啟動時不自動檢查所有相關檔案
