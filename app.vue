@@ -35,8 +35,7 @@ provide('isPc', isPc);
       padding-top: $mobile-header-height;
     }
 
-    &:not(.login-layout),
-    &:not(.home-layout) {
+    &:not(.login-layout, .home-layout) {
       padding-bottom: 48px;
     }
 
@@ -50,8 +49,7 @@ provide('isPc', isPc);
 @include media-breakpoint-up(md) {
   .layouts,
   ::v-deep(.layouts) {
-    &:not(.login-layout),
-    &:not(.home-layout) {
+    &:not(.login-layout, .home-layout) {
       padding-bottom: 80px;
     }
   }
