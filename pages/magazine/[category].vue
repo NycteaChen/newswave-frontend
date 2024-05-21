@@ -20,7 +20,6 @@
           </div>
         </div>
       </div>
-      >>>>>>> cf058a5 (feat(issue36): 雜誌文章列表頁)
     </div>
     <div class="d-flex flex-row-reverse">
       <button
