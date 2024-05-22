@@ -4,7 +4,7 @@
       <h2 class="text-body-white">精選雜誌</h2>
 
       <n-swiper
-        :swiper-list="categoryList"
+        :swiper-list="magazineCategoryList"
         mode="dark"
       >
         <template #slide="{ slideItem }">
@@ -26,29 +26,8 @@
   </section>
 </template>
 <script lang="ts" setup>
-const { getMagazineCategoryList } = useGuestApi();
-const categoryImg =
-  'https://s3-alpha-sig.figma.com/img/ab7f/370b/4c812551f6d82b1de68bffdd918870d7?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=qc5XFY-yjwy0cvxg5QFeYVJjy5dzIwOaCYh3BOOjBjPLJvF5xS7RFqNbDofJZ5kb6bW2ufTfNNiXhArFsqg5knrnpzOtD3iVQQbUyXIrnzIw8nUmmPkpvaWoXr~53UQFi3yKGtSmATPjiON7QXbcKVhqchbYtxHujmcqCRgZq492k-~1ixVwxlXGc9A40dNetDKitNoVgm5yXyfCZ4t-a24b6cgWDkVEXpVAzhdBJ9Fwr9R8XVFeUz2uWFAetCnm4Cy6OlNDCyWZB3LGGMxghdG94Rhn9BHjpdknOhIkp5Ya4Zu5GU75qanbOzB0CI92J5H1OFAljsSEqb6IrHNiYA__';
-
-const categoryList = ref<MagazineCategoryType[]>([]);
-
-const getMagazineCategoryListHandler = async () => {
-  const { status, data } = await getMagazineCategoryList();
-  if (status) {
-    categoryList.value = data.map((e) => ({
-      ...e,
-      categoryImg
-    }));
-  } else {
-    categoryList.value = [];
-  }
-};
-
-onMounted(async () => {
-  await nextTick(() => {
-    getMagazineCategoryListHandler();
-  });
-});
+const guestStore = useGuestStore();
+const { magazineCategoryList } = storeToRefs(guestStore);
 </script>
 
 <style lang="scss" scoped>

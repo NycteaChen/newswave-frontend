@@ -83,9 +83,10 @@ const memberSubNav = memberNav.filter((e) => e.childrenRoute?.length);
 const newsNav = ['首頁', '國際', '社會', '科技', '財經', '體育', '娛樂']
   .map((e, index) => ({
     label: e,
-    value: index ? `/news?category=${e}` : '/news'
+    value: index ? `/news?category=${e}` : '/news',
+    badge: ''
   }))
-  .concat({ label: '精選雜誌', value: '/magazine' });
+  .concat({ label: '精選雜誌', value: '/magazine', badge: 'Plus' });
 
 export default () => ({
   memberNav,

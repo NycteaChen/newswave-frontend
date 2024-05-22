@@ -14,6 +14,7 @@
   </div>
 </template>
 <script setup lang="ts">
+const { getMagazineCategoryList } = useGuestStore();
 const route = useRoute();
 const { width } = useWindowSize();
 const { y } = useWindowScroll();
@@ -26,6 +27,12 @@ const isMobile = computed<boolean>(() => width.value < 768);
 const isPc = computed<boolean>(() => width.value >= 1200);
 provide('isMobile', isMobile);
 provide('isPc', isPc);
+
+onMounted(async () => {
+  await nextTick(() => {
+    getMagazineCategoryList();
+  });
+});
 </script>
 <style lang="scss" scoped>
 @include media-breakpoint-down(md) {
