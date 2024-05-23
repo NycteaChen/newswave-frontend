@@ -33,10 +33,10 @@ export interface NBtnProps {
   text: string;
   /**
    * 按鈕色
-   * purchase、secondary 僅能與 type: fill 搭配
+   * purchase、secondary、danger 僅能與 type: fill 搭配
    * light 僅能與 type: outline 搭配
    */
-  color?: 'primary' | 'secondary' | 'purchase' | 'accent' | 'light';
+  color?: 'primary' | 'secondary' | 'purchase' | 'accent' | 'light' | 'danger';
   type?: 'fill' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   iconSrc?: string;
@@ -286,6 +286,33 @@ const btnClass = computed(() => {
   &:focus-visible:not([disabled]) {
     background: $success;
     box-shadow: 0 0 0 4px $green-100;
+    color: $gray-100;
+  }
+}
+
+.btn-danger {
+  @extend %btn-fill;
+
+  background: $orange;
+  color: $gray-100;
+
+  &:disabled,
+  &:disabled:active {
+    @extend %btn-disabled;
+
+    background: $orange-100;
+    color: $orange-200;
+  }
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    background: $orange-400;
+    color: $gray-100;
+  }
+
+  &:focus-visible:not([disabled]) {
+    background: $orange;
+    box-shadow: 0 0 0 4px $orange-200;
     color: $gray-100;
   }
 }

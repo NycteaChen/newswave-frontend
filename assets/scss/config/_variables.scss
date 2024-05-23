@@ -1460,16 +1460,16 @@ $badge-border-radius: var(--#{$prefix}border-radius-sm) !default;
 // Modals
 
 // scss-docs-start modal-variables
-$modal-inner-padding: $spacer !default;
+$modal-inner-padding: $spacer * 1.5 !default;
 $modal-footer-margin-between: 0.5rem !default;
 $modal-dialog-margin: 0.5rem !default;
 $modal-dialog-margin-y-sm-up: 1.75rem !default;
 $modal-title-line-height: $line-height-base !default;
 $modal-content-color: null !default;
-$modal-content-bg: var(--#{$prefix}body-bg) !default;
+$modal-content-bg: $light !default;
 $modal-content-border-color: var(--#{$prefix}border-color-translucent) !default;
 $modal-content-border-width: var(--#{$prefix}border-width) !default;
-$modal-content-border-radius: var(--#{$prefix}border-radius-lg) !default;
+$modal-content-border-radius: var(--#{$prefix}border-radius-xl) !default;
 $modal-content-inner-border-radius: subtract($modal-content-border-radius, $modal-content-border-width) !default;
 $modal-content-box-shadow-xs: var(--#{$prefix}box-shadow-sm) !default;
 $modal-content-box-shadow-sm-up: var(--#{$prefix}box-shadow) !default;
