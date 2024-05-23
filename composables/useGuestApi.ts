@@ -8,7 +8,7 @@ class guestApi {
     return res;
   }
 
-  static async getHotNewsList(query: HotNewsListResponseType): Promise<ApiResponseType<ArticleType[]>> {
+  static async getHotNewsList(query: HotNewsListRequestType): Promise<ApiResponseType<ArticleType[]>> {
     const params = {
       type: query.type,
       limit: query.limit

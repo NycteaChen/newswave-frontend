@@ -58,6 +58,9 @@
         </div>
       </div>
     </div>
+    <Teleport to="body">
+      <auth-hint-modal v-model:visible="showHintModal" />
+    </Teleport>
   </div>
 </template>
 <script lang="ts" setup>
@@ -66,10 +69,6 @@ const userStore = useUserStore();
 const { isVip } = storeToRefs(userStore);
 
 const currentStatus = '';
-
-const route = useRoute();
-
-const isSubscriptionPage = computed(() => route.name === 'subscription-plan');
 
 const accessList = [
   {
@@ -95,10 +94,7 @@ const redirectPath = computed(() => {
     return '/magazine';
   }
 
-  if (isSubscriptionPage.value) {
-    return token.value ? '/subscription-plan/checkout' : '';
-  }
-  return '/subscription-plan';
+  return token.value ? '/subscription-plan/checkout' : '';
 });
 
 const planList = computed(() => {
@@ -130,16 +126,17 @@ const planList = computed(() => {
     btnColor: (!e.redirectPath || e.redirectPath.startsWith('/subscription-plan') ? 'purchase' : 'secondary') as
       | 'purchase'
       | 'secondary',
-    isCurrentPlan:
-      isSubscriptionPage.value && (currentStatus === e.type || (e.type === 'free' && !isVip.value && token.value))
+    isCurrentPlan: currentStatus === e.type || (e.type === 'free' && !isVip.value && token.value)
   }));
 });
+
+const showHintModal = ref<boolean>(false);
 
 const goToPage = (path: string) => {
   if (path) {
     navigateTo(path);
   } else {
-    alert('請先登入');
+    showHintModal.value = true;
   }
 };
 </script>

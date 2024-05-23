@@ -25,7 +25,7 @@
             <img :src="requireImage('icon/close-gray.svg')" />
           </div>
         </div>
-        <div class="modal-body p-4">
+        <div class="modal-body p-4 text-start">
           <slot
             v-if="slots.body"
             name="body"
@@ -46,7 +46,7 @@
             :text="cancelBtnText"
             :loading="cancelBtnLoading"
             :disabled="cancelBtnDisabled"
-            :size="isSmallSize ? 'sm' : 'lg'"
+            size="lg"
             @click="$emit('cancel')"
           />
           <n-button
@@ -57,7 +57,7 @@
             :text="confirmBtnText"
             :loading="confirmBtnLoading"
             :disabled="confirmBtnDisabled"
-            :size="isSmallSize ? 'sm' : 'lg'"
+            size="lg"
             @click.prevent="$emit('confirm')"
           />
           <img
@@ -77,7 +77,7 @@ defineEmits<{ (e: 'cancel'): void; (e: 'confirm'): void }>();
 const visible = defineModel('visible', { type: Boolean, default: false });
 
 interface NModelProps {
-  title: string;
+  title?: string;
   bodyText?: string;
   confirmBtnText?: string;
   cancelBtnText?: string;
@@ -121,6 +121,16 @@ const isSmallSize = computed<boolean>(() => props.size === 'sm');
 const slots = useSlots();
 
 const { $bs }: any = useNuxtApp();
+
+useMutationObserver(
+  nModal,
+  (mutations) => {
+    const mutation: any = mutations[0];
+    const { className } = mutation.target;
+    visible.value = className.includes('show');
+  },
+  { attributes: true }
+);
 
 watch(
   () => visible.value,

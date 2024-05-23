@@ -11,7 +11,7 @@
         <header>
           <n-logo
             class="mx-auto"
-            target-path="/news"
+            @click.prevent="goBack"
           />
           <h3 class="text-center my-4">{{ modeText.name }}</h3>
         </header>
@@ -186,6 +186,14 @@ const clearValidator = () => {
   formRef.value?.classList.remove('was-invalidated');
 };
 
+const router = useRouter();
+
+const backRouter = computed(() => (router.options.history.state.back as string) || '/');
+
+const goBack = async () => {
+  await navigateTo(backRouter.value);
+};
+
 const submit = async () => {
   warnMessage.value = '';
 
@@ -202,9 +210,7 @@ const submit = async () => {
     userStore.SET_USER_INFO(data);
     token.value = data?.token;
 
-    await navigateTo('/news', {
-      replace: true
-    });
+    await goBack();
   } else {
     warnMessage.value = message;
   }
@@ -248,7 +254,8 @@ watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => 
 </script>
 <style lang="scss" scoped>
 .login-register {
-  height: 100vh;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
 .warn-text {

@@ -1,15 +1,15 @@
 <template>
   <div>
-    <n-header v-if="showHeader" />
+    <n-header v-if="!isLoginPage" />
 
     <nuxt-layout class="layouts">
       <nuxt-page :page-key="(route) => route.fullPath" />
     </nuxt-layout>
-    <n-footer v-if="showFooter" />
+    <n-footer v-if="!isLoginPage" />
 
     <client-only>
       <n-mask />
-      <n-to-top />
+      <n-to-top v-if="!isLoginPage" />
     </client-only>
   </div>
 </template>
@@ -20,8 +20,7 @@ const { width } = useWindowSize();
 const { y } = useWindowScroll();
 provide('scrollY', y);
 
-const showHeader = computed(() => route.name !== 'login-register');
-const showFooter = computed(() => route.name !== 'login-register');
+const isLoginPage = computed(() => route.name === 'login-register');
 
 const isMobile = computed<boolean>(() => width.value < 768);
 const isPc = computed<boolean>(() => width.value >= 1200);
