@@ -26,7 +26,7 @@ const { getHotNewsList } = useGuestApi();
 const newsList = ref<ArticleType[]>([]);
 
 const getHotNewsListHandler = async () => {
-  const params: HotNewsListResponseType = {
+  const params: HotNewsListRequestType = {
     limit: 6,
     type: 'hot'
   };

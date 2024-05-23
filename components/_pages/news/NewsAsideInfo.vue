@@ -28,7 +28,7 @@ import type { TabItemType } from '@/components/NTabs.vue';
 
 const { getHotNewsList } = useGuestApi();
 
-const currentTab = ref<HotNewsListResponseType['type']>('news');
+const currentTab = ref<HotNewsListRequestType['type']>('news');
 
 const tabList: TabItemType[] = [
   {

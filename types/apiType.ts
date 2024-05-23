@@ -18,7 +18,7 @@ declare global {
     token: TokenType;
   }
 
-  interface HotNewsListResponseType {
+  interface HotNewsListRequestType {
     type: 'hot' | 'news';
     limit: number;
   }
