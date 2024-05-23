@@ -22,6 +22,10 @@ declare global {
     type: 'hot' | 'news';
     limit: number;
   }
+  interface MagazineArticlePageResponseType {
+    pageIndex: any;
+    category: any;
+  }
 }
 
 export {};

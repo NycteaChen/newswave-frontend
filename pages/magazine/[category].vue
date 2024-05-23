@@ -34,28 +34,26 @@
   <section class="container">
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div
-        v-for="articleId in MagazineArticlePage"
-        :key="articleId.toString()"
-        class="col"
+        v-for="(page, index) in magazineArticleList.articles"
+        :key="index"
       >
-        <nuxt-link :to="`/article/${articleId}`">
+        <nuxt-link :to="`/article/${page}`">
           <div class="card h-100 .image-container">
             <img
               src="https://s3-alpha-sig.figma.com/img/a42b/d33f/1838a6959de079672cb7810c637cd8fc?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=dmjm0N-IAHDN5IxAUNHYHS9CJs8EUE63tXXyPRWMKjLEU~IMHSNEDI55WYLWzxb0SZCVoK6-98RmgwyPJfTT8VkhgTLK2QIjUxBq-I5sKex61YIaz2JMbQe4u4CBk~eY6cnj1ZCfOAy4~BQ0LxwMyKDZzfBssEdZdDZTArEaC1vdOgFDXUIwz2kxuo~dpgFOQ3njlB9P0FPp~5mLSgwIkRync0sWoAhY0TzZkOwarG4F0qdHqn9ZTAM~kbdD7wjils~-6vCimXroVYL69v7Mz1sq1mi3uxbPoXZ6uYnc7RmXZDy7cDkT29D9tyQwBMRL7XVCqOzs0I4ee~nX84ElNA__"
               class="card-img-top"
-              alt="雜誌文章圖片"
+              alt="{{page.imageDescribe}}"
             />
             <div class="image-tag">
               <img
                 src="/assets/image/icon/tag-news.svg"
-                alt="tag-news"
+                alt="{{ page.tags[0] }}"
               />
-              <span class="fw-bold">NEWS</span>
+              <span class="fw-bold">{{ page.tags[0] }}</span>
             </div>
-
             <div class="card-body">
-              <h5 class="card-title">
-                {{ MagazineArticlePage }}
+              <h5 class="card-title limit-line-two">
+                {{ page.title }}
               </h5>
               <div class="d-flex justify-content-between author">
                 <div class="d-flex align-items-center">
@@ -63,9 +61,9 @@
                     src="https://s3-alpha-sig.figma.com/img/3662/e399/b8712cd3f85b9427a7e6d17ee57ca6cb?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=MDMwFa27gcexv9mYTRKybhb~A-xmnfFc2VD5WTxnQYyLlFSN0vU7d3vGWt6Iiz4UdDkRIowKrCwqy13nZ6X2J8QSYEY3YS9YOySTWxz4-h2wk-CMBweYBfIxW0wHNKiJ0y6CprMFayB4Dk-N8vBxxAKuinVhbgG0gRLszYyXNKiC49p9g~Vv5B4HKj9jcuNTSFEql6Yb0Jnr9IX7HTeuZskjcTwXgr2DmfD70Blct7zEsUHgO73AfXreEb6QvQFXNi8ZNzdqEyiS86gaR2sovuSQqoYLvHsehifDYWMiQM3v0GiEpWxRxDcZjftk83UomaVAN5~i08~joNg7Yhq5jg__"
                     alt="作者頭像"
                     class="author-img"
-                  /><span>佐藤優太</span>
+                  /><span>{{ page.editor }}</span>
                 </div>
-                <div class="upload-time">1天前</div>
+                <div class="upload-time">{{ getPublishedDays(page.publishedAt) }} 天前</div>
               </div>
             </div>
           </div>
@@ -82,22 +80,48 @@
   </section>
 </template>
 <script setup lang="ts">
-const route = useRoute();
+// const route = useRoute();
 const { getMagazineArticlePage } = useGuestApi();
-const MagazineArticlePage = ref<MagazineArticlePageType[]>([]);
-const category = route.params.category as string;
-const currentPage = ref(1);
-const getMagazineArticlePageHandler = async () => {
-  const { status, data } = await getMagazineArticlePage(category, currentPage.value);
-  if (status) {
-    MagazineArticlePage.value = data.map((e) => ({
-      ...e
-    }));
-  } else {
-    MagazineArticlePage.value = [];
-  }
-};
 
+const magazineArticleList = ref<MagazineArticlePageType>({
+  articles: [
+    {
+      articleId: '',
+      topic: [''],
+      title: '',
+      publishedAt: '',
+      image: '',
+      tags: [''],
+      editor: '',
+      imageDescribe: '',
+      source: {
+        name: '',
+        url: ''
+      }
+    }
+  ],
+  firstPage: false,
+  lastPage: false,
+  empty: false,
+  totalElements: 0,
+  totalPages: 0,
+  tagetPage: 0
+});
+
+const getMagazineArticlePageHandler = async () => {
+  const params: MagazineArticlePageResponseType = {
+    pageIndex: 1,
+    category: 'tech'
+  };
+  const { status, data } = await getMagazineArticlePage(params);
+  if (status) {
+    if (typeof data === 'object' && data !== null) {
+      magazineArticleList.value = data;
+    }
+  }
+  console.log(magazineArticleList);
+};
+const currentPage = ref(1);
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
@@ -109,7 +133,12 @@ const showFullContent = ref(false);
 const toggleMagazineContent = () => {
   showFullContent.value = !showFullContent.value;
 };
-
+const getPublishedDays = (publishedAtStr: string | number | Date) => {
+  const publishedAt = new Date(publishedAtStr);
+  const today = new Date();
+  const diffInDays = Math.floor((today.getTime() - publishedAt.getTime()) / (1000 * 60 * 60 * 24));
+  return diffInDays;
+};
 onMounted(async () => {
   await nextTick(() => {
     getMagazineArticlePageHandler();
@@ -194,5 +223,15 @@ onMounted(async () => {
 
 h5 {
   color: $primary;
+}
+
+.card-title {
+  height: 66px;
+  font-size: 22px;
+  line-height: 33px;
+
+  &:hover {
+    opacity: 0.5;
+  }
 }
 </style>

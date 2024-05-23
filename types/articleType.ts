@@ -22,26 +22,31 @@ declare global {
     categoryImg: string;
   }
 
-  interface MagazineArticlePageType {
+  interface PageType {
+    firstPage: boolean;
+    lastPage: boolean;
+    empty: boolean;
+    totalElements: number;
+    totalPages: number;
+    tagetPage: number;
+  }
+  interface MagazineArticlePageType extends PageType {
     articles: [
       {
-        articleId: String;
-        title: String;
-        tags: String;
-        publishedAt: Number;
-        image: String;
+        articleId: string;
+        topic: string[];
+        title: string;
+        publishedAt: string;
+        image: string;
+        tags: string[];
+        editor: string;
+        imageDescribe: string;
         source: {
-          name: String;
-          url: String;
+          name: string;
+          url: string;
         };
       }
     ];
-    firstPage: Boolean;
-    lastPage: Boolean;
-    empty: Boolean;
-    totalElements: Number;
-    totalPages: Number;
-    tagetPage: Number;
   }
 }
 

@@ -9,11 +9,15 @@ class guestApi {
   }
 
   static async getMagazineArticlePage(
-    category: string,
-    pageIndex: number
-  ): Promise<ApiResponseType<MagazineArticlePageType[]>> {
-    const res = await useApi(`/guest/magazine-article-page?category=${category}&pageIndex=${pageIndex}`, {
-      method: 'get'
+    query: MagazineArticlePageResponseType
+  ): Promise<ApiResponseType<MagazineArticlePageType>> {
+    const params = {
+      category: query.category,
+      pageIndex: query.pageIndex
+    };
+    const res = await useApi('/guest/magazine-article-page', {
+      method: 'get',
+      params
     });
 
     return res;
