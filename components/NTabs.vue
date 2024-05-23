@@ -18,6 +18,11 @@
         @click="clickTab(item, index)"
       >
         {{ item.label }}
+        <span
+          v-if="item.badge"
+          class="tab-badge"
+          >{{ item.badge }}</span
+        >
       </li>
     </ul>
     <div
@@ -32,6 +37,7 @@
 export type TabItemType = {
   label: string;
   value: string;
+  badge?: string;
 };
 
 interface NTabsProps {
@@ -109,8 +115,34 @@ watch(
   scroll-behavior: smooth;
 }
 
+@keyframes opacity-frames {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
 .n-tab-item {
   transition: all 0.3s ease-in-out;
+
+  .tab-badge {
+    position: absolute;
+    top: 0;
+    right: 1px;
+    padding: 1px 2px;
+    border-radius: $border-radius-sm;
+    background: $green;
+    color: $gray-100;
+    font-size: 10px;
+    animation: opacity-frames 1.5s ease-in-out infinite;
+  }
 
   &::after {
     position: absolute;

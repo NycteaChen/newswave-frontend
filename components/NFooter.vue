@@ -77,12 +77,16 @@ const footerNav = [
     navTitle: '認識我們',
     linkList: [
       {
-        title: '關於本站',
+        title: '關於我們',
         path: '/about'
       },
       {
-        title: '理念價值',
-        path: '/core-value'
+        title: 'NewsWave 介紹',
+        path: '/'
+      },
+      {
+        title: '方案介紹',
+        path: '/subscription-plan'
       },
       {
         title: '服務條款',
@@ -91,10 +95,6 @@ const footerNav = [
       {
         title: '隱私權政策',
         path: '/privacy-policy'
-      },
-      {
-        title: '方案介紹',
-        path: '/subscription-plan'
       }
     ]
   },

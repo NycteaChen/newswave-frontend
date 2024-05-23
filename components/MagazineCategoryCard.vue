@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
-    class="magazine-category-card d-block card text-start text-body-white"
-    :to="`/magazine/${categoryData.categoryName}`"
+    class="magazine-category-card d-block card text-start text-body-white position-relative"
+    :to="`/magazine/${categoryData.categoryId}`"
   >
     <img
       :src="categoryData.categoryImg"
@@ -9,8 +9,11 @@
       :alt="categoryData.categoryDescribe"
     />
     <div class="card-img-overlay">
-      <h4 class="card-title">{{ categoryData.categoryName }}</h4>
-      <p class="card-text">
+      <h4 class="card-title whitespace-nowrap">{{ categoryData.categoryName }}</h4>
+      <p
+        class="card-text"
+        :class="{ 'limit-line-four': isPc && $route.name === 'magazine' }"
+      >
         {{ categoryData.categoryDescribe }}
       </p>
     </div>
@@ -24,6 +27,8 @@ interface NewsCardProps {
 withDefaults(defineProps<NewsCardProps>(), {
   categoryData: () => {}
 });
+
+const isPc = inject('isPc');
 </script>
 <style lang="scss" scoped>
 %transition-duration {
@@ -65,8 +70,35 @@ withDefaults(defineProps<NewsCardProps>(), {
 }
 
 @include media-breakpoint-up(xl) {
+  .card-title {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    transition: all 0.3s ease-in-out;
+    transform: translate(0, 0);
+  }
+
+  .card-text {
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(41px);
+  }
+
   .magazine-category-card {
     margin: 0 16px;
+
+    &:not(:hover) {
+      .card-title {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .card-text {
+        opacity: 0;
+        transform: translateY(80%);
+      }
+    }
   }
 }
 </style>
