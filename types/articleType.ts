@@ -28,25 +28,23 @@ declare global {
     empty: boolean;
     totalElements: number;
     totalPages: number;
-    tagetPage: number;
+    targetPage: number;
   }
-  interface MagazineArticlePageType extends PageType {
-    articles: [
-      {
-        articleId: string;
-        topic: string[];
-        title: string;
-        publishedAt: string;
-        image: string;
-        tags: string[];
-        editor: string;
-        imageDescribe: string;
-        source: {
-          name: string;
-          url: string;
-        };
-      }
-    ];
+  interface MagazineArticlePageType extends ArticleType, PageType {
+    articles: {
+      articleId: string;
+      topic: string[];
+      editor: string;
+      title: string;
+      publishedAt: string;
+      imageDescribe: string;
+      image: string;
+      tags: string[];
+      source: {
+        name: string;
+        url: string;
+      };
+    }[];
   }
 }
 

@@ -22,7 +22,7 @@ declare global {
     type: 'hot' | 'news';
     limit: number;
   }
-  interface MagazineArticlePageResponseType {
+  interface MagazineArticlePageRequestType {
     pageIndex: any;
     category: any;
   }

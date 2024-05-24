@@ -1,19 +1,20 @@
 <template>
   <div class="image-tag">
     <img
-      src="/assets/image/icon/tag-news.svg"
-      alt="{{ props.type }}"
+      :src="requireImage(imagePath)"
+      :alt="props.type"
     />
     <span class="fw-bold">{{ props.type }}</span>
   </div>
 </template>
 <script setup lang="ts">
 export interface NTagsProps {
-  type: 'hot' | 'news';
+  type: 'HOT' | 'NEWS';
 }
 const props: NTagsProps = {
-  type: 'hot'
+  type: 'NEWS'
 };
+const imagePath = computed(() => (props.type === 'HOT' ? 'icon/tag-hot.svg' : 'icon/tag-news.svg'));
 </script>
 <style lang="scss" scoped>
 .image-tag {
@@ -29,6 +30,11 @@ const props: NTagsProps = {
   img {
     margin-right: 8px;
     max-width: 24px;
+    height: 24px;
+  }
+
+  span {
+    width: 49px;
     height: 24px;
   }
 }
