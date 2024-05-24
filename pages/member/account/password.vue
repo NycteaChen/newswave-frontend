@@ -63,10 +63,7 @@ const formState = reactive<{ [key: string]: PasswordType }>({ ...initState });
 const hintMessage = ref<string>('');
 
 const btnDisabled = computed(
-  () =>
-    !formState.oldPassword?.trim() ||
-    !formState.newPassword?.trim() ||
-    !formState.confirmPassword?.trim()
+  () => !formState.oldPassword?.trim() || !formState.newPassword?.trim() || !formState.confirmPassword?.trim()
 );
 
 const submit = async () => {

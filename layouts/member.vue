@@ -1,11 +1,15 @@
 <template>
   <main class="member-layout container-xxl">
     <client-only>
-      <nav v-if="!isMobile && currentChildrenRoute.length">
+      <nav
+        class="sub-nav d-flex align-items-center gap-2"
+        :class="{ 'expand py-2': currentChildrenRoute.length }"
+      >
         <nuxt-link
           v-for="subItem in currentChildrenRoute"
           :key="subItem.label"
-          class="me-2"
+          class="py-2 px-4 text-center"
+          :class="$route.name === subItem.value ? 'text-primary fw-bold' : 'text-body is-bt'"
           :to="{ name: subItem.value }"
         >
           {{ subItem.label }}
@@ -19,8 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-const isMobile = inject('isMobile');
-
 const { memberSubNav } = useNav();
 const route = useRoute();
 
@@ -29,3 +31,25 @@ const currentChildrenRoute = computed(() => {
   return memberSubNav?.find((e) => String(route.name)?.includes(e.value))?.childrenRoute || [];
 });
 </script>
+<style lang="scss" scoped>
+.sub-nav {
+  margin-right: -12px;
+  margin-left: -12px;
+  height: 0;
+  border-bottom: 1px solid transparent;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+
+  &.expand {
+    height: 53px;
+    border-bottom: 1px solid $blue-100;
+    opacity: 1;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .sub-nav a {
+    flex: 1 1 0;
+  }
+}
+</style>
