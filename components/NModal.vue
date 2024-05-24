@@ -36,7 +36,7 @@
         </div>
         <div
           class="modal-footer border-top-0 position-relative overflow-hidden"
-          :class="[isSmallSize ? 'gap-2' : 'gap-4']"
+          :class="[isSmallModal ? 'gap-2' : 'gap-4']"
         >
           <n-button
             v-if="showCancelBtn"
@@ -46,7 +46,7 @@
             :text="cancelBtnText"
             :loading="cancelBtnLoading"
             :disabled="cancelBtnDisabled"
-            size="lg"
+            :size="isSmallModal ? 'sm' : 'lg'"
             @click="$emit('cancel')"
           />
           <n-button
@@ -57,7 +57,7 @@
             :text="confirmBtnText"
             :loading="confirmBtnLoading"
             :disabled="confirmBtnDisabled"
-            size="lg"
+            :size="isSmallModal ? 'sm' : 'lg'"
             @click.prevent="$emit('confirm')"
           />
           <img
@@ -116,7 +116,7 @@ const props = withDefaults(defineProps<NModelProps>(), {
 
 const nModal = ref<HTMLElement | null>(null);
 
-const isSmallSize = computed<boolean>(() => props.size === 'sm');
+const isSmallModal = computed<boolean>(() => props.size === 'sm');
 
 const slots = useSlots();
 
@@ -159,7 +159,12 @@ watch(
   position: relative;
   z-index: 1;
   margin: 0;
-  min-width: 136px;
+}
+
+.modal-dialog:not(.modal-sm) {
+  .footer-btn {
+    min-width: 136px;
+  }
 }
 
 ::v-deep(.btn-primary),
