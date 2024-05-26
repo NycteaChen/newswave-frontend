@@ -1,5 +1,5 @@
 <template>
-  <div class="member-center mb-3">
+  <div class="member-center">
     <nuxt-page />
   </div>
 </template>

@@ -32,13 +32,22 @@
               {{ field.label }}
               <span class="text-accent">*</span>
             </label>
-            <n-input
-              :id="field.value"
-              v-model:value="formState[field.value]"
-              :placeholder="`請輸入${field.label}`"
-              :type="field.type || 'text'"
-              :has-error="!!errorMessage[field.value]"
-            />
+            <client-only>
+              <n-password-input
+                v-if="field.value === 'password'"
+                :id="field.value"
+                v-model:value="formState[field.value]"
+                :placeholder="`請輸入${field.label}`"
+                :has-error="!!errorMessage[field.value]"
+              />
+              <n-input
+                v-else
+                :id="field.value"
+                v-model:value="formState[field.value]"
+                :placeholder="`請輸入${field.label}`"
+                :has-error="!!errorMessage[field.value]"
+              />
+            </client-only>
             <div
               v-if="errorMessage[field.value]"
               class="invalid-feedback"
@@ -75,10 +84,9 @@
   </div>
 </template>
 <script setup lang="ts">
-interface fieldType {
+interface FieldType {
   label: string;
   value: keyof RegisterRequestType;
-  type?: string;
   hidden?: boolean;
 }
 
@@ -149,11 +157,10 @@ const fieldList = computed(() => {
     },
     {
       label: '密碼',
-      value: 'password',
-      type: 'password'
+      value: 'password'
     }
   ].filter((e) => !e.hidden);
-  return list as fieldType[];
+  return list as FieldType[];
 });
 
 const warnMessage = ref<string>('');
