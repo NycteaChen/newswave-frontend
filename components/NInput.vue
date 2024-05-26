@@ -24,7 +24,7 @@ const value = defineModel('value', { type: String, required: true, default: '' }
 
 interface NInputProps {
   id?: string;
-  placeholder: string;
+  placeholder?: string;
   type?: string;
   inputmode?: 'text' | 'email' | 'search' | 'tel' | 'url' | 'none' | 'numeric' | 'decimal';
   hasError?: boolean;
