@@ -30,21 +30,8 @@ declare global {
     totalPages: number;
     targetPage: number;
   }
-  interface MagazineArticlePageType extends ArticleType, PageType {
-    articles: {
-      articleId: string;
-      topic: string[];
-      editor: string;
-      title: string;
-      publishedAt: string;
-      imageDescribe: string;
-      image: string;
-      tags: string[];
-      source: {
-        name: string;
-        url: string;
-      };
-    }[];
+  interface MagazineArticlePageType extends PageType {
+    articles: ArticleType[];
   }
 }
 

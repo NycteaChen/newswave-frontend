@@ -1,10 +1,15 @@
 <template>
-  <div class="image-tag">
-    <img
-      :src="requireImage(imagePath)"
-      :alt="props.type"
-    />
-    <span class="fw-bold">{{ props.type }}</span>
+  <div
+    class="tag"
+    :class="{ 'bg-red': props.type === 'HOT' }"
+  >
+    <div class="height d-flex align-items-center">
+      <img
+        :src="requireImage(imagePath)"
+        :alt="props.type"
+      />
+      <span class="fw-bold">{{ props.type }}</span>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -17,12 +22,12 @@ const props: NTagsProps = {
 const imagePath = computed(() => (props.type === 'HOT' ? 'icon/tag-hot.svg' : 'icon/tag-news.svg'));
 </script>
 <style lang="scss" scoped>
-.image-tag {
+.tag {
   position: absolute;
-  top: 16px; /* Adjust as needed */
-  left: 16px; /* Adjust as needed */
+  top: 16px;
+  left: 16px;
   padding: 8px 12px;
-  max-width: 105px;
+  border-radius: 4px;
   background-color: #b4deea;
   color: #2f5862;
   font-size: 16px;
@@ -30,12 +35,15 @@ const imagePath = computed(() => (props.type === 'HOT' ? 'icon/tag-hot.svg' : 'i
   img {
     margin-right: 8px;
     max-width: 24px;
+  }
+
+  .height {
     height: 24px;
   }
 
-  span {
-    width: 49px;
-    height: 24px;
+  &.bg-red {
+    background-color: $red-300;
+    color: #9d3632;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="container title-backgroundcolor mb-4 p-3">
+  <section class="title mb-4 bg-body-light">
     <div class="d-flex">
       <div class="title-img me-4">
         <img
@@ -8,7 +8,7 @@
           class="img-fluid"
         />
       </div>
-      <div class="magazine-title">
+      <div class="text-primary">
         <div class="mb-3 fw-bold fs-3">{{ $route.params.category }}</div>
         <div>
           <div v-if="!isMobile || showFullContent">{{ magazineContent }}</div>
@@ -22,21 +22,23 @@
       </div>
     </div>
     <div class="d-flex flex-row-reverse">
-      <button
+      <div
         class="d-md-none btn-expand"
         @click="toggleMagazineContent"
       >
-        <span class="expand=text">{{ showFullContent ? '收合' : '展開' }}</span>
-        <img
-          v-if="!showFullContent"
-          :src="requireImage('icon/angle-down.svg')"
-          alt="展開"
-          class="expand-img"
-        />
-      </button>
+        <div class="d-flex align-items-center">
+          <span class="expand-text">{{ showFullContent ? '收合' : '展開' }}</span>
+          <img
+            v-if="!showFullContent"
+            :src="requireImage('icon/angle-down.svg')"
+            alt="展開"
+            class="expand-img"
+          />
+        </div>
+      </div>
     </div>
   </section>
-  <section class="container">
+  <section>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div
         v-for="(item, index) in magazineArticleList"
@@ -51,10 +53,10 @@
             />
             <NTags :type="item.tags"> </NTags>
             <div class="card-body">
-              <h5 class="card-title limit-line-two">
+              <h5 class="card-title limit-line-two text-primary">
                 {{ item.title }}
               </h5>
-              <div class="d-flex justify-content-between author">
+              <div class="d-flex justify-content-between text-muted">
                 <div class="d-flex align-items-center">
                   <img
                     src="https://s3-alpha-sig.figma.com/img/3662/e399/b8712cd3f85b9427a7e6d17ee57ca6cb?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=MDMwFa27gcexv9mYTRKybhb~A-xmnfFc2VD5WTxnQYyLlFSN0vU7d3vGWt6Iiz4UdDkRIowKrCwqy13nZ6X2J8QSYEY3YS9YOySTWxz4-h2wk-CMBweYBfIxW0wHNKiJ0y6CprMFayB4Dk-N8vBxxAKuinVhbgG0gRLszYyXNKiC49p9g~Vv5B4HKj9jcuNTSFEql6Yb0Jnr9IX7HTeuZskjcTwXgr2DmfD70Blct7zEsUHgO73AfXreEb6QvQFXNi8ZNzdqEyiS86gaR2sovuSQqoYLvHsehifDYWMiQM3v0GiEpWxRxDcZjftk83UomaVAN5~i08~joNg7Yhq5jg__"
@@ -79,7 +81,7 @@
   </section>
 </template>
 <script setup lang="ts">
-// const route = useRoute();
+const route = useRoute();
 const { getMagazineArticlePage } = useGuestApi();
 
 const magazineArticleList = ref<ArticleType[]>([]);
@@ -91,46 +93,30 @@ const pagination = ref<PageType>({
   totalPages: 0,
   targetPage: 0
 });
-
-const getMagazineArticlePageHandler = async () => {
-  const params: MagazineArticlePageRequestType = {
-    pageIndex: 1,
-    category: 'tech'
-  };
-  const { status, data } = await getMagazineArticlePage(params);
-  if (status) {
-    if (typeof data === 'object' && data !== null) {
-      magazineArticleList.value = data.articles.map((item) => ({
-        articleId: item.articleId,
-        topic: item.topic,
-        editor: item.editor,
-        title: item.title,
-        publishedAt: item.publishedAt,
-        imageDescribe: item.imageDescribe,
-        image: item.image,
-        content: '',
-        tags: item.tags,
-        source: {
-          name: item.source.name,
-          url: item.source.url
-        }
-      }));
-
-      pagination.value = {
-        firstPage: data.firstPage,
-        lastPage: data.lastPage,
-        empty: data.empty,
-        totalElements: data.totalElements || 0,
-        totalPages: data.totalPages || 0,
-        targetPage: data.targetPage || 0
-      };
-    }
-  }
-};
 const currentPage = ref(1);
 const handlePageChange = (page: number) => {
   currentPage.value = page;
 };
+const getMagazineArticlePageHandler = async () => {
+  const params: MagazineArticlePageRequestType = {
+    pageIndex: currentPage,
+    category: route.query.category
+  };
+  const { status, data } = await getMagazineArticlePage(params);
+  if (status) {
+    magazineArticleList.value = data.articles;
+
+    pagination.value = {
+      firstPage: data.firstPage,
+      lastPage: data.lastPage,
+      empty: data.empty,
+      totalElements: data.totalElements || 0,
+      totalPages: data.totalPages || 0,
+      targetPage: data.targetPage || 0
+    };
+  }
+};
+
 const { width } = useWindowSize();
 const isMobile = computed(() => width.value < 768);
 const magazineContent =
@@ -157,21 +143,9 @@ onMounted(async () => {
   height: 120px;
 }
 
-.magazine-title {
-  color: $primary;
-}
-
 .pagination-position {
   margin-top: 40px;
   margin-bottom: 80px;
-}
-
-.title-backgroundcolor {
-  background-color: $light;
-}
-
-.author {
-  color: $gray-700;
 }
 
 .author-img {
@@ -201,20 +175,6 @@ onMounted(async () => {
   display: inline-block;
 }
 
-.btn-expand {
-  margin-top: 4px;
-  padding: 4px, 6px, 4px, 12px;
-  max-width: 61px;
-  border: 0;
-  border-radius: 20px;
-  background-color: $blue-300;
-  color: $gray-100;
-}
-
-h5 {
-  color: $primary;
-}
-
 .card-title {
   height: 66px;
   font-size: 22px;
@@ -225,17 +185,47 @@ h5 {
   }
 }
 
+.card-body {
+  padding: 8px 24px 16px;
+}
+
 .expand-img {
-  margin: 4px;
+  margin-top: 4px;
+  margin-right: 12px;
+  margin-bottom: 4px;
   max-width: 9px;
   height: 10px;
 }
 
+.btn-expand {
+  margin-top: 4px;
+  max-width: 61px;
+  border: 0;
+  border-radius: 20px;
+  background-color: $blue-300;
+  color: $gray-100;
+}
+
 .expand-text {
-  margin-top: 2px;
-  margin-bottom: 2px;
-  margin-left: 12px;
+  margin: 2px 4px 2px 12px;
   max-width: 24px;
   height: 18px;
+  font-size: 12px;
+}
+
+.title {
+  border-radius: 8px;
+}
+
+@include media-breakpoint-down(md) {
+  .title {
+    padding: 12px;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .title {
+    padding: 16px;
+  }
 }
 </style>
