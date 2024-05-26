@@ -16,7 +16,7 @@
       </section>
       <section
         v-else
-        class="col-12 col-lg-9"
+        class="col-12"
       >
         <slot />
       </section>
