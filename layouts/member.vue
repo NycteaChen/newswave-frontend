@@ -9,7 +9,7 @@
           v-for="subItem in currentChildrenRoute"
           :key="subItem.label"
           class="py-2 px-4 text-center"
-          :class="$route.name === subItem.value ? 'text-primary fw-bold' : 'text-body is-bt'"
+          :class="$route.name === subItem.value ? 'text-primary fw-bold' : 'text-body is-btn'"
           :to="{ name: subItem.value }"
         >
           {{ subItem.label }}
