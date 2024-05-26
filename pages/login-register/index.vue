@@ -32,14 +32,12 @@
               {{ field.label }}
               <span class="text-accent">*</span>
             </label>
-            <input
+            <n-input
               :id="field.value"
-              v-model="formState[field.value]"
+              v-model:value="formState[field.value]"
               :placeholder="`請輸入${field.label}`"
               :type="field.type || 'text'"
-              class="form-control text-sm py-2"
-              :class="{ 'invalid-field': errorMessage[field.value] }"
-              required
+              :has-error="!!errorMessage[field.value]"
             />
             <div
               v-if="errorMessage[field.value]"
