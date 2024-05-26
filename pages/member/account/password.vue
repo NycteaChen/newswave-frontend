@@ -1,51 +1,62 @@
 <template>
   <form
     ref="formRef"
-    class="form row gy-4 needs-validation text-sm bg-body-light rounded-3 my-0 mx-auto mx-md-0"
+    class="form pt-3 needs-validation text-sm bg-body-light rounded-2 my-0 mx-auto mx-md-0 overflow-hidden"
     novalidate
   >
-    <div
-      v-for="field in fieldList"
-      :key="field.value"
-      class="col-12"
-    >
-      <label
-        :for="field.value"
-        class="form-label fs-6"
-      >
-        {{ field.label }}
-        <span class="text-accent">*</span>
-      </label>
-      <n-password-input
-        :id="field.value"
-        v-model:value="formState[field.value]"
-        :placeholder="`請輸入${field.label}`"
-        :has-error="!!errorMessage[field.value]"
-      />
+    <div class="bg-body d-flex gap-4 flex-column p-3 mx-3">
       <div
-        v-if="errorMessage[field.value]"
-        class="invalid-feedback"
+        v-for="field in fieldList"
+        :key="field.value"
+        class="col-12"
       >
-        {{ errorMessage[field.value] }}
+        <label
+          :for="field.value"
+          class="form-label fs-6"
+        >
+          {{ field.label }}
+          <span class="text-accent">*</span>
+        </label>
+        <n-password-input
+          :id="field.value"
+          v-model:value="formState[field.value]"
+          :placeholder="`請輸入${field.label}`"
+          :has-error="!!errorMessage[field.value]"
+        />
+        <div
+          v-if="errorMessage[field.value]"
+          class="invalid-feedback"
+        >
+          {{ errorMessage[field.value] }}
+        </div>
+      </div>
+      <div>
+        <div class="d-flex flex-column gap-3 flex-sm-row">
+          <n-button
+            class="w-100"
+            text="確認"
+            :loading="btnLoading"
+            @click="submit"
+          />
+          <n-button
+            class="w-100"
+            color="secondary"
+            text="清除"
+            @click="reset"
+          />
+        </div>
+        <p
+          v-show="warnMessage"
+          class="text-accent text-sm mt-3 mb-0"
+        >
+          {{ warnMessage }}
+        </p>
       </div>
     </div>
-    <div class="d-flex flex-column gap-3 flex-sm-row">
-      <n-button
-        class="w-100"
-        text="確認"
-        :loading="btnLoading"
-        @click="submit"
-      />
-      <n-button
-        class="w-100"
-        color="secondary"
-        text="清除"
-        @click="reset"
-      />
-    </div>
-    <p class="warn-text text-accent text-sm mt-3">
-      {{ warnMessage }}
-    </p>
+    <img
+      class="mt-2"
+      :src="requireImage('member/wave-2.svg')"
+    />
   </form>
 </template>
 <script lang="ts" setup>
@@ -138,9 +149,8 @@ const reset = () => {
 };
 
 const submit = async () => {
-  warnMessage.value = '';
-
   if (!checkValidityHandler()) {
+    warnMessage.value = '';
     formRef.value?.classList.add('was-invalidated');
     return;
   }
@@ -164,13 +174,7 @@ const submit = async () => {
   max-width: 540px;
 }
 
-@include media-breakpoint-up(md) {
-  .form {
-    padding: 0 12px;
-  }
-}
-
 .invalid-feedback {
-  margin-bottom: -18px;
+  margin-bottom: -15px;
 }
 </style>

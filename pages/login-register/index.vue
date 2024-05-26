@@ -200,9 +200,8 @@ const goBack = async () => {
 };
 
 const submit = async () => {
-  warnMessage.value = '';
-
   if (!checkValidityHandler()) {
+    warnMessage.value = '';
     formRef.value?.classList.add('was-invalidated');
     return;
   }
@@ -212,6 +211,7 @@ const submit = async () => {
   const { status, data, message } = mode.value === 'login' ? await login(formState) : await register(formState);
 
   if (status) {
+    warnMessage.value = '';
     userStore.SET_USER_INFO(data);
     token.value = data?.token;
 
@@ -268,7 +268,7 @@ watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => 
 }
 
 .invalid-feedback {
-  margin-bottom: -18px;
+  margin-bottom: -15px;
 }
 
 .form-box-container {
