@@ -94,13 +94,10 @@ const pagination = ref<PageType>({
   targetPage: 0
 });
 const currentPage = ref(1);
-const handlePageChange = (page: number) => {
-  currentPage.value = page;
-};
 const getMagazineArticlePageHandler = async () => {
   const params: MagazineArticlePageRequestType = {
-    pageIndex: currentPage,
-    category: route.query.category
+    pageIndex: currentPage.value,
+    category: route.params.category
   };
   const { status, data } = await getMagazineArticlePage(params);
   if (status) {
@@ -117,6 +114,10 @@ const getMagazineArticlePageHandler = async () => {
   }
 };
 
+const handlePageChange = (page: number) => {
+  currentPage.value = page;
+  getMagazineArticlePageHandler();
+};
 const { width } = useWindowSize();
 const isMobile = computed(() => width.value < 768);
 const magazineContent =
