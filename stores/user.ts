@@ -13,7 +13,8 @@ export const useUserStore = defineStore('user', {
     subscribeExpiredAt: '',
     planType: '',
     autoRenew: '',
-    collects: [] as UserDataType['collects']
+    collects: [] as UserDataType['collects'],
+    follows: [] as UserDataType['follows']
   }),
 
   getters: {
