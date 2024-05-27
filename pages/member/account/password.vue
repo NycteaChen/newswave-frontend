@@ -161,6 +161,10 @@ const submit = async () => {
 
   if (status) {
     reset();
+    showToast({
+      id: 'password-success',
+      message
+    });
   } else {
     warnMessage.value = message;
   }
