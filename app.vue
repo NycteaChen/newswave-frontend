@@ -1,5 +1,6 @@
 <template>
   <div>
+    <n-toast />
     <n-header v-if="!isLoginPage" />
 
     <nuxt-layout class="layouts">

@@ -215,10 +215,16 @@ const submit = async () => {
     userStore.SET_USER_INFO(data);
     token.value = data?.token;
 
+    showToast({
+      id: 'login-success',
+      message
+    });
+
     await goBack();
   } else {
     warnMessage.value = message;
   }
+
   btnLoading.value = false;
 
   clearValidator();
