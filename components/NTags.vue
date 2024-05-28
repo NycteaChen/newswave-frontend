@@ -1,25 +1,27 @@
 <template>
   <div
     class="tag"
-    :class="{ 'bg-red': props.type === 'HOT' }"
+    :class="{ 'bg-red': props.type === 'hot' }"
   >
     <div class="height d-flex align-items-center">
       <img
         :src="requireImage(imagePath)"
-        :alt="props.type"
+        :alt="tagName"
       />
-      <span class="fw-bold">{{ props.type }}</span>
+      <span class="fw-bold">{{ tagName }}</span>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 export interface NTagsProps {
-  type: 'HOT' | 'NEWS';
+  type: string;
 }
-const props: NTagsProps = {
-  type: 'NEWS'
-};
-const imagePath = computed(() => (props.type === 'HOT' ? 'icon/tag-hot.svg' : 'icon/tag-news.svg'));
+const props = withDefaults(defineProps<NTagsProps>(), {
+  type: ''
+});
+
+const imagePath = computed(() => (props.type === 'hot' ? 'icon/tag-hot.svg' : 'icon/tag-news.svg'));
+const tagName = computed(() => (props.type === 'hot' ? 'HOT' : 'NEWS'));
 </script>
 <style lang="scss" scoped>
 .tag {

@@ -3,20 +3,20 @@
     <div class="d-flex">
       <div class="title-img me-4">
         <img
-          src="https://s3-alpha-sig.figma.com/img/28f5/1841/4a4a211181a9778ab18e8509f1c601e3?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=PNp9w9dAynMK-jDxXLiSsJDggsv~~bX~cGZz6TASYgpjBxc7wYZbVjJg0sunkMcYrIbleK~AdQB752ogwn2AH2fXmPyQ40C6ujelUi0azjNfvTRKoB1b72xDlJqlPsCb5X3rSNXrDLIwzZwtb-Y3bmPQuVDQDR3R5EEa2sGyrYQ6PAgGrlSWhqOtutC4ejSb2PaQV0xOxYETsl3VeFblpt1umgpvCyV~ktGfAw9s8~z6ssprkl6u4JLQnRYSJdf191KX5WYWVEUGkOo84vBCioPPF2DCj8-XFrd4Emv62dzdhM8r6F8FESDSUv6gYRag2BVSAND~MOC6lcRiESUywA__"
-          alt="Mimage"
-          class="img-fluid"
+          :src="magazineContent.categoryImg"
+          :alt="magazineContent.categoryDescribe"
+          class="img-fluid h-100 object-fit-cover"
         />
       </div>
-      <div class="text-primary">
-        <div class="mb-3 fw-bold fs-3">{{ $route.params.category }}</div>
+      <div class="title-scribe text-primary">
+        <div class="mb-3 fw-bold fs-3">{{ magazineContent.categoryName }}</div>
         <div>
-          <div v-if="!isMobile || showFullContent">{{ magazineContent }}</div>
+          <div v-if="!isMobile || showFullContent">{{ magazineContent.categoryDescribe }}</div>
           <div
             v-else
             class="limit-line-two"
           >
-            {{ magazineContent }}
+            {{ magazineContent.categoryDescribe }}
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
   <section>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div
-        v-for="(item, index) in magazineArticleList"
+        v-for="(item, index) in isMobile ? magazineArticleListPhone : magazineArticleList"
         :key="index"
       >
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
@@ -51,7 +51,7 @@
               class="card-img-top"
               alt="{{item.imageDescribe}}"
             />
-            <NTags :type="item.tags"> </NTags>
+            <NTags :type="item.tags[0]"> </NTags>
             <div class="card-body">
               <h5 class="card-title limit-line-two text-primary">
                 {{ item.title }}
@@ -85,6 +85,7 @@ const route = useRoute();
 const { getMagazineArticlePage } = useGuestApi();
 
 const magazineArticleList = ref<ArticleType[]>([]);
+const magazineArticleListPhone = ref<ArticleType[]>([]);
 const pagination = ref<PageType>({
   firstPage: false,
   lastPage: false,
@@ -102,6 +103,11 @@ const getMagazineArticlePageHandler = async () => {
   const { status, data } = await getMagazineArticlePage(params);
   if (status) {
     magazineArticleList.value = data.articles;
+    if (currentPage.value === 1) {
+      magazineArticleListPhone.value = data.articles;
+    } else {
+      magazineArticleListPhone.value = [...magazineArticleListPhone.value, ...data.articles];
+    }
 
     pagination.value = {
       firstPage: data.firstPage,
@@ -120,12 +126,33 @@ const handlePageChange = (page: number) => {
 };
 const { width } = useWindowSize();
 const isMobile = computed(() => width.value < 768);
-const magazineContent =
-  '「新電子科技雜誌」隸屬於城邦出版集團，創立於1986年，是台灣半導體科技領域最專業的B2B產業雜誌，以促進台灣半導體與電子科技產業創新與蓬勃為使命，幫助產業人士掌握市場脈動、提升產品技術研發實力。';
+const guestStore = useGuestStore();
+const { magazineCategoryList } = storeToRefs(guestStore);
+const magazineContent = ref({
+  categoryDescribe: '',
+  categoryImg: '',
+  categoryName: ''
+});
+watch(
+  () => route.params.category,
+  (category) => {
+    const matchingCategory = magazineCategoryList.value.find((item) => item.categoryId === category);
+    if (matchingCategory) {
+      magazineContent.value = {
+        categoryDescribe: matchingCategory.categoryDescribe,
+        categoryImg: matchingCategory.categoryImg,
+        categoryName: matchingCategory.categoryName
+      };
+    }
+  },
+  { immediate: true }
+);
+
 const showFullContent = ref(false);
 const toggleMagazineContent = () => {
   showFullContent.value = !showFullContent.value;
 };
+
 const getPublishedDays = (publishedAtStr: string | number | Date) => {
   const publishedAt = new Date(publishedAtStr);
   const today = new Date();
@@ -140,8 +167,12 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped>
 .title-img {
-  max-width: 120px;
+  width: 120px;
   height: 120px;
+}
+
+.title-scribe {
+  width: 231px;
 }
 
 .pagination-position {
@@ -165,7 +196,7 @@ onMounted(async () => {
   top: 50%;
   left: 0;
   width: 1px;
-  height: 16px; /* 調整高度來設置邊框長度 */
+  height: 16px;
   background-color: $gray-300;
   content: '';
   transform: translateY(-50%);
@@ -222,11 +253,20 @@ onMounted(async () => {
   .title {
     padding: 12px;
   }
+
+  .title-img {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 @include media-breakpoint-up(md) {
   .title {
     padding: 16px;
+  }
+
+  .title-scribe {
+    width: 1120px;
   }
 }
 </style>
