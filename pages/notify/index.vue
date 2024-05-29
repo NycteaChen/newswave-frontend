@@ -1,17 +1,19 @@
 <template>
-  <div>NotufyView</div>
+  <div>NotifyView</div>
+  {{ notice }}
 </template>
 <script setup>
-import { io } from 'socket.io-client';
+import openSocket from 'socket.io-client';
 
-let socket = {};
+const notice = ref(null);
 
 onMounted(() => {
   const URL = 'http://localhost:5173/';
-  socket = io(URL, { transports: ['websocket'] });
-  socket.on('connect', (data) => {
-    console.log(`Client ${socket.id}`);
-    console.log(data);
+  const socket = openSocket(URL);
+  socket.on('notice', (data) => {
+    if (data.action !== 'create') return;
+    notice.value = data;
+    console.log('notice:', notice.value);
   });
 });
 </script>
