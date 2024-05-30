@@ -5,16 +5,21 @@
         <img
           :src="magazineContent.categoryImg"
           :alt="magazineContent.categoryDescribe"
-          class="img-fluid h-100 object-fit-cover"
+          class="h-100 object-fit-cover"
         />
       </div>
-      <div class="title-scribe text-primary">
-        <div class="mb-3 fw-bold fs-3">{{ magazineContent.categoryName }}</div>
+      <div class="text-primary">
+        <div class="fw-bold fs-3">{{ magazineContent.categoryName }}</div>
         <div>
-          <div v-if="!isMobile || showFullContent">{{ magazineContent.categoryDescribe }}</div>
+          <div
+            v-if="!isMobile || showFullContent"
+            class="mt-4"
+          >
+            {{ magazineContent.categoryDescribe }}
+          </div>
           <div
             v-else
-            class="limit-line-two"
+            class="limit-line-two mt-2"
           >
             {{ magazineContent.categoryDescribe }}
           </div>
@@ -24,6 +29,7 @@
     <div class="d-flex flex-row-reverse">
       <div
         class="d-md-none btn-expand"
+        :class="{ show: showFullContent }"
         @click="toggleMagazineContent"
       >
         <div class="d-flex align-items-center">
@@ -41,28 +47,30 @@
   <section>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div
-        v-for="(item, index) in isMobile ? magazineArticleListPhone : magazineArticleList"
+        v-for="(item, index) in isMobile ? magazineArticlePhoneList : magazineArticleList"
         :key="index"
       >
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
-          <div class="card h-100 .image-container">
-            <img
-              src="https://s3-alpha-sig.figma.com/img/a42b/d33f/1838a6959de079672cb7810c637cd8fc?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=dmjm0N-IAHDN5IxAUNHYHS9CJs8EUE63tXXyPRWMKjLEU~IMHSNEDI55WYLWzxb0SZCVoK6-98RmgwyPJfTT8VkhgTLK2QIjUxBq-I5sKex61YIaz2JMbQe4u4CBk~eY6cnj1ZCfOAy4~BQ0LxwMyKDZzfBssEdZdDZTArEaC1vdOgFDXUIwz2kxuo~dpgFOQ3njlB9P0FPp~5mLSgwIkRync0sWoAhY0TzZkOwarG4F0qdHqn9ZTAM~kbdD7wjils~-6vCimXroVYL69v7Mz1sq1mi3uxbPoXZ6uYnc7RmXZDy7cDkT29D9tyQwBMRL7XVCqOzs0I4ee~nX84ElNA__"
-              class="card-img-top"
-              alt="{{item.imageDescribe}}"
-            />
-            <NTags :type="item.tags[0]"> </NTags>
+          <div class="card">
+            <div class="overflow-hidden">
+              <img
+                :src="magazineContent.categoryImg"
+                class="card-img-top"
+                :alt="item.imageDescribe"
+              />
+            </div>
+            <NTags :type="item.tags[0]" />
             <div class="card-body">
               <h5 class="card-title limit-line-two text-primary">
                 {{ item.title }}
               </h5>
               <div class="d-flex justify-content-between text-muted">
                 <div class="d-flex align-items-center">
-                  <img
+                  <!--   <img
                     src="https://s3-alpha-sig.figma.com/img/3662/e399/b8712cd3f85b9427a7e6d17ee57ca6cb?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=MDMwFa27gcexv9mYTRKybhb~A-xmnfFc2VD5WTxnQYyLlFSN0vU7d3vGWt6Iiz4UdDkRIowKrCwqy13nZ6X2J8QSYEY3YS9YOySTWxz4-h2wk-CMBweYBfIxW0wHNKiJ0y6CprMFayB4Dk-N8vBxxAKuinVhbgG0gRLszYyXNKiC49p9g~Vv5B4HKj9jcuNTSFEql6Yb0Jnr9IX7HTeuZskjcTwXgr2DmfD70Blct7zEsUHgO73AfXreEb6QvQFXNi8ZNzdqEyiS86gaR2sovuSQqoYLvHsehifDYWMiQM3v0GiEpWxRxDcZjftk83UomaVAN5~i08~joNg7Yhq5jg__"
                     alt="作者頭像"
                     class="author-img"
-                  /><span>{{ item.editor }}</span>
+                  /> --><span>{{ item.editor }}</span>
                 </div>
                 <div class="upload-time">{{ getPublishedDays(item.publishedAt) }} 天前</div>
               </div>
@@ -76,7 +84,7 @@
         :total-pages="pagination.totalPages"
         :current-page="currentPage"
         @page-change="handlePageChange"
-      ></NPagination>
+      />
     </div>
   </section>
 </template>
@@ -85,7 +93,7 @@ const route = useRoute();
 const { getMagazineArticlePage } = useGuestApi();
 
 const magazineArticleList = ref<ArticleType[]>([]);
-const magazineArticleListPhone = ref<ArticleType[]>([]);
+const magazineArticlePhoneList = ref<ArticleType[]>([]);
 const pagination = ref<PageType>({
   firstPage: false,
   lastPage: false,
@@ -104,9 +112,9 @@ const getMagazineArticlePageHandler = async () => {
   if (status) {
     magazineArticleList.value = data.articles;
     if (currentPage.value === 1) {
-      magazineArticleListPhone.value = data.articles;
+      magazineArticlePhoneList.value = data.articles;
     } else {
-      magazineArticleListPhone.value = [...magazineArticleListPhone.value, ...data.articles];
+      magazineArticlePhoneList.value = [...magazineArticlePhoneList.value, ...data.articles];
     }
 
     pagination.value = {
@@ -124,29 +132,22 @@ const handlePageChange = (page: number) => {
   currentPage.value = page;
   getMagazineArticlePageHandler();
 };
-const { width } = useWindowSize();
-const isMobile = computed(() => width.value < 768);
+const isMobile = inject('isMobile');
 const guestStore = useGuestStore();
 const { magazineCategoryList } = storeToRefs(guestStore);
-const magazineContent = ref({
-  categoryDescribe: '',
-  categoryImg: '',
-  categoryName: ''
+
+const magazineContent = computed(() => {
+  const { category } = route.params;
+  const matchingCategory = magazineCategoryList.value.find((item) => item.categoryId === category);
+  if (matchingCategory) {
+    return {
+      categoryDescribe: matchingCategory.categoryDescribe,
+      categoryImg: matchingCategory.categoryImg,
+      categoryName: matchingCategory.categoryName
+    };
+  }
+  return {};
 });
-watch(
-  () => route.params.category,
-  (category) => {
-    const matchingCategory = magazineCategoryList.value.find((item) => item.categoryId === category);
-    if (matchingCategory) {
-      magazineContent.value = {
-        categoryDescribe: matchingCategory.categoryDescribe,
-        categoryImg: matchingCategory.categoryImg,
-        categoryName: matchingCategory.categoryName
-      };
-    }
-  },
-  { immediate: true }
-);
 
 const showFullContent = ref(false);
 const toggleMagazineContent = () => {
@@ -167,12 +168,15 @@ onMounted(async () => {
 </script>
 <style lang="scss" scoped>
 .title-img {
+  flex-shrink: 0;
   width: 120px;
   height: 120px;
 }
 
-.title-scribe {
-  width: 231px;
+.card .card-img-top {
+  height: 250px;
+  object-fit: cover;
+  transition: all 0.3s ease-in-out;
 }
 
 .pagination-position {
@@ -202,18 +206,22 @@ onMounted(async () => {
   transform: translateY(-50%);
 }
 
-.image-container {
-  position: relative;
-  display: inline-block;
-}
-
-.card-title {
-  height: 66px;
-  font-size: 22px;
-  line-height: 33px;
+.card {
+  .card-title {
+    height: 66px;
+    font-size: 22px;
+    line-height: 33px;
+    transition: all 0.3s ease-in-out;
+  }
 
   &:hover {
-    opacity: 0.5;
+    .card-img-top {
+      transform: scale(1.2);
+    }
+
+    .card-title {
+      opacity: 0.5;
+    }
   }
 }
 
@@ -245,6 +253,12 @@ onMounted(async () => {
   font-size: 12px;
 }
 
+.btn-expand.show {
+  .expand-text {
+    margin: 2px 18px;
+  }
+}
+
 .title {
   border-radius: 8px;
 }
@@ -263,10 +277,6 @@ onMounted(async () => {
 @include media-breakpoint-up(md) {
   .title {
     padding: 16px;
-  }
-
-  .title-scribe {
-    width: 1120px;
   }
 }
 </style>

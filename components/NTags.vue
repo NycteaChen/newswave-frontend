@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="props.type === 'hot' || props.type === 'new'"
     class="tag"
     :class="{ 'bg-red': props.type === 'hot' }"
   >
@@ -21,7 +22,7 @@ const props = withDefaults(defineProps<NTagsProps>(), {
 });
 
 const imagePath = computed(() => (props.type === 'hot' ? 'icon/tag-hot.svg' : 'icon/tag-news.svg'));
-const tagName = computed(() => (props.type === 'hot' ? 'HOT' : 'NEWS'));
+const tagName = computed(() => (props.type === 'hot' ? 'HOT' : 'NEW'));
 </script>
 <style lang="scss" scoped>
 .tag {

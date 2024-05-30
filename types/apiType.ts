@@ -23,8 +23,8 @@ declare global {
     limit: number;
   }
   interface MagazineArticlePageRequestType {
-    pageIndex: any;
-    category: any;
+    pageIndex: number;
+    category: string | string[];
   }
 }
 
