@@ -7,7 +7,10 @@
       :key="item.title"
       :class="item.background"
     >
-      <div class="container text-center">
+      <div
+        class="content text-center"
+        :class="item.id === 'magazineSupplier' ? 'container-xxl px-0' : 'container'"
+      >
         <h2 :class="index === 1 ? 'text-body-white' : 'text-primary'">
           {{ item.title }}
         </h2>
@@ -45,6 +48,7 @@ const sectionList = computed(() => [
   },
   {
     title: '各大雜誌',
+    id: 'magazineSupplier',
     component: MagazineSupplier,
     background: 'bg-primary-gradient'
   },
@@ -64,7 +68,7 @@ const goToPlan = () => {
 };
 </script>
 <style lang="scss" scoped>
-.container {
+.content {
   padding-top: 40px;
   padding-bottom: 40px;
 
@@ -74,7 +78,7 @@ const goToPlan = () => {
 }
 
 @include media-breakpoint-up(md) {
-  .container {
+  .content {
     padding-top: 80px;
     padding-bottom: 80px;
 
