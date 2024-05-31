@@ -115,7 +115,7 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
 </script>
 <style lang="scss" scoped>
 .subscription-header {
-  box-shadow: 0 16px 64px 0 rgba($dark, 0.122);
+  box-shadow: 0 2px 2px 0 rgba($dark, 0.122);
 }
 
 .header-icon {
@@ -130,9 +130,11 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
   }
 
   .subscription-header {
+    box-shadow: none;
+
     .header-container {
-      padding-top: 12px !important;
-      padding-bottom: 12px !important;
+      padding-bottom: 24px !important;
+      border-bottom: 1px solid $gray-300 !important;
     }
   }
 }

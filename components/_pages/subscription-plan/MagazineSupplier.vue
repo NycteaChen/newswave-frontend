@@ -20,9 +20,13 @@
       <swiper-slide
         v-for="slide in swiper"
         :key="slide.name"
-        class="border px-3 py-2"
       >
-        <div class="text-body-white">{{ `${slide.name} logo` }}</div>
+        <client-only>
+          <img
+            class="rounded-1"
+            :src="requireImage(`subscription-plan/starland.svg`)"
+          />
+        </client-only>
       </swiper-slide>
     </swiper>
   </div>

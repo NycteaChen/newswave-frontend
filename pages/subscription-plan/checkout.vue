@@ -1,9 +1,10 @@
 <template>
-  <div>訂閱 checkout 頁</div>
+  <div class="pt-3 pt-md-4 container-xxl">訂閱 checkout 頁</div>
 </template>
 
 <script setup lang="ts">
 definePageMeta({
-  middleware: ['auth']
+  middleware: ['auth'],
+  layout: 'info'
 });
 </script>
