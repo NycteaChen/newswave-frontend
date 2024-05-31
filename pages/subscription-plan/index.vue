@@ -50,8 +50,7 @@ const sectionList = computed(() => [
   },
   {
     title: '注意事項',
-    component: PlanFaq,
-    background: 'bg-body'
+    component: PlanFaq
   }
 ]);
 
