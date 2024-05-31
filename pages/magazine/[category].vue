@@ -26,22 +26,18 @@
         </div>
       </div>
     </div>
-    <div class="d-flex flex-row-reverse">
-      <div
-        class="d-md-none btn-expand"
-        :class="{ show: showFullContent }"
-        @click="toggleMagazineContent"
-      >
-        <div class="d-flex align-items-center">
-          <span class="expand-text">{{ showFullContent ? '收合' : '展開' }}</span>
-          <img
-            v-if="!showFullContent"
-            :src="requireImage('icon/angle-down.svg')"
-            alt="展開"
-            class="expand-img"
-          />
-        </div>
-      </div>
+    <div
+      class="d-md-none btn-expand d-flex align-items-center justify-content-center"
+      :class="{ show: showFullContent }"
+      @click="toggleMagazineContent"
+    >
+      <span class="expand-text">{{ showFullContent ? '收合' : '展開' }}</span>
+      <img
+        v-if="!showFullContent"
+        :src="requireImage('icon/angle-down.svg')"
+        alt="展開"
+        class="expand-img"
+      />
     </div>
   </section>
   <section>
@@ -59,7 +55,10 @@
                 :alt="item.imageDescribe"
               />
             </div>
-            <NTags :type="item.tags[0]" />
+            <NTags
+              v-if="item.tags && item.tags.length > 0"
+              :type="item.tags[0]"
+            />
             <div class="card-body">
               <h5 class="card-title limit-line-two text-primary">
                 {{ item.title }}
@@ -230,15 +229,14 @@ onMounted(async () => {
 }
 
 .expand-img {
-  margin-top: 4px;
-  margin-right: 12px;
-  margin-bottom: 4px;
   max-width: 9px;
   height: 10px;
 }
 
 .btn-expand {
   margin-top: 4px;
+  margin-left: auto;
+  padding: 2px 12px;
   max-width: 61px;
   border: 0;
   border-radius: 20px;
@@ -247,16 +245,8 @@ onMounted(async () => {
 }
 
 .expand-text {
-  margin: 2px 4px 2px 12px;
-  max-width: 24px;
-  height: 18px;
+  margin-right: 4px;
   font-size: 12px;
-}
-
-.btn-expand.show {
-  .expand-text {
-    margin: 2px 18px;
-  }
 }
 
 .title {

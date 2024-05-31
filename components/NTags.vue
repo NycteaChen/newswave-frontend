@@ -1,6 +1,5 @@
 <template>
   <div
-    v-if="props.type === 'hot' || props.type === 'new'"
     class="tag"
     :class="{ 'bg-red': props.type === 'hot' }"
   >
