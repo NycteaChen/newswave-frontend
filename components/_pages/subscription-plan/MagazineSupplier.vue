@@ -20,11 +20,13 @@
       <swiper-slide
         v-for="slide in swiper"
         :key="slide.name"
+        class="text-body-white"
       >
         <client-only>
           <img
             class="rounded-1"
-            :src="requireImage(`subscription-plan/starland.svg`)"
+            :src="requireImage(`subscription-plan/magazine-supplier/${slide.img}.png`)"
+            :alt="slide.name"
           />
         </client-only>
       </swiper-slide>
@@ -34,124 +36,135 @@
 <script lang="ts" setup>
 const topSupplierList = [
   {
-    name: '華文時尚'
+    name: 'Tech Trend',
+    img: 'techTrend'
   },
   {
-    name: '星光娛樂'
+    name: 'Star Entertainment',
+    img: 'starLand'
   },
   {
-    name: '時尚風尚'
+    name: 'Fashion Trends',
+    img: 'fashionTrends'
   },
   {
-    name: '文化藝術'
+    name: 'Culture & Arts',
+    img: 'cultureArts'
   },
   {
-    name: '國際時尚'
+    name: 'International Fashion',
+    img: 'internationalFashion'
   },
   {
-    name: '音樂世界'
+    name: 'Music World',
+    img: 'musicWorld'
   },
   {
-    name: '設計師之眼'
+    name: 'Designer’s Eye',
+    img: 'designerEye'
   },
   {
-    name: '名人專訪'
+    name: 'Celebrity Interviews',
+    img: 'celebrityInterviews'
   },
   {
-    name: '時尚生活'
+    name: 'Fashion Lifestyle',
+    img: 'fashionLifestyle'
   },
   {
-    name: '美容健康'
+    name: 'Tech Talk',
+    img: 'techTalk'
   },
   {
-    name: '時尚達人'
+    name: 'Fashion Stars',
+    img: 'fashionStars'
   },
   {
-    name: '時尚之星'
+    name: 'Art & Literature',
+    img: 'artLiterature'
   },
   {
-    name: '藝術文學'
+    name: 'Fashion Reports',
+    img: 'fashionReports'
   },
   {
-    name: '時尚報導'
+    name: 'Literary Insights',
+    img: 'literaryInsights'
   },
   {
-    name: '時尚指南'
+    name: 'Fashion Classics',
+    img: 'fashionClassics'
   },
   {
-    name: '時尚之旅'
-  },
-  {
-    name: '時尚新聞'
-  },
-  {
-    name: '時尚經典'
-  },
-  {
-    name: '時尚探索'
+    name: 'Mind & Body',
+    img: 'mindBody'
   }
 ];
 
 const bottomSupplierList = [
   {
-    name: '科技趨勢'
+    name: 'Chinese Fashion',
+    img: 'chineseFashion'
   },
   {
-    name: '藝術表達'
+    name: 'Artistic Expressions',
+    img: 'artisticExpressions'
   },
   {
-    name: '美食美味'
+    name: 'Gourmet Delights',
+    img: 'gourmetDelights'
   },
   {
-    name: '健康與福祉'
+    name: 'Fashion Exploration',
+    img: 'fashionExploration'
   },
   {
-    name: '美食編年史'
+    name: 'Health & Wellness',
+    img: 'healthWellness'
   },
   {
-    name: '文學洞察'
+    name: 'Culinary Chronicles',
+    img: 'culinaryChronicles'
   },
   {
-    name: '科技創新者'
+    name: 'Fashion Guide',
+    img: 'fashionGuide'
   },
   {
-    name: '健康智慧'
+    name: 'Cultural Kaleidoscope',
+    img: 'culturalKaleidoscope'
   },
   {
-    name: '文化畫布'
+    name: 'Tech Innovator',
+    img: 'techInnovator'
   },
   {
-    name: '美食雅致'
+    name: 'Health Wise',
+    img: 'healthWise'
   },
   {
-    name: '美食報導'
+    name: 'Cultural Canvas',
+    img: 'culturalCanvas'
   },
   {
-    name: '心靈與身體'
+    name: 'Epicurean Elegance',
+    img: 'epicureanElegance'
   },
   {
-    name: '文化萬花筒'
+    name: 'Literary Echoes',
+    img: 'literaryEchoes'
   },
   {
-    name: '藝術印象'
+    name: 'Beauty & Health',
+    img: 'beautyHealth'
   },
   {
-    name: '科技對話'
+    name: 'Health Matters',
+    img: 'healthMatters'
   },
   {
-    name: '文學響宴'
-  },
-  {
-    name: '美食探險'
-  },
-  {
-    name: '健康要事'
-  },
-  {
-    name: '創意畫布'
-  },
-  {
-    name: '科技洞察'
+    name: 'Tech Insight',
+    img: 'techInsight'
   }
 ];
 
