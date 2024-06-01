@@ -2,11 +2,12 @@
   <div class="text-center">
     <div class="d-inline-block">
       <n-button
+        v-if="pageIndex < totalPages"
         class="w-100 d-md-none"
         v-bind="props"
         text="載入更多"
         :icon-src="requireImage('icon/more.svg')"
-        @click.prevent="handlePageChange"
+        @click.prevent="handleLoadMore"
       />
     </div>
     <nav
@@ -180,17 +181,9 @@ const handlePageClick = (page: number) => {
   emitPageChange();
 };
 
-const handlePageChange = (page: number) => {
-  if (typeof page === 'number') {
-    let newPageIndex = page;
-    if (page === props.totalPages) {
-      newPageIndex = page;
-    } else {
-      newPageIndex = page + 1;
-    }
-    pageIndex.value = Math.max(1, Math.min(newPageIndex, props.totalPages));
-    emitPageChange();
-  }
+const handleLoadMore = () => {
+  pageIndex.value += 1;
+  emitPageChange();
 };
 </script>
 <style lang="scss" scoped>
