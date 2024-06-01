@@ -3,6 +3,8 @@ declare global {
 
   type TokenType = string;
 
+  type UpdateUserInfoType = string;
+
   interface UserInfoType {
     id: string;
     name: string;

@@ -75,6 +75,21 @@ class userApi {
 
     return res;
   }
+
+  static async updateUserInfo(params: { [key: string]: UpdateUserInfoType }): Promise<ApiResponseType<undefined>> {
+    const body = {
+      name: params.name,
+      birthday: params.birthday,
+      gender: params.gender,
+      avatar: params.avatar
+    };
+    const res = await useApi('/user/info', {
+      method: 'patch',
+      body
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;
