@@ -27,7 +27,7 @@
       </div>
     </div>
     <div
-      class="d-md-none btn-expand d-flex align-items-center justify-content-center"
+      class="d-md-none btn-expand d-flex align-items-center justify-content-center gap-1"
       :class="{ show: showFullContent }"
       @click="toggleMagazineContent"
     >
@@ -56,7 +56,7 @@
               />
             </div>
             <NTags
-              v-if="item.tags && item.tags.length > 0"
+              v-if="item.tags?.length"
               :type="item.tags[0]"
             />
             <div class="card-body">
@@ -245,7 +245,6 @@ onMounted(async () => {
 }
 
 .expand-text {
-  margin-right: 4px;
   font-size: 12px;
 }
 
