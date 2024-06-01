@@ -36,7 +36,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-const toast = useEventBus('toast');
+const nToastBus = useEventBus('nToastBus');
 
 interface NToastProps {
   id: string;
@@ -49,7 +49,7 @@ const toastInfo = reactive<NToastProps>({
   id: 'nToast',
   icon: '',
   message: '',
-  delay: 3000
+  delay: 2500
 });
 
 const visible = ref<boolean>(false);
@@ -89,7 +89,7 @@ const showToast: any = (info: NToastProps): void => {
 };
 
 onBeforeMount(() => {
-  toast.on(showToast);
+  nToastBus.on(showToast);
 });
 </script>
 <style lang="scss" scoped>

@@ -85,9 +85,9 @@ const clickTab: any = (item: TabItemType, index: number): void => {
   emit('changeTab', item);
 };
 
-const nTabs = useEventBus('nTabs');
+const nTabsBus = useEventBus('nTabsBus');
 onMounted(() => {
-  nTabs.on(clickTab);
+  nTabsBus.on(clickTab);
 });
 
 const initTabHandler = () => {

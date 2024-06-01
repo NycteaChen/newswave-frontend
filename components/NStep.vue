@@ -1,37 +1,51 @@
 <template>
-  <div class="n-step d-flex">
+  <div class="n-step d-flex position-relative">
     <div
-      v-for="step in totalStep"
-      :key="step"
-      class="flex-fill position-relative"
+      v-for="item in renderList"
+      :key="item.step"
+      class="flex-fill"
     >
       <div
         class="position-relative z-1 n-step-dot mx-auto d-flex align-items-center justify-content-center rounded-circle"
         :class="{
-          'n-step-dot-active bg-primary text-body-white': current >= step,
-          'bg-body-secondary': current < step
+          'n-step-dot-active bg-primary text-body-white': current >= item.step,
+          'bg-body-secondary': current < item.step
         }"
+        :data-text="item.text"
       >
-        {{ step }}
+        {{ item.step }}
       </div>
-      <n-progress-bar
-        v-if="step > 1"
-        class="position-absolute w-100"
-        :width="current >= step ? 100 : 0"
-      />
     </div>
+    <n-progress-bar
+      class="position-absolute"
+      :style="{ width: progressWidth }"
+      :width="(100 / (renderList.length - 1)) * (current - 1)"
+    />
   </div>
 </template>
 <script lang="ts" setup>
+type StepItem = {
+  text?: string;
+};
+
 export interface NStepProps {
-  totalStep?: number;
+  stepList?: StepItem[];
 }
 
 const current = defineModel('step', { type: Number, default: 1 });
 
-withDefaults(defineProps<NStepProps>(), {
-  totalStep: 3
+const props = withDefaults(defineProps<NStepProps>(), {
+  stepList: () => []
 });
+
+const renderList = computed(() =>
+  props.stepList.map((e, index) => ({
+    ...e,
+    step: index + 1
+  }))
+);
+
+const progressWidth = computed(() => `calc(100% / ${renderList.value.length} * ${renderList.value.length - 1})`);
 </script>
 <style lang="scss" scoped>
 .n-step-dot {
@@ -40,10 +54,8 @@ withDefaults(defineProps<NStepProps>(), {
 }
 
 ::v-deep(.n-progress-bar) {
-  top: 50%;
-  bottom: 50%;
-  left: -50%;
-  transform: translateY(-50%);
+  inset: 50%;
+  transform: translate(-50%, -50%);
 
   &,
   .progress-bar {
@@ -52,6 +64,18 @@ withDefaults(defineProps<NStepProps>(), {
 }
 
 .n-step-dot-active {
-  transition: all 0.1s linear 0.5s;
+  transition: all 0.1s linear 0.45s;
+
+  &::after {
+    position: absolute;
+    bottom: -35px;
+    left: 50%;
+    color: $primary;
+    content: attr(data-text);
+    text-align: center;
+    white-space: nowrap;
+    font-size: 14px;
+    transform: translate(-50%, -50%);
+  }
 }
 </style>

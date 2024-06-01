@@ -26,6 +26,16 @@ declare global {
     pageIndex: number;
     category: string | string[];
   }
+
+  interface OrderRequestType {
+    itemName: string;
+    total: number;
+  }
+
+  interface OrderRequestType {
+    itemName: string;
+    total: number;
+  }
 }
 
 export {};
