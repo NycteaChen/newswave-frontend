@@ -145,12 +145,15 @@ const btnClass = computed(() => {
     }
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]),
-  &-outline:hover:not([disabled]),
-  &-outline:active:not([disabled]) {
-    background: $blue-500;
-    color: $gray-100;
+  @media screen and (width >= 768px) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]),
+    &-outline:hover:not([disabled]),
+    &-outline:active:not([disabled]) {
+      border-color: $blue-500;
+      background: $blue-500;
+      color: $gray-100;
+    }
   }
 
   &:focus-visible:not([disabled]),
@@ -175,10 +178,12 @@ const btnClass = computed(() => {
     color: $gray-400;
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
-    background: $blue-400;
-    color: $primary;
+  @media screen and (width >= 768px) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]) {
+      background: $blue-400;
+      color: $primary;
+    }
   }
 
   &:focus-visible:not([disabled]) {
@@ -218,12 +223,14 @@ const btnClass = computed(() => {
     }
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]),
-  &-outline:hover:not([disabled]),
-  &-outline:active:not([disabled]) {
-    background: $red-500;
-    color: $gray-100;
+  @media screen and (width >= 768px) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]),
+    &-outline:hover:not([disabled]),
+    &-outline:active:not([disabled]) {
+      background: $red-500;
+      color: $gray-100;
+    }
   }
 
   &:focus-visible:not([disabled]),
@@ -249,11 +256,13 @@ const btnClass = computed(() => {
     color: $gray-600;
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
-    border: 1px solid $blue-400;
-    background: $blue-400;
-    color: $gray-100;
+  @media screen and (width >= 768px) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]) {
+      border: 1px solid $blue-400;
+      background: $blue-400;
+      color: $gray-100;
+    }
   }
 
   &:focus-visible:not([disabled]) {
@@ -277,10 +286,12 @@ const btnClass = computed(() => {
     color: $green-200;
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
-    background: $green-800;
-    color: $gray-100;
+  @media screen and (width >= 768px) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]) {
+      background: $green-800;
+      color: $gray-100;
+    }
   }
 
   &:focus-visible:not([disabled]) {
@@ -304,10 +315,12 @@ const btnClass = computed(() => {
     color: $orange-200;
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
-    background: $orange-400;
-    color: $gray-100;
+  @media screen and (width >= 768px) {
+    &:hover:not([disabled]),
+    &:active:not([disabled]) {
+      background: $orange-400;
+      color: $gray-100;
+    }
   }
 
   &:focus-visible:not([disabled]) {

@@ -1,6 +1,6 @@
 export default ({ message = '', id = '', icon = '', delay = 3000 }) => {
-  const toast = useEventBus('toast');
-  toast.emit({
+  const nToastBus = useEventBus('nToastBus');
+  nToastBus.emit({
     message,
     id,
     icon,

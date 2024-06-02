@@ -46,7 +46,7 @@
                 v-if="item.path"
                 class="text-body-white fs-5 is-btn"
                 :to="item.path"
-                @click="mask.emit(false)"
+                @click="maskBus.emit(false)"
                 >{{ item.title }}
               </nuxt-link>
               <span
@@ -59,7 +59,7 @@
             </li>
             <li
               class="go-use-btn-container d-md-flex ms-md-auto"
-              @click="mask.emit(false)"
+              @click="maskBus.emit(false)"
             >
               <go-use-button
                 color="light"
@@ -85,7 +85,7 @@ const homeNav = [
   }
 ];
 
-const mask = useEventBus('mask');
+const maskBus = useEventBus('maskBus');
 
 const toggleBtnRef = ref<any>('');
 const buttonIconType = ref<'expand' | 'close'>('expand');
@@ -94,16 +94,16 @@ const isNavExpanded = computed(() => buttonIconType.value === 'close');
 
 const toggleHandler = () => {
   buttonIconType.value = toggleBtnRef.value?.ariaExpanded === 'true' ? 'close' : 'expand';
-  mask.emit(toggleBtnRef.value?.ariaExpanded === 'true');
+  maskBus.emit(toggleBtnRef.value?.ariaExpanded === 'true');
 };
 
 const isMobile = inject<any>('isMobile');
 
 watchEffect(() => {
   if (!isMobile.value) {
-    mask.emit(false);
+    maskBus.emit(false);
   } else {
-    mask.emit(isNavExpanded.value);
+    maskBus.emit(isNavExpanded.value);
   }
 });
 

@@ -23,7 +23,7 @@
         >
           <nuxt-link
             :to="{ name: subItem.value }"
-            @click="nTabs.emit({ ...item, children: subItem.value }, index)"
+            @click="nTabsBus.emit({ ...item, children: subItem.value }, index)"
           >
             {{ subItem.label }}
           </nuxt-link>
@@ -38,5 +38,5 @@ const { memberSubNav } = useNav();
 const userStore = useUserStore();
 const { id, name, email } = storeToRefs(userStore);
 
-const nTabs = useEventBus('nTabs');
+const nTabsBus = useEventBus('nTabsBus');
 </script>

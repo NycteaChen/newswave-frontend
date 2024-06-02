@@ -1,8 +1,8 @@
 <template>
   <div>
+    <!-- <nuxt-loading-indicator /> -->
     <n-toast />
     <n-header v-if="!isLoginPage" />
-
     <nuxt-layout class="layouts">
       <nuxt-page :page-key="(route) => route.fullPath" />
     </nuxt-layout>

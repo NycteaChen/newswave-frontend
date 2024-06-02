@@ -5,7 +5,7 @@
   />
 </template>
 <script lang="ts" setup>
-const mask = useEventBus('mask');
+const maskBus = useEventBus('maskBus');
 
 const showMask = ref(false);
 
@@ -14,6 +14,6 @@ const maskHandler: any = (show: boolean): void => {
 };
 
 onMounted(() => {
-  mask.on(maskHandler);
+  maskBus.on(maskHandler);
 });
 </script>

@@ -17,8 +17,8 @@
         <component :is="item.component" />
       </div>
     </section>
-    <section class="footer-banner">
-      <div class="container h-100 d-flex align-items-center justify-content-center gap-3 gap-md-4 flex-wrap">
+    <section class="footer-banner d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-center gap-3 gap-md-4 flex-wrap">
         <h3 class="text-body-white mb-0">有感興趣的雜誌嗎？</h3>
         <n-button
           text="立即使用"
