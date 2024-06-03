@@ -14,11 +14,13 @@
         <cite class="fst-normal">
           Illustration by
           <a
+            v-for="author in illustrationAuthorList"
+            :key="author.name"
             target="_blank"
-            class="footer-link is-btn"
-            href="https://www.behance.net/STRELKAX"
+            class="footer-link is-btn px-1"
+            :href="author.link"
           >
-            Julia K
+            {{ author.name }}
           </a>
           from
           <a
@@ -132,11 +134,21 @@ const footerNav = [
   }
 ];
 
-// Illustration by <a href="https://icons8.com/illustrations/author/cj62pzCRUq1N">Julia Buzatti</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
-// Illustration by <a href="https://icons8.com/illustrations/author/mNCLibjicqSz">Julia K</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
+const illustrationAuthorList = [
+  {
+    name: 'Dani Grapevine',
+    link: 'https://icons8.com/illustrations/author/JTmm71Rqvb2T'
+  },
+  {
+    name: 'Julia K',
+    link: 'https://icons8.com/illustrations/author/mNCLibjicqSz'
+  },
+  {
+    name: 'Polina M.',
+    link: 'https://icons8.com/illustrations/author/Go8GMpKPAq1W'
+  }
+];
 
-// Illustration by <a href="https://icons8.com/illustrations/author/Go8GMpKPAq1W">Polina M.</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
-// Illustration by <a href="https://icons8.com/illustrations/author/JTmm71Rqvb2T">Dani Grapevine</a> from <a href="https://icons8.com/illustrations">Ouch!</a>
 const renderSocialMedia = (type: string) => ({
   backgroundImage: `url(${requireImage(`icon/${type}.svg`)})`
 });
