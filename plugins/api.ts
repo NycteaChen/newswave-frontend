@@ -15,6 +15,11 @@ export default defineNuxtPlugin(() => {
         const token = useCookie('token');
         token.value = undefined;
         userStore.$reset();
+        showToast({
+          id: 'auth-fail',
+          icon: 'icon/warning.svg',
+          message: '憑證過期，請重新登入'
+        });
         return navigateTo('/login-register');
       }
     }
