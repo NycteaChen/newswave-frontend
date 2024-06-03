@@ -5,34 +5,85 @@
     novalidate
   >
     <div class="bg-body d-flex gap-4 flex-column p-3 mx-3">
-      <div class="col-12">
-        <label class="form-label fs-6">
-          Email
-          <span class="text-accent">*</span>
-        </label>
-        <input type="text " />
-        <div class="d-flex flex-column gap-3 flex-sm-row">
-          <n-button
-            class="w-100"
-            text="確認"
-            :loading="btnLoading"
-            @click="submit"
-          />
-          <n-button
-            class="w-100"
-            color="secondary"
-            text="清除"
-            @click="reset"
-          />
+      <div
+        v-for="field in fieldList"
+        :key="field.value"
+        class="col-12"
+      >
+        <div class="d-flex flex-column">
+          <label class="form-label fs-6">
+            {{ field.label }}
+            <span
+              v-if="field.label === '暱稱'"
+              class="text-accent"
+              >*</span
+            >
+          </label>
+          <div v-if="field.type === 'radio'">
+            <div class="d-flex gap-3">
+              <label
+                v-for="option in field.options"
+                :key="option.value"
+                class="d-flex align-items-center"
+              >
+                <input
+                  :id="option.value"
+                  v-model="formState[field.value]"
+                  :type="field.type"
+                  :name="field.value"
+                  :value="option.value"
+                  class="me-2"
+                />
+                {{ option.label }}
+              </label>
+            </div>
+            <div
+              v-if="errorMessage[field.value]"
+              class="text-accent"
+            >
+              {{ errorMessage[field.value] }}
+            </div>
+          </div>
+          <div v-else>
+            <n-input
+              :id="field.value"
+              v-model:value="formState[field.value]"
+              :placeholder="`請輸入${field.label}`"
+              :has-error="!!errorMessage[field.value]"
+              :type="field.type"
+              :disabled="field.label === 'Email'"
+            />
+            <div
+              v-if="errorMessage[field.value]"
+              class="text-accent"
+            >
+              {{ errorMessage[field.value] }}
+            </div>
+          </div>
         </div>
-        <p
-          v-show="warnMessage"
-          class="text-accent text-sm mt-3 mb-0"
-        >
-          {{ warnMessage }}
-        </p>
       </div>
+      <div class="d-flex flex-column gap-3 flex-sm-row">
+        <n-button
+          class="w-100"
+          text="確認"
+          :loading="btnLoading"
+          @click="submit"
+        />
+        <n-button
+          class="w-100"
+          color="secondary"
+          text="清除"
+          @click="reset"
+        />
+      </div>
+      <p
+        v-show="warnMessage"
+        class="text-accent text-sm mt-3 mb-0"
+      >
+        {{ warnMessage }}
+      </p>
     </div>
+
     <img
       class="mt-2"
       :src="requireImage('member/wave-2.svg')"
@@ -41,9 +92,6 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({
-  title: '帳戶管理 - 修改個人資料'
-});
 const { updateUserInfo } = useUserApi();
 
 interface UpdateUserInfoFieldType {
@@ -51,6 +99,13 @@ interface UpdateUserInfoFieldType {
   birthday: UpdateUserInfoType;
   gender: UpdateUserInfoType;
   avatar: UpdateUserInfoType;
+}
+
+interface FieldType {
+  label: string;
+  value: keyof UpdateUserInfoFieldType;
+  type: string;
+  options?: { label: string; value: string }[];
 }
 
 const initState: UpdateUserInfoFieldType = {
@@ -70,6 +125,37 @@ const errorMessage = reactive<UpdateUserInfoFieldType>({
 const formState = reactive<UpdateUserInfoFieldType>({ ...initState });
 
 const btnLoading = ref<boolean>(false);
+
+const fieldList = computed(() => {
+  const list = [
+    {
+      label: 'Email',
+      value: 'email',
+      type: 'text'
+    },
+    {
+      label: '暱稱',
+      value: 'name',
+      type: 'text'
+    },
+    {
+      label: '生日',
+      value: 'birthday',
+      type: 'date'
+    },
+    {
+      label: '性別',
+      value: 'gender',
+      type: 'radio',
+      options: [
+        { label: '男', value: 'male' },
+        { label: '女', value: 'female' }
+      ]
+    }
+  ];
+  return list as FieldType[];
+});
+
 const warnMessage = ref<string>('');
 const formRef = ref<any>();
 
@@ -80,18 +166,13 @@ const clearValidator = () => {
 };
 
 const checkValidityHandler = (): boolean => {
-  let passBool: boolean = true;
-
-  Object.entries(formState).forEach(([key, value]) => {
-    const { pass, message } = nameValidator(value);
-    if (!pass) {
-      passBool = pass;
-    }
-
-    errorMessage[key as keyof UpdateUserInfoFieldType] = pass ? '' : message || '';
-  });
-
-  return passBool;
+  const { pass, message } = nameValidator(formState.name);
+  if (!pass) {
+    errorMessage.name = message || '';
+  } else {
+    errorMessage.name = '';
+  }
+  return pass;
 };
 
 const reset = () => {
@@ -101,7 +182,28 @@ const reset = () => {
 };
 
 const submit = async () => {
+  // 只檢查"暱稱"欄位
   if (!checkValidityHandler()) {
+    warnMessage.value = '';
+    formRef.value?.classList.add('was-invalidated');
+    return;
+  }
+
+  // 檢查其他欄位
+  let passBool: boolean = true;
+  Object.entries(formState).forEach(([key, value]) => {
+    if (key !== 'name') {
+      const { pass, message } = nameValidator(value);
+      if (!pass) {
+        passBool = pass;
+        errorMessage[key as keyof UpdateUserInfoFieldType] = message || '';
+      } else {
+        errorMessage[key as keyof UpdateUserInfoFieldType] = '';
+      }
+    }
+  });
+
+  if (!passBool) {
     warnMessage.value = '';
     formRef.value?.classList.add('was-invalidated');
     return;
@@ -114,7 +216,7 @@ const submit = async () => {
   if (status) {
     reset();
     showToast({
-      id: 'password-success',
+      id: 'success',
       message
     });
   } else {

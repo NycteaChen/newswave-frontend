@@ -32,6 +32,9 @@ declare global {
     total: PlanItem['totalPrice'];
     planType: PlanItem['type'];
   }
+  interface getUserRequestType {
+    userid: string;
+  }
 }
 
 export {};

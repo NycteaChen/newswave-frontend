@@ -8,6 +8,7 @@
       :inputmode="inputmode"
       class="form-control text-sm py-2"
       :class="{ 'invalid-field': hasError, 'has-suffix-icon': suffixIcon }"
+      :disabled="disabled"
     />
     <div
       v-if="suffixIcon"
@@ -30,6 +31,7 @@ interface NInputProps {
   hasError?: boolean;
   suffixIcon?: string;
   suffixIconClickFn?: () => void;
+  disabled?: boolean;
 }
 
 withDefaults(defineProps<NInputProps>(), {
@@ -38,6 +40,7 @@ withDefaults(defineProps<NInputProps>(), {
   type: 'text',
   inputmode: 'text',
   hasError: false,
+  disabled: false,
   suffixIcon: '',
   suffixIconClickFn: undefined
 });
@@ -46,6 +49,12 @@ withDefaults(defineProps<NInputProps>(), {
 .n-input {
   input.has-suffix-icon {
     padding-right: 44px;
+  }
+
+  input:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
   }
 }
 
