@@ -219,8 +219,8 @@ const submit = async () => {
       id: 'login-success',
       message
     });
-
     await goBack();
+    await userStore.getUserData();
   } else {
     warnMessage.value = message;
   }

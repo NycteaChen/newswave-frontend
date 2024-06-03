@@ -7,10 +7,31 @@ declare global {
     id: string;
     name: string;
     email: string;
+    birthday: string;
+    gender: string;
   }
 
-  interface UserStatusType {
+  interface UserDataType {
     isVip: boolean;
+    avatar: string;
+    subscribeExpiredAt: string;
+    planType: string;
+  }
+
+  interface TransactionIdType {
+    transactionId?: string;
+  }
+
+  interface SubscriptionOrderType extends TransactionIdType {
+    planType?: 'month' | 'year';
+    itemName?: string;
+    total?: number;
+    payStatus?: 'paid' | 'fail' | 'unpaid';
+    createdAt?: string;
+    updatedAt?: string;
+    orderAt?: string;
+    paidAt?: string;
+    subscribeExpiredAt?: string;
   }
 }
 
