@@ -4,11 +4,8 @@
     :class="{ 'bg-primary-gradient': isNavExpanded }"
   >
     <nav
-      class="navbar navbar-expand-md position-relative"
-      :class="[
-        isPcScrollDown ? 'scroll-down' : 'bg-primary-gradient bg-md-transparent',
-        { 'is-expand': isNavExpanded }
-      ]"
+      class="navbar navbar-expand-md position-relative bg-md-transparent"
+      :class="[isPcScrollDown ? 'scroll-down' : 'bg-primary-gradient', { 'is-expand': isNavExpanded }]"
     >
       <div class="container-fluid px-3 px-xl-5 position-relative z-1">
         <n-logo logo-type="light" />
