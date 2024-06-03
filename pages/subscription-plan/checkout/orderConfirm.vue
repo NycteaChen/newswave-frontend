@@ -134,7 +134,8 @@ const confirmLoading = ref<boolean>(false);
 const ecPayOrderHandler = async () => {
   const params = {
     itemName: orderData.value.planName || '',
-    total: orderData.value.totalPrice || 0
+    total: orderData.value.totalPrice || 0,
+    planType: orderData.value.type
   };
 
   const { status, data } = await ecPayOrder(params);

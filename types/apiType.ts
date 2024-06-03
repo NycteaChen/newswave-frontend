@@ -30,6 +30,7 @@ declare global {
   interface OrderRequestType {
     itemName: string;
     total: number;
+    planType: string;
   }
 
   interface OrderRequestType {
