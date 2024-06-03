@@ -6,11 +6,11 @@
     <nav
       class="navbar navbar-expand-md position-relative"
       :class="[
-        isPcScrollDown ? 'bg-md-primary-gradient' : 'bg-primary-gradient bg-md-transparent',
+        isPcScrollDown ? 'scroll-down' : 'bg-primary-gradient bg-md-transparent',
         { 'is-expand': isNavExpanded }
       ]"
     >
-      <div class="container-fluid px-3 px-xl-5">
+      <div class="container-fluid px-3 px-xl-5 position-relative z-1">
         <n-logo logo-type="light" />
         <button
           ref="toggleBtnRef"
@@ -154,6 +154,22 @@ watch([() => scrollY.value, () => isMobile.value], (val) => {
     .navbar {
       padding-top: 12px;
       padding-bottom: 12px;
+
+      &::after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(90deg, $blue-800 0%, $primary 100%);
+        content: '';
+        opacity: 0;
+        transition: all 0.1s linear;
+      }
+
+      &.scroll-down::after {
+        opacity: 1;
+      }
 
       .navbar-nav {
         width: 100%;

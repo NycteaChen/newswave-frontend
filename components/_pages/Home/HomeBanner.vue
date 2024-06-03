@@ -7,7 +7,7 @@
         >
           <img
             class="banner-img mx-auto mx-md-0 col col-md-6"
-            :src="requireImage('home/banner.png')"
+            :src="requireImage('home/banner.svg')"
           />
           <div
             class="slogan-area position-relative z-1 text-center mt-3 text-md-start mt-md-0 col col-md-6 flex-md-fill"
@@ -58,6 +58,7 @@
   }
 
   &-img {
+    padding: 25px;
     max-width: 375px;
     width: 100%;
   }
@@ -146,6 +147,7 @@
 @include media-breakpoint-up(xxl) {
   .banner-img {
     max-width: 746px;
+    height: 722px;
   }
 }
 </style>
