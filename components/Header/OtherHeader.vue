@@ -119,14 +119,25 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
 }
 
 .header-icon {
+  display: flex;
   padding: 8px 10px;
   width: 40px;
   height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 @include media-breakpoint-up(md) {
   .header-container {
     border-bottom: 0 !important;
+  }
+
+  .header-icon {
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background: $gray-300;
+    }
   }
 
   .subscription-header {

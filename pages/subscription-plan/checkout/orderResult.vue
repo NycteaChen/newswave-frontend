@@ -32,7 +32,10 @@
         </div>
       </template>
     </div>
-    <div class="btn-container">
+    <div
+      v-if="!pageLoading"
+      class="btn-container"
+    >
       <n-button
         v-show="!isPaid"
         size="lg"
