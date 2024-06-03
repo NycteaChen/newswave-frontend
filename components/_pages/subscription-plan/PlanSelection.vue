@@ -1,74 +1,79 @@
 <template>
   <div class="plan-selection row justify-content-center text-center">
-    <div
-      v-for="item in renderPlanList"
-      :id="`${item.type}Plan`"
-      :key="item.title"
-      class="col-12 col-xl-4"
-      :class="{ 'col-lg-5': !isIntroMode }"
-    >
+    <client-only>
       <div
-        class="card mb-4 px-0 mx-auto overflow-hidden"
-        :class="{ 'select-card cursor-pointer': !isIntroMode, 'select-card-active': item.type === selectedPlan?.type }"
-        @click="selectPlanHandler(item)"
+        v-for="item in renderPlanList"
+        :id="`${item.type}Plan`"
+        :key="item.title"
+        class="col-12 col-xl-4"
+        :class="{ 'col-lg-5': !isIntroMode }"
       >
-        <div class="card-header pt-3 pb-4 bg-primary fw-bold position-relative">
-          <h4 class="plan-title">{{ item.title }}</h4>
-          <h5 class="text-blue-400 mb-0">
-            $
-            <span class="plan-price text-body-white px-1">{{ item.price }}</span>
-            /月
-          </h5>
-          <div
-            v-if="item.recommend"
-            class="recommend-label d-flex align-items-center rounded-1 text-body-white position-absolute"
-          >
-            <img
-              class="me-1"
-              :src="requireImage('icon/ship-anchor.svg')"
-            />
-            <span>推薦</span>
-          </div>
-          <img
-            :class="{ 'checked-icon-show': item.type === selectedPlan?.type }"
-            class="checked-icon position-absolute"
-            :src="requireImage('icon/checked.svg')"
-          />
-        </div>
-        <div class="card-content pt-4">
-          <div class="card-body">
-            <ul class="access-list">
-              <li
-                v-for="access in item.accessList"
-                :key="access.value"
-                class="access-list-item fs-5 mb-3"
-              >
-                <div class="d-flex align-items-center justify-content-center">
-                  <img
-                    class="me-2"
-                    :src="requireImage(`icon/${access.value}.svg`)"
-                  />
-                  <span :class="{ 'text-accent': access.value === 'discount' }"> {{ access.label }}</span>
-                </div>
-              </li>
-            </ul>
+        <div
+          class="card mb-4 px-0 mx-auto overflow-hidden"
+          :class="{
+            'select-card cursor-pointer': !isIntroMode,
+            'select-card-active': item.type === selectedPlan?.type
+          }"
+          @click="selectPlanHandler(item)"
+        >
+          <div class="card-header pt-3 pb-4 bg-primary fw-bold position-relative">
+            <h4 class="plan-title">{{ item.title }}</h4>
+            <h5 class="text-blue-400 mb-0">
+              $
+              <span class="plan-price text-body-white px-1">{{ item.price }}</span>
+              /月
+            </h5>
             <div
-              v-show="isIntroMode"
-              class="px-4 mb-3"
-              :class="{ 'current-hint': item.isCurrentPlan }"
+              v-if="item.recommend"
+              class="recommend-label d-flex align-items-center rounded-1 text-body-white position-absolute"
             >
-              <n-button
-                class="w-100"
-                :text="item.btnText"
-                :color="item.btnColor"
-                @click="goToPage(item)"
+              <img
+                class="me-1"
+                :src="requireImage('icon/ship-anchor.svg')"
               />
+              <span>推薦</span>
             </div>
+            <img
+              :class="{ 'checked-icon-show': item.type === selectedPlan?.type }"
+              class="checked-icon position-absolute"
+              :src="requireImage('icon/checked.svg')"
+            />
           </div>
-          <img :src="requireImage('subscription-plan/bottom-wave.svg')" />
+          <div class="card-content pt-4">
+            <div class="card-body">
+              <ul class="access-list">
+                <li
+                  v-for="access in item.accessList"
+                  :key="access.value"
+                  class="access-list-item fs-5 mb-3"
+                >
+                  <div class="d-flex align-items-center justify-content-center">
+                    <img
+                      class="me-2"
+                      :src="requireImage(`icon/${access.value}.svg`)"
+                    />
+                    <span :class="{ 'text-accent': access.value === 'discount' }"> {{ access.label }}</span>
+                  </div>
+                </li>
+              </ul>
+              <div
+                v-show="isIntroMode"
+                class="px-4 mb-3"
+                :class="{ 'current-hint': item.isCurrentPlan }"
+              >
+                <n-button
+                  class="w-100"
+                  :text="item.btnText"
+                  :color="item.btnColor"
+                  @click="goToPage(item)"
+                />
+              </div>
+            </div>
+            <img :src="requireImage('subscription-plan/bottom-wave.svg')" />
+          </div>
         </div>
       </div>
-    </div>
+    </client-only>
     <Teleport to="body">
       <auth-hint-modal v-model:visible="showHintModal" />
     </Teleport>
@@ -97,9 +102,7 @@ const token = useCookie('token');
 const userStore = useUserStore();
 const route = useRoute();
 
-const { isVip } = storeToRefs(userStore);
-
-const currentStatus = '';
+const { isVip, planType } = storeToRefs(userStore);
 
 const accessList = [
   {
@@ -144,7 +147,7 @@ const renderPlanList = computed(() =>
         btnColor: (!redirect || redirect.startsWith('/subscription-plan') ? 'purchase' : 'secondary') as
           | 'purchase'
           | 'secondary',
-        isCurrentPlan: currentStatus === e.type || (e.type === 'free' && !isVip.value && token.value)
+        isCurrentPlan: planType.value === e.type || (e.type === 'free' && !isVip.value && token.value)
       };
     })
     .filter((e) => props.showFree || e.type !== 'free')

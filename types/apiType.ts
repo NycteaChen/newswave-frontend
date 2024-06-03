@@ -1,6 +1,6 @@
 declare global {
   interface ApiResponseType<T> {
-    status?: boolean;
+    status: boolean;
     message: string;
     data: T;
   }

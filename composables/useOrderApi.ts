@@ -13,14 +13,6 @@ class orderApi {
 
     return res;
   }
-
-  // static async logout(): Promise<ApiResponseType<undefined>> {
-  //   const res = await useApi('/order/payment-results', {
-  //     method: 'post'
-  //   });
-
-  //   return res;
-  // }
 }
 
 export default () => orderApi;

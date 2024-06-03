@@ -35,6 +35,22 @@ class userApi {
     return res;
   }
 
+  static async getUserInfo(userId: UserInfoType['id']): Promise<ApiResponseType<UserInfoType>> {
+    const res = await useApi(`/user/info/${userId}`, {
+      method: 'get'
+    });
+
+    return res;
+  }
+
+  static async getUserData(userId: UserInfoType['id']): Promise<ApiResponseType<UserDataType>> {
+    const res = await useApi(`/user/data/${userId}`, {
+      method: 'get'
+    });
+
+    return res;
+  }
+
   static async updatePassword(params: { [key: string]: PasswordType }): Promise<ApiResponseType<undefined>> {
     const body = {
       oldPassword: params.oldPassword,
@@ -43,6 +59,18 @@ class userApi {
     const res = await useApi('/user/password', {
       method: 'patch',
       body
+    });
+
+    return res;
+  }
+
+  static async getSubscriptionList(query: TransactionIdType): Promise<ApiResponseType<SubscriptionOrderType[]>> {
+    const params = {
+      transactionId: query.transactionId
+    };
+    const res = await useApi('/user/subscription', {
+      method: 'get',
+      params
     });
 
     return res;

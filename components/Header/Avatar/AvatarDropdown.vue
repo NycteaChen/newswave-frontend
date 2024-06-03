@@ -104,7 +104,7 @@ const logoutHandler = async () => {
 
     if (route.path?.startsWith('/member')) {
       navigateTo('/news');
-    } else if (route.name === 'subscription-plan-checkout') {
+    } else if (String(route.name)?.includes('subscription-plan-checkout')) {
       navigateTo('/subscription-plan');
     }
   } else {
