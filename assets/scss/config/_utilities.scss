@@ -93,7 +93,8 @@ $utilities: map-merge(
       property: 'cursor',
       responsive: true,
       values: (
-        'pointer': pointer
+        'pointer': pointer,
+        'not-allowed': not-allowed
       )
     )
   )
