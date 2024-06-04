@@ -930,7 +930,7 @@ $form-check-inline-margin-end: 1rem !default;
 
 // scss-docs-start form-switch-variables
 $form-switch-color: rgba($black, 0.25) !default;
-$form-switch-width: 2em !default;
+$form-switch-width: 3em !default;
 $form-switch-padding-start: $form-switch-width + 0.5em !default;
 $form-switch-bg-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$form-switch-color}'/></svg>") !default;
 $form-switch-border-radius: $form-switch-width !default;

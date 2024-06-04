@@ -28,9 +28,16 @@ const isPc = computed<boolean>(() => width.value >= 1200);
 provide('isMobile', isMobile);
 provide('isPc', isPc);
 
+const token: any = useCookie('token');
+const { getUserData } = useUserStore();
+
 onMounted(async () => {
   await nextTick(() => {
     getMagazineCategoryList();
+
+    if (token.value) {
+      getUserData();
+    }
   });
 });
 </script>
