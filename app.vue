@@ -65,6 +65,7 @@ onMounted(async () => {
   ::v-deep(.layouts) {
     &:not(.login-layout, .home-layout) {
       padding-bottom: 80px;
+      min-height: calc(100vh - $pc-header-tab-height - 372px);
     }
   }
 }
