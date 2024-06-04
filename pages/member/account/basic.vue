@@ -148,8 +148,8 @@ const fieldList = computed(() => {
       value: 'gender',
       type: 'radio',
       options: [
-        { label: '男', value: 'male' },
-        { label: '女', value: 'female' }
+        { label: '男', value: '0' },
+        { label: '女', value: '1' }
       ]
     }
   ];
@@ -176,34 +176,18 @@ const checkValidityHandler = (): boolean => {
 };
 
 const reset = () => {
-  Object.assign(formState, initState);
-  clearValidator();
+  Object.assign(errorMessage, {
+    name: '',
+    birthday: '',
+    gender: '',
+    avatar: ''
+  });
   warnMessage.value = '';
+  clearValidator();
 };
 
 const submit = async () => {
-  // 只檢查"暱稱"欄位
   if (!checkValidityHandler()) {
-    warnMessage.value = '';
-    formRef.value?.classList.add('was-invalidated');
-    return;
-  }
-
-  // 檢查其他欄位
-  let passBool: boolean = true;
-  Object.entries(formState).forEach(([key, value]) => {
-    if (key !== 'name') {
-      const { pass, message } = nameValidator(value);
-      if (!pass) {
-        passBool = pass;
-        errorMessage[key as keyof UpdateUserInfoFieldType] = message || '';
-      } else {
-        errorMessage[key as keyof UpdateUserInfoFieldType] = '';
-      }
-    }
-  });
-
-  if (!passBool) {
     warnMessage.value = '';
     formRef.value?.classList.add('was-invalidated');
     return;
@@ -211,12 +195,13 @@ const submit = async () => {
 
   btnLoading.value = true;
 
-  const { status, message } = await updateUserInfo(formState);
+  const { status, message, data } = await updateUserInfo(formState);
 
   if (status) {
+    Object.assign(formState, data);
     reset();
     showToast({
-      id: 'success',
+      id: 'updateinfo-success',
       message
     });
   } else {
