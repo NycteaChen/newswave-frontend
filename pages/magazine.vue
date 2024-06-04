@@ -1,7 +1,7 @@
 <template>
   <div class="magazine-page">
     <nuxt-link
-      v-show="!isVip"
+      v-show="!(token && isVip)"
       to="/subscription-plan"
     >
       <div
@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+const token: any = useCookie('token');
 const userStore = useUserStore();
 const { isVip } = storeToRefs(userStore);
 </script>

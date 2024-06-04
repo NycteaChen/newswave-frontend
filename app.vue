@@ -29,14 +29,16 @@ provide('isMobile', isMobile);
 provide('isPc', isPc);
 
 const token: any = useCookie('token');
-const { getUserData } = useUserStore();
+const userStore = useUserStore();
 
 onMounted(async () => {
   await nextTick(() => {
     getMagazineCategoryList();
 
     if (token.value) {
-      getUserData();
+      userStore.getUserData();
+    } else {
+      userStore.$reset();
     }
   });
 });
