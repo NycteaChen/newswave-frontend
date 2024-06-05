@@ -64,9 +64,9 @@ class userApi {
     return res;
   }
 
-  static async getSubscriptionList(query: TransactionIdType): Promise<ApiResponseType<SubscriptionOrderType[]>> {
+  static async getSubscriptionList(query?: TransactionIdType): Promise<ApiResponseType<SubscriptionOrderType[]>> {
     const params = {
-      transactionId: query.transactionId
+      transactionId: query?.transactionId
     };
     const res = await useApi('/user/subscription', {
       method: 'get',

@@ -1,46 +1,60 @@
 <template>
-  <div>訂單記錄 6-5</div>
-  <n-table
+  <n-table-list
     :columns="tableColumn"
-    :data-source="tableList"
+    :data-source="dataList"
   />
 </template>
 <script lang="ts" setup>
-const tableColumn = [
+import type { ColumnItemType } from '@/components/NTableList.vue';
+
+const { getSubscriptionList } = useUserApi();
+
+const tableColumn: ColumnItemType[] = [
   {
     title: '訂單編號',
     dataIndex: 'transactionId',
-    key: 'transactionId'
+    width: '20%'
   },
   {
     title: '方案名稱',
-    dataIndex: 'planName',
-    key: 'planName'
+    dataIndex: 'itemName',
+    width: '20%'
   },
   {
     title: '付款狀態',
     dataIndex: 'payStatus',
-    key: 'payStatus'
+    width: '20%'
+  },
+  {
+    title: '建立時間',
+    dataIndex: 'createdAt',
+    width: '20%'
   },
   {
     title: '到期日',
-    dataIndex: 'subscriptionExpiredAt',
-    key: 'subscriptionExpiredAt'
+    dataIndex: 'subscribeExpiredAt',
+    width: '20%'
   }
 ];
 
-const tableList = [
-  {
-    transactionId: '123456789',
-    planName: '方案1',
-    payStatus: '已付款',
-    subscriptionExpiredAt: '2022-01-01'
-  },
-  {
-    transactionId: '987654321',
-    planName: '方案2',
-    payStatus: '未付款',
-    subscriptionExpiredAt: '2022-01-01'
+const dataList = ref<SubscriptionOrderType[]>([]);
+
+const getSubscriptionListHandler = async () => {
+  const { status, data } = await getSubscriptionList();
+  if (status) {
+    dataList.value = data.map((e) => ({
+      ...e,
+      payStatus: e.payStatus === 'paid' ? '已付款' : '尚未付款',
+      createdAt: useDateFormat(e.createdAt, 'YYYY/MM/DD HH:mm:ss').value,
+      subscribeExpiredAt:
+        e.payStatus === 'paid' ? useDateFormat(e.subscribeExpiredAt, 'YYYY/MM/DD HH:mm:ss').value : '-'
+    }));
   }
-];
+};
+
+onMounted(async () => {
+  await nextTick(() => {
+    getSubscriptionListHandler();
+  });
+});
 </script>

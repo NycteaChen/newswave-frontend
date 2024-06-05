@@ -1,7 +1,7 @@
 <template>
   <div class="order-confirm">
     <div class="card">
-      <div class="card-body py-0">
+      <div class="card-body py-2 px-md-4">
         <ul>
           <li
             v-for="(item, index) in orderItemList"
