@@ -1,12 +1,15 @@
 <template>
-  <div class="form-check form-switch">
+  <div
+    class="form-check form-switch"
+    :class="{ 'is-btn': !disabled }"
+  >
     <input
       id="flexSwitchCheckChecked"
+      v-model="checkValue"
       class="form-check-input"
       :class="disabled ? 'cursor-not-allowed' : 'cursor-pointer'"
       type="checkbox"
       role="switch"
-      :checked="checkValue"
       :disabled="disabled"
     />
     <label
