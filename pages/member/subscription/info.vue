@@ -9,11 +9,17 @@
           :class="{ 'border-top': index }"
         >
           <div class="d-flex gap-2 flex-column">
-            <div class="text-sm">{{ item.title }}</div>
+            <div>{{ item.title }}</div>
+            <p
+              v-if="item.hint"
+              class="text-sm text-muted mb-0"
+            >
+              {{ item.hint }}
+            </p>
             <n-switch
               v-if="item.value === 'switch'"
               v-model:checked="renewBool"
-              :disabled="!isVip"
+              :disabled="!isVip || renewLoading"
             />
             <div
               v-else
@@ -45,9 +51,9 @@
 const userStore = useUserStore();
 
 const { planList } = usePlanList();
-const { planType, subscribeExpiredAt, isVip } = storeToRefs(userStore);
+const { autoRenew, planType, subscribeExpiredAt, isVip } = storeToRefs(userStore);
 
-const renewBool = ref<boolean>(false);
+const renewBool = ref<boolean>(!!autoRenew.value);
 
 const currentPlan = computed(() => planList.value?.find((e) => e.type === planType.value));
 
@@ -66,9 +72,38 @@ const infoList = computed(() => [
   },
   {
     title: '自動續訂',
-    value: 'switch'
+    value: 'switch',
+    hint: '為繼續享有 NewsWave Plus 服務，方案到期後，系統將依據您目前的方案費用自動扣款'
   }
 ]);
+
+const { subscribeAutoRenew } = useMemberApi();
+
+const renewLoading = ref<boolean>(false);
+
+const subscribeAutoRenewHandler = async () => {
+  renewLoading.value = true;
+  const { status, data, message } = await subscribeAutoRenew(renewBool.value);
+  if (status) {
+    showToast({
+      id: `renew-${data.autoRenew}`,
+      message: `${data.autoRenew ? '自動' : '取消自動'}${message}`
+    });
+
+    userStore.SET_USER_DATA(data);
+  }
+
+  setTimeout(() => {
+    renewLoading.value = false;
+  }, 3000);
+};
+
+watch(
+  () => renewBool.value,
+  () => {
+    subscribeAutoRenewHandler();
+  }
+);
 </script>
 <style lang="scss" scoped>
 .subscription-info {

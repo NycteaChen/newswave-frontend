@@ -12,13 +12,19 @@ export const useUserStore = defineStore('user', {
     avatar: '',
     isVip: '',
     subscribeExpiredAt: '',
-    planType: ''
+    planType: '',
+    autoRenew: ''
   }),
 
   actions: {
     SET_USER_INFO(value: UserInfoType): void {
       Object.entries(value || {}).forEach(([key, val]) => {
         this[key as keyof UserInfoType] = val;
+      });
+    },
+    SET_USER_DATA(value: UserDataType): void {
+      Object.entries(value || {}).forEach(([key, val]) => {
+        this[key as keyof UserDataType] = val;
       });
     },
     async getUserData() {

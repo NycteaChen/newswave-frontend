@@ -16,6 +16,7 @@ declare global {
     avatar: string;
     subscribeExpiredAt: string;
     planType: string;
+    autoRenew: boolean;
   }
 
   interface TransactionIdType {
