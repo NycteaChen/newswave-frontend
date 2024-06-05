@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <div class="d-inline-block">
+    <div class="d-inline-block d-md-none">
       <n-button
         v-if="pageIndex < totalPages"
         class="w-100 d-md-none"

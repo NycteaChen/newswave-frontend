@@ -26,7 +26,7 @@ declare global {
     planType?: 'month' | 'year';
     itemName?: string;
     total?: number;
-    payStatus?: 'paid' | 'fail' | 'unpaid';
+    payStatus?: string;
     createdAt?: string;
     updatedAt?: string;
     orderAt?: string;
