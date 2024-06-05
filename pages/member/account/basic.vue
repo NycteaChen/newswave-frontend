@@ -14,7 +14,7 @@
           <label class="form-label fs-6">
             {{ field.label }}
             <span
-              v-if="field.label === '暱稱'"
+              v-if="field.require"
               class="text-accent"
               >*</span
             >
@@ -33,15 +33,10 @@
                   :name="field.value"
                   :value="option.value"
                   class="me-2"
+                  :required="field.require"
                 />
                 {{ option.label }}
               </label>
-            </div>
-            <div
-              v-if="errorMessage[field.value]"
-              class="text-accent"
-            >
-              {{ errorMessage[field.value] }}
             </div>
           </div>
           <div v-else>
@@ -53,13 +48,13 @@
               :type="field.type"
               :disabled="field.label === 'Email'"
             />
-            <div
-              v-if="errorMessage[field.value]"
-              class="text-accent"
-            >
-              {{ errorMessage[field.value] }}
-            </div>
           </div>
+        </div>
+        <div
+          v-if="errorMessage[field.value]"
+          class="text-accent"
+        >
+          {{ errorMessage[field.value] }}
         </div>
       </div>
       <div class="d-flex flex-column gap-3 flex-sm-row">
@@ -68,12 +63,6 @@
           text="確認"
           :loading="btnLoading"
           @click="submit"
-        />
-        <n-button
-          class="w-100"
-          color="secondary"
-          text="清除"
-          @click="reset"
         />
       </div>
       <p
@@ -93,36 +82,33 @@
 
 <script lang="ts" setup>
 const { updateUserInfo } = useUserApi();
-
-interface UpdateUserInfoFieldType {
-  name: UpdateUserInfoType;
-  birthday: UpdateUserInfoType;
-  gender: UpdateUserInfoType;
-  avatar: UpdateUserInfoType;
+const userStore = useUserStore();
+const { id } = storeToRefs(userStore);
+interface UserInfoType {
+  name: string;
+  birthday: string;
+  gender: string;
 }
 
 interface FieldType {
   label: string;
-  value: keyof UpdateUserInfoFieldType;
+  value: keyof UserInfoType;
   type: string;
   options?: { label: string; value: string }[];
+  require: boolean;
 }
 
-const initState: UpdateUserInfoFieldType = {
+const initState: UserInfoType = {
   name: '',
   birthday: '',
-  gender: '',
-  avatar: ''
+  gender: ''
 };
 
-const errorMessage = reactive<UpdateUserInfoFieldType>({
-  name: '',
-  birthday: '',
-  gender: '',
-  avatar: ''
+const errorMessage = reactive<Partial<UserInfoType>>({
+  name: ''
 });
 
-const formState = reactive<UpdateUserInfoFieldType>({ ...initState });
+const formState = reactive<UserInfoType>({ ...initState });
 
 const btnLoading = ref<boolean>(false);
 
@@ -131,17 +117,20 @@ const fieldList = computed(() => {
     {
       label: 'Email',
       value: 'email',
-      type: 'text'
+      type: 'text',
+      require: false
     },
     {
       label: '暱稱',
       value: 'name',
-      type: 'text'
+      type: 'text',
+      require: true
     },
     {
       label: '生日',
       value: 'birthday',
-      type: 'date'
+      type: 'date',
+      require: false
     },
     {
       label: '性別',
@@ -150,7 +139,8 @@ const fieldList = computed(() => {
       options: [
         { label: '男', value: '0' },
         { label: '女', value: '1' }
-      ]
+      ],
+      require: false
     }
   ];
   return list as FieldType[];
@@ -177,10 +167,7 @@ const checkValidityHandler = (): boolean => {
 
 const reset = () => {
   Object.assign(errorMessage, {
-    name: '',
-    birthday: '',
-    gender: '',
-    avatar: ''
+    name: ''
   });
   warnMessage.value = '';
   clearValidator();
@@ -198,6 +185,7 @@ const submit = async () => {
   const { status, message, data } = await updateUserInfo(formState);
 
   if (status) {
+    userStore.SET_USER_INFO(data);
     Object.assign(formState, data);
     reset();
     showToast({
@@ -211,6 +199,13 @@ const submit = async () => {
   btnLoading.value = false;
   clearValidator();
 };
+
+onMounted(async () => {
+  id.value = userStore.id;
+  await userStore.getUserData();
+  await nextTick();
+  Object.assign(formState, userStore);
+});
 </script>
 <style lang="scss" scoped>
 .form {

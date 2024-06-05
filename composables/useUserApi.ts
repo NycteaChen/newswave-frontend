@@ -76,7 +76,7 @@ class userApi {
     return res;
   }
 
-  static async updateUserInfo(params: { [key: string]: UpdateUserInfoType }): Promise<ApiResponseType<undefined>> {
+  static async updateUserInfo(params: { [key: string]: UserInfoType['id'] }): Promise<ApiResponseType<UserInfoType>> {
     const body = {
       name: params.name,
       birthday: params.birthday,
