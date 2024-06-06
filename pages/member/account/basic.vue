@@ -19,36 +19,36 @@
               >*</span
             >
           </label>
-          <div v-if="field.type === 'radio'">
-            <div class="d-flex gap-3">
-              <label
-                v-for="option in field.options"
-                :key="option.value"
-                class="d-flex align-items-center"
-              >
-                <input
-                  :id="option.value"
-                  v-model="formState[field.value]"
-                  :type="field.type"
-                  :name="field.value"
-                  :value="option.value"
-                  class="me-2"
-                  :required="field.require"
-                />
-                {{ option.label }}
-              </label>
-            </div>
+          <div
+            v-if="field.type === 'radio'"
+            class="d-flex gap-3"
+          >
+            <label
+              v-for="option in field.options"
+              :key="option.value"
+              class="d-flex align-items-center"
+            >
+              <input
+                :id="option.value"
+                v-model="formState[field.value]"
+                :type="field.type"
+                :name="field.value"
+                :value="option.value"
+                class="me-2"
+                :required="field.require"
+              />
+              {{ option.label }}
+            </label>
           </div>
-          <div v-else>
-            <n-input
-              :id="field.value"
-              v-model:value="formState[field.value]"
-              :placeholder="`請輸入${field.label}`"
-              :has-error="!!errorMessage[field.value]"
-              :type="field.type"
-              :disabled="field.label === 'Email'"
-            />
-          </div>
+          <n-input
+            v-else
+            :id="field.value"
+            v-model:value="formState[field.value]"
+            :placeholder="`請輸入${field.label}`"
+            :has-error="!!errorMessage[field.value]"
+            :type="field.type"
+            :disabled="field.label === 'Email'"
+          />
         </div>
         <div
           v-if="errorMessage[field.value]"
@@ -72,7 +72,6 @@
         {{ warnMessage }}
       </p>
     </div>
-
     <img
       class="mt-2"
       :src="requireImage('member/wave-2.svg')"
@@ -83,8 +82,9 @@
 <script lang="ts" setup>
 const { updateUserInfo } = useUserApi();
 const userStore = useUserStore();
-const { id } = storeToRefs(userStore);
+const { email, name, birthday, gender } = storeToRefs(userStore);
 interface UserInfoType {
+  email: string;
   name: string;
   birthday: string;
   gender: string;
@@ -99,9 +99,10 @@ interface FieldType {
 }
 
 const initState: UserInfoType = {
-  name: '',
-  birthday: '',
-  gender: ''
+  email: email.value,
+  name: name.value,
+  birthday: birthday.value,
+  gender: gender.value
 };
 
 const errorMessage = reactive<Partial<UserInfoType>>({
@@ -117,8 +118,7 @@ const fieldList = computed(() => {
     {
       label: 'Email',
       value: 'email',
-      type: 'text',
-      require: false
+      type: 'text'
     },
     {
       label: '暱稱',
@@ -129,8 +129,7 @@ const fieldList = computed(() => {
     {
       label: '生日',
       value: 'birthday',
-      type: 'date',
-      require: false
+      type: 'date'
     },
     {
       label: '性別',
@@ -139,14 +138,14 @@ const fieldList = computed(() => {
       options: [
         { label: '男', value: '0' },
         { label: '女', value: '1' }
-      ],
-      require: false
+      ]
     }
   ];
   return list as FieldType[];
 });
 
 const warnMessage = ref<string>('');
+
 const formRef = ref<any>();
 
 const { nameValidator } = useValidator();
@@ -189,7 +188,7 @@ const submit = async () => {
     Object.assign(formState, data);
     reset();
     showToast({
-      id: 'updateinfo-success',
+      id: 'update-info-success',
       message
     });
   } else {
@@ -199,13 +198,6 @@ const submit = async () => {
   btnLoading.value = false;
   clearValidator();
 };
-
-onMounted(async () => {
-  id.value = userStore.id;
-  await userStore.getUserData();
-  await nextTick();
-  Object.assign(formState, userStore);
-});
 </script>
 <style lang="scss" scoped>
 .form {
