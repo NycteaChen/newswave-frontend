@@ -28,14 +28,9 @@ declare global {
   }
 
   interface OrderRequestType {
-    itemName: string;
-    total: number;
-    planType: string;
-  }
-
-  interface OrderRequestType {
-    itemName: string;
-    total: number;
+    itemName: PlanItem['planName'];
+    total: PlanItem['totalPrice'];
+    planType: PlanItem['type'];
   }
 }
 

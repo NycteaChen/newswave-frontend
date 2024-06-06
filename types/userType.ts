@@ -15,7 +15,7 @@ declare global {
     isVip: boolean;
     avatar: string;
     subscribeExpiredAt: string;
-    planType: string;
+    planType: PlanItem['type'];
     autoRenew: boolean;
   }
 
@@ -25,14 +25,14 @@ declare global {
 
   interface SubscriptionOrderType extends TransactionIdType {
     planType?: 'month' | 'year';
-    itemName?: string;
-    total?: number;
+    itemName?: OrderRequestType['itemName'];
+    total?: OrderRequestType['total'];
     payStatus?: string;
     createdAt?: string;
     updatedAt?: string;
     orderAt?: string;
     paidAt?: string;
-    subscribeExpiredAt?: string;
+    subscribeExpiredAt?: UserDataType['subscribeExpiredAt'];
   }
 }
 
