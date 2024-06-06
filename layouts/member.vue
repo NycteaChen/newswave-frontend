@@ -16,6 +16,7 @@
         </nuxt-link>
       </nav>
       <div class="pt-3 pt-md-4">
+        <n-breadcrumb class="mb-2" />
         <slot />
       </div>
     </client-only>
@@ -23,12 +24,41 @@
 </template>
 
 <script lang="ts" setup>
-const { memberSubNav } = useNav();
+const { newsNav, memberSubNav } = useNav();
 const route = useRoute();
 
 const currentChildrenRoute = computed(() => {
   if (String(route.name) === 'member') return [];
   return memberSubNav?.find((e) => String(route.name)?.includes(e.value))?.childrenRoute || [];
+});
+
+const guestStore = useGuestStore();
+
+watchImmediate(
+  () => route.path,
+  () => {
+    if (route?.matched?.length) {
+      const list: NavItemType[] = newsNav
+        .filter((e) => e.label === '首頁')
+        .concat({
+          label: '會員中心',
+          value: '/member'
+        });
+
+      if (route.name !== 'member') {
+        const subItem = route?.matched?.[1];
+        list.push({
+          label: (subItem?.meta?.title as string) || '',
+          value: ''
+        });
+      }
+      guestStore.SET_BREADCRUMB_NAV(list);
+    }
+  }
+);
+
+onUnmounted(() => {
+  guestStore.SET_BREADCRUMB_NAV([]);
 });
 </script>
 <style lang="scss" scoped>

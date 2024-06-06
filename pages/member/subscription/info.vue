@@ -48,6 +48,10 @@
   </div>
 </template>
 <script lang="ts" setup>
+definePageMeta({
+  title: '訂閱管理 - 訂閱資訊'
+});
+
 const userStore = useUserStore();
 
 const { planList } = usePlanList();

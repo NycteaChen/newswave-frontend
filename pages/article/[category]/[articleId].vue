@@ -10,7 +10,17 @@
 const route = useRoute();
 const token: any = useCookie('token');
 
+const guestStore = useGuestStore();
+const { magazineCategoryList } = storeToRefs(guestStore);
+
 const articleType = computed(() => (route.params.articleId[0] === 'M' ? '雜誌' : '新聞'));
 
 const hiddenArticle = computed(() => !token.value && articleType.value === '雜誌');
+
+watchImmediate([() => route.path, () => magazineCategoryList.value], () => {
+  const list = renderBreadcrumb();
+  list.push({ label: '假的 title 標題標題的 title 標題標題的 title 標題標題', value: '' });
+
+  guestStore.SET_BREADCRUMB_NAV(list);
+});
 </script>

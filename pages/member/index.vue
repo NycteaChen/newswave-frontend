@@ -39,4 +39,8 @@ const userStore = useUserStore();
 const { id, name, email } = storeToRefs(userStore);
 
 const nTabsBus = useEventBus('nTabsBus');
+
+definePageMeta({
+  title: '會員中心'
+});
 </script>

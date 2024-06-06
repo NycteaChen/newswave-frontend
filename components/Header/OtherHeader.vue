@@ -74,7 +74,7 @@ const currentTab = ref<TabItemType['label']>('');
 const isMemberCenter = computed(() => route.path.startsWith('/member'));
 const isSubscriptionPage = computed(() => route.path.startsWith('/subscription-plan'));
 
-const changeTab = (tabItem: any) => {
+const changeTab = (tabItem: NavItemWithSubType) => {
   if (isMemberCenter.value) {
     if (tabItem.children) {
       navigateTo({ name: tabItem.children });
@@ -86,7 +86,7 @@ const changeTab = (tabItem: any) => {
   }
 };
 
-const tabList = computed(() => (isMemberCenter.value ? memberNav : newsNav));
+const tabList = computed<NavItemWithSubType[] | NavItemType[]>(() => (isMemberCenter.value ? memberNav : newsNav));
 
 watchEffect(() => {
   if (isMemberCenter.value) {

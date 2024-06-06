@@ -60,6 +60,10 @@
   </form>
 </template>
 <script lang="ts" setup>
+definePageMeta({
+  title: '帳戶管理 - 修改密碼'
+});
+
 const { updatePassword } = useUserApi();
 
 interface PasswordFieldType {
