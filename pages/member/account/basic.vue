@@ -78,38 +78,41 @@
     />
   </form>
 </template>
-
 <script lang="ts" setup>
+definePageMeta({
+  title: '帳戶管理 - 修改個人資料'
+});
+
 const { updateUserInfo } = useUserApi();
 const userStore = useUserStore();
 const { email, name, birthday, gender } = storeToRefs(userStore);
-interface UserInfoType {
-  email: string;
-  name: string;
-  birthday: string;
-  gender: string;
+interface UserInfoFieldType {
+  email: UserInfoType['email'];
+  name: UserInfoType['name'];
+  birthday: UserInfoType['birthday'];
+  gender: UserInfoType['gender'];
 }
 
 interface FieldType {
   label: string;
-  value: keyof UserInfoType;
+  value: keyof UserInfoFieldType;
   type: string;
   options?: { label: string; value: string }[];
   require: boolean;
 }
 
-const initState: UserInfoType = {
+const initState: UserInfoFieldType = {
   email: email.value,
   name: name.value,
   birthday: birthday.value,
   gender: gender.value
 };
 
-const errorMessage = reactive<Partial<UserInfoType>>({
+const errorMessage = reactive<Partial<UserInfoFieldType>>({
   name: ''
 });
 
-const formState = reactive<UserInfoType>({ ...initState });
+const formState = reactive<UserInfoFieldType>({ ...initState });
 
 const btnLoading = ref<boolean>(false);
 

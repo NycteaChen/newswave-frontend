@@ -77,10 +77,10 @@ class userApi {
   }
 
   static async updateUserInfo(params: {
-    name?: string;
-    birthday?: string;
-    gender?: string;
-    avatar?: string;
+    name?: UserInfoType['name'];
+    birthday?: UserInfoType['birthday'];
+    gender?: UserInfoType['gender'];
+    avatar?: UserDataType['avatar'];
   }): Promise<ApiResponseType<UserInfoType>> {
     const body = {
       name: params.name,
