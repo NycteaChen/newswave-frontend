@@ -9,14 +9,16 @@ definePageMeta({
   title: '通知中心 - 我的通知'
 });
 
+const config = useRuntimeConfig();
 const notice = ref(null);
-const userStorage = JSON.parse(localStorage.getItem('user')) || {};
+const userStore = useUserStore();
+const { id } = storeToRefs(userStore);
 
 onMounted(() => {
-  const URL = 'http://localhost:5173/';
+  const URL = `${config.public.apiBase}/`;
   const socket = openSocket(URL, {
     query: {
-      userId: userStorage.id
+      userId: id.value
     }
   });
   socket.on('notice', (data) => {
