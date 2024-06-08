@@ -21,8 +21,8 @@ onMounted(() => {
       userId: id.value
     }
   });
-  socket.on('notice', (data) => {
-    if (data.action !== 'create') return;
+  socket.on('notice', (data: any) => {
+    if (data?.action !== 'create') return;
     notice.value = data;
     console.log('notice:', notice.value);
   });

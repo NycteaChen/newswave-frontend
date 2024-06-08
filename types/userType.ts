@@ -12,7 +12,6 @@ declare global {
   }
 
   interface UserDataType {
-    isVip: boolean;
     avatar: string;
     subscribeExpiredAt: string;
     planType: PlanItem['type'];
