@@ -10,11 +10,14 @@ export const useUserStore = defineStore('user', {
     birthday: '',
     gender: '',
     avatar: '',
-    isVip: '',
     subscribeExpiredAt: '',
     planType: '',
     autoRenew: ''
   }),
+
+  getters: {
+    isVip: (state) => state.planType === 'month' || state.planType === 'year'
+  },
 
   actions: {
     SET_USER_INFO(value: UserInfoType): void {
