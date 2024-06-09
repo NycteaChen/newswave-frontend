@@ -1,30 +1,31 @@
 <template>
   <button
     type="button"
-    class="n-button rounded-2"
+    class="n-button"
     :disabled="disabled || loading"
-    :class="btnClass"
+    :class="[btnClass, isSmallBtn ? 'rounded-1' : 'rounded-2']"
   >
     <div
       class="btn-content d-flex align-items-center justify-content-center"
       :class="{ 'flex-row-reverse': iconPosition === 'left' }"
     >
-      <span
-        v-if="!loading"
-        class="btn-text flex-fill fw-bold whitespace-nowrap"
-        :class="size === 'sm' ? 'mx-1' : 'mx-4'"
-      >
-        {{ text }}
-      </span>
       <n-spin
         v-if="loading"
         is-small
       />
-      <img
-        v-else-if="iconSrc"
-        class="btn-icon"
-        :src="iconSrc"
-      />
+      <template v-else>
+        <span
+          class="btn-text flex-fill fw-bold whitespace-nowrap"
+          :class="isSmallBtn ? 'mx-1' : 'mx-4'"
+        >
+          {{ text }}
+        </span>
+        <img
+          v-if="iconSrc"
+          class="btn-icon"
+          :src="iconSrc"
+        />
+      </template>
     </div>
   </button>
 </template>
@@ -61,6 +62,8 @@ const btnClass = computed(() => {
   const style = `btn-${props.color}${props.type === 'fill' ? '' : '-outline'}`;
   return `${size} ${style}`;
 });
+
+const isSmallBtn = computed<boolean>(() => props.size === 'sm');
 </script>
 <style lang="scss" scoped>
 .n-button {
@@ -92,9 +95,14 @@ const btnClass = computed(() => {
 .btn-sm {
   padding: 4px 8px;
   font-size: $btn-font-size-sm;
+  line-height: 21px;
+
+  .btn-content {
+    height: 21px;
+  }
 
   .btn-icon {
-    width: 12px;
+    width: auto;
     height: 12px;
   }
 }

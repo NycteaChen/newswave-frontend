@@ -10,7 +10,8 @@
         class="breadcrumb-item"
         :class="{
           'text-decoration-underline is-btn': !item?.current,
-          active: item?.current
+          active: item?.current,
+          truncate: item?.current && item?.truncate
         }"
       >
         <nuxt-link
@@ -19,7 +20,9 @@
         >
           {{ item?.label }}
         </nuxt-link>
-        <span v-else>{{ item?.label }}</span>
+        <template v-else>
+          {{ item?.label }}
+        </template>
       </li>
     </ol>
     <nuxt-link
@@ -64,5 +67,9 @@ watchImmediate(
     height: 22px;
     transform: rotate(-90deg);
   }
+}
+
+.breadcrumb-item.active.truncate {
+  max-width: 120px;
 }
 </style>

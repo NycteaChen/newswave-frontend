@@ -16,6 +16,7 @@ $utilities: map-merge(
     )
   )
 );
+
 $utilities: map-merge(
   $utilities,
   (
@@ -30,6 +31,21 @@ $utilities: map-merge(
         'blue-400': $blue-400,
         'muted': $text-muted,
         'accent': $danger
+      )
+    )
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'font-size': (
+      property: 'font-size',
+      class: 'text',
+      responsive: true,
+      values: (
+        'sm': $font-size-sm,
+        'xs': $font-size-base * 0.75
       )
     )
   )

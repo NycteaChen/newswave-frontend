@@ -95,6 +95,16 @@ class userApi {
 
     return res;
   }
+
+  static async getMagazineArticleDetail(
+    articleId: ArticleType['articleId']
+  ): Promise<ApiResponseType<MagazineArticleDetailResponseType>> {
+    const res = await useApi(`/user/magazine-article-detail/${articleId}`, {
+      method: 'get'
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;
