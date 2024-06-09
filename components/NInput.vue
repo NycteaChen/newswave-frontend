@@ -9,6 +9,7 @@
       class="form-control text-sm py-2"
       :class="{ 'invalid-field': hasError, 'has-suffix-icon': suffixIcon }"
       :disabled="disabled"
+      @keyup.enter="$emit('pressEnter')"
     />
     <div
       v-if="suffixIcon"
@@ -44,6 +45,8 @@ withDefaults(defineProps<NInputProps>(), {
   suffixIcon: '',
   suffixIconClickFn: undefined
 });
+
+defineEmits<{ (e: 'pressEnter'): void }>();
 </script>
 <style lang="scss" scoped>
 .n-input {

@@ -36,6 +36,7 @@
                 :value="option.value"
                 class="me-2"
                 :required="field.require"
+                @keyup.enter="submit"
               />
               {{ option.label }}
             </label>
@@ -47,7 +48,8 @@
             :placeholder="`請輸入${field.label}`"
             :has-error="!!errorMessage[field.value]"
             :type="field.type"
-            :disabled="field.label === 'Email'"
+            :disabled="field.disabled"
+            @press-enter="submit"
           />
         </div>
         <div
@@ -98,7 +100,8 @@ interface FieldType {
   value: keyof UserInfoFieldType;
   type: string;
   options?: { label: string; value: string }[];
-  require: boolean;
+  require?: boolean;
+  disabled?: boolean;
 }
 
 const initState: UserInfoFieldType = {
@@ -121,7 +124,8 @@ const fieldList = computed(() => {
     {
       label: 'Email',
       value: 'email',
-      type: 'text'
+      type: 'text',
+      disabled: true
     },
     {
       label: '暱稱',

@@ -22,6 +22,7 @@
           v-model:value="formState[field.value]"
           :placeholder="`請輸入${field.label}`"
           :has-error="!!errorMessage[field.value]"
+          @press-enter="submit"
         />
         <div
           v-if="errorMessage[field.value]"
