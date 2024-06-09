@@ -39,6 +39,7 @@
                 v-model:value="formState[field.value]"
                 :placeholder="`請輸入${field.label}`"
                 :has-error="!!errorMessage[field.value]"
+                @press-enter="submit"
               />
               <n-input
                 v-else
@@ -46,6 +47,7 @@
                 v-model:value="formState[field.value]"
                 :placeholder="`請輸入${field.label}`"
                 :has-error="!!errorMessage[field.value]"
+                @press-enter="submit"
               />
             </client-only>
             <div
