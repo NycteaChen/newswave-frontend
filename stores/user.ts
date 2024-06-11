@@ -37,6 +37,14 @@ export const useUserStore = defineStore('user', {
           this[key as keyof UserDataType] = val;
         });
       }
+    },
+    async getUserInfo() {
+      const { data, status } = await userApi.getUserInfo(this.id);
+      if (status) {
+        Object.entries(data || {}).forEach(([key, val]) => {
+          this[key as keyof UserInfoType] = val;
+        });
+      }
     }
   },
 
