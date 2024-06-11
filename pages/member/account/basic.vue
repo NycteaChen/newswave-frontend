@@ -81,13 +81,16 @@
   </form>
 </template>
 <script lang="ts" setup>
+const { updateUserInfo } = useUserApi();
+const userStore = useUserStore();
+const { email, name, birthday, gender } = storeToRefs(userStore);
+
 definePageMeta({
   title: '帳戶管理 - 修改個人資料'
 });
 
-const { updateUserInfo } = useUserApi();
-const userStore = useUserStore();
-const { email, name, birthday, gender } = storeToRefs(userStore);
+await useAsyncData('user-info', () => userStore.getUserInfo());
+
 interface UserInfoFieldType {
   email: UserInfoType['email'];
   name: UserInfoType['name'];
