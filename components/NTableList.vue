@@ -22,6 +22,7 @@
           </li>
         </ul>
       </div>
+      <n-empty v-if="!dataSource.length" />
     </div>
     <table class="d-none d-md-table n-table table mb-md-4">
       <thead class="table-head">
@@ -56,13 +57,13 @@
         </tr>
         <tr
           v-if="!dataSource.length"
-          class="empty-table text-muted fs-5 positive-relative"
+          class="empty-table fs-5 positive-relative"
         >
           <td
             class="border-bottom-0 align-middle"
             :colspan="columns.length"
           >
-            暫無資料
+            <n-empty />
           </td>
         </tr>
       </tbody>

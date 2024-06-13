@@ -1,12 +1,25 @@
-export default (collect: boolean) => {
-  showToast({
-    id: 'collect-success',
-    message: collect ? '收藏成功' : '取消收藏成功'
-  });
-  return collect;
-  // showToast({
-  //   id: 'copy-fail',
-  //   icon: 'icon/warning.svg',
-  //   message: '操作失敗'
-  // });
+const responseHandler = ({ status = false, message = '', type = '' }) => {
+  if (status) {
+    showToast({
+      id: `${type}-collect-success`,
+      message
+    });
+  }
+};
+
+export default async (articleId: ArticleType['articleId']) => {
+  const userStore = useUserStore();
+  const { collects } = storeToRefs(userStore);
+
+  const { addCollectArticle, deleteCollectArticle } = useUserApi();
+
+  if (collects.value.includes(articleId)) {
+    const { status, message } = await deleteCollectArticle(articleId);
+    responseHandler({ status, message, type: 'cancel' });
+  } else {
+    const { status, message } = await addCollectArticle(articleId);
+    responseHandler({ status, message, type: 'add' });
+  }
+
+  userStore.getUserData();
 };

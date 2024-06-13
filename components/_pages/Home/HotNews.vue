@@ -65,6 +65,11 @@ onMounted(async () => {
   .hot-news {
     padding-bottom: 300px;
   }
+
+  ::v-deep(.news-card-container) {
+    margin: 0 16px;
+    box-shadow: 0 10px 40px 0 rgba($primary, 0.1);
+  }
 }
 
 @media screen and (width >= 1500px) {

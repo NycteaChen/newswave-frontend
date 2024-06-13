@@ -5,6 +5,20 @@ declare global {
     data: T;
   }
 
+  interface PageRequestType {
+    pageIndex: number;
+    pageSize?: number;
+  }
+
+  interface PageResponseType {
+    firstPage: boolean;
+    lastPage: boolean;
+    empty: boolean;
+    totalElements: number;
+    totalPages: number;
+    targetPage: number;
+  }
+
   interface LoginRequestType {
     email: UserInfoType['email'];
     password: PasswordType;
@@ -22,9 +36,8 @@ declare global {
     type: 'hot' | 'news';
     limit: number;
   }
-  interface MagazineArticlePageRequestType {
-    pageIndex: number;
-    pageSize?: number;
+
+  interface MagazineArticlePageRequestType extends PageRequestType {
     category: string;
   }
 

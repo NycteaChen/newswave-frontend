@@ -16,6 +16,7 @@ declare global {
     subscribeExpiredAt: string;
     planType: PlanItem['type'];
     autoRenew: boolean;
+    collects: string[];
   }
 
   interface TransactionIdType {

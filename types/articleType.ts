@@ -21,16 +21,7 @@ declare global {
     categoryDescribe: string;
     categoryImg: string;
   }
-
-  interface PageType {
-    firstPage: boolean;
-    lastPage: boolean;
-    empty: boolean;
-    totalElements: number;
-    totalPages: number;
-    targetPage: number;
-  }
-  interface MagazineArticlePageType extends PageType {
+  interface ArticlePageType extends PageResponseType {
     articles: ArticleType[];
   }
 }
