@@ -13,7 +13,8 @@ class guestApi {
   ): Promise<ApiResponseType<MagazineArticlePageType>> {
     const params = {
       category: query.category,
-      pageIndex: query.pageIndex
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
     };
     const res = await useApi('/guest/magazine-article-page', {
       method: 'get',

@@ -24,7 +24,8 @@ declare global {
   }
   interface MagazineArticlePageRequestType {
     pageIndex: number;
-    category: string | string[];
+    pageSize?: number;
+    category: string;
   }
 
   interface OrderRequestType {

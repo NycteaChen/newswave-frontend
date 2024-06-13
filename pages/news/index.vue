@@ -64,13 +64,16 @@
       </li>
     </ul>
     <n-pagination
+      v-model:current="pagination.current"
+      :total-pages="pagination.totalPages"
+      :btn-loading="btnLoading"
       class="mt-4"
-      :total-pages="1"
-      :current-page="1"
     />
   </div>
 </template>
 <script setup lang="ts">
+import type { PaginationType } from '@/components/NPagination.vue';
+
 definePageMeta({
   pageTransition: {
     name: 'slide-right',
@@ -96,6 +99,12 @@ definePageMeta({
       to.meta.pageTransition.name = +toIndex > +fromIndex ? 'slide-left' : 'slide-right';
     }
   }
+});
+
+const btnLoading = ref<boolean>(false);
+const pagination = reactive<PaginationType>({
+  current: 1,
+  totalPages: 1
 });
 
 const route = useRoute();
