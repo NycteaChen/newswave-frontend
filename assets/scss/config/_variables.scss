@@ -536,7 +536,7 @@ $border-widths: (
 ) !default;
 $border-style: solid !default;
 $border-color: $gray-300 !default;
-$border-color-translucent: rgba($black, 0.175) !default;
+$border-color-translucent: $blue-100 !default;
 
 // scss-docs-end border-variables
 

@@ -3,6 +3,7 @@ declare global {
     label: string;
     value: string;
     badge?: string;
+    truncate?: boolean;
   }
 
   interface NavItemWithSubType extends NavItemType {

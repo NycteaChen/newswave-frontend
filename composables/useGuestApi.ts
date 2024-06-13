@@ -36,6 +36,14 @@ class guestApi {
 
     return res;
   }
+
+  static async getArticleDetail(articleId: ArticleType['articleId']): Promise<ApiResponseType<ArticleType>> {
+    const res = await useApi(`/guest/article-detail/${articleId}`, {
+      method: 'get'
+    });
+
+    return res;
+  }
 }
 
 export default () => guestApi;

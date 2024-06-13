@@ -221,8 +221,10 @@ const submit = async () => {
       id: 'login-success',
       message
     });
-    await goBack();
-    await userStore.getUserData();
+    setTimeout(async () => {
+      await userStore.getUserData();
+      await goBack();
+    }, 100);
   } else {
     warnMessage.value = message;
   }

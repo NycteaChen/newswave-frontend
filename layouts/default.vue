@@ -1,19 +1,28 @@
 <template>
   <main class="default-layout container-xxl">
-    <div class="pt-3 pt-md-4">
+    <div
+      class="pt-md-4"
+      :class="isArticlePage ? 'pt-2' : 'pt-3'"
+    >
       <client-only>
-        <n-breadcrumb class="mb-2" />
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <n-breadcrumb />
+          <collect-share
+            v-if="isArticlePage"
+            class="d-md-none"
+          />
+        </div>
       </client-only>
       <div class="row flex-column flex-lg-row align-items-start">
         <section
-          v-if="$route.path?.startsWith('/news') || ($route?.name === 'magazine' && !$route.params?.category)"
+          v-if="showAsideInfo || ($route?.name === 'magazine' && !$route.params?.category)"
           ref="pageRef"
           v-touch:swipe.left="swiperHeader"
           v-touch:swipe.right="swiperHeader"
           v-touch:press="pressHandler"
           v-touch:release="releaseHandler"
           class="page-container col-12"
-          :class="{ 'col-lg-9 ': $route.path?.startsWith('/news') }"
+          :class="{ 'col-lg-9 ': showAsideInfo }"
           :style="transformStyle"
         >
           <slot />
@@ -26,7 +35,7 @@
         </section>
 
         <aside
-          v-if="$route.path?.startsWith('/news')"
+          v-if="showAsideInfo"
           class="d-flex flex-column gap-3 flex-lg-column-reverse col-12 col-lg-3"
         >
           <news-aside-info />
@@ -46,6 +55,10 @@ const isMobile = inject<any>('isMobile');
 const route = useRoute();
 
 const { newsNav } = useNav();
+
+const isArticlePage = computed(() => route.name === 'article-category-articleId');
+const showAsideInfo = computed(() => String(route.name)?.startsWith('news') || isArticlePage.value);
+const noTouchEvent = computed(() => !isMobile.value || isArticlePage.value);
 
 const currentTab = computed(() => {
   switch (route.name) {
@@ -73,19 +86,19 @@ const transformStyle = computed(() => ({
 }));
 
 const pressHandler = () => {
-  if (!isMobile.value) return;
+  if (noTouchEvent.value) return;
   isPress.value = true;
 };
 
 const releaseHandler = () => {
-  if (!isMobile.value) return;
+  if (noTouchEvent.value) return;
   setTimeout(() => {
     isPress.value = false;
   }, 100);
 };
 
 const swiperHeader = (direction: string) => {
-  if (!isMobile.value) return;
+  if (noTouchEvent.value) return;
   if (direction === 'left') {
     navigateTo(swiperRoute.value.next);
   } else {
@@ -97,7 +110,7 @@ const guestStore = useGuestStore();
 const { magazineCategoryList } = storeToRefs(guestStore);
 
 watchImmediate([() => route.fullPath, () => magazineCategoryList.value], () => {
-  if (route.name === 'article-category-articleId') return;
+  if (isArticlePage.value) return;
   const list = renderBreadcrumb();
   guestStore.SET_BREADCRUMB_NAV(list);
 });

@@ -32,6 +32,12 @@ declare global {
     total: PlanItem['totalPrice'];
     planType: PlanItem['type'];
   }
+
+  interface MagazineArticleDetailResponseType {
+    article: ArticleType;
+    numberOfReads: number;
+    orderSate: UserDataType['planType'];
+  }
 }
 
 export {};
