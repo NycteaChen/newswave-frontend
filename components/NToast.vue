@@ -49,7 +49,7 @@ const toastInfo = reactive<NToastProps>({
   id: 'nToast',
   icon: '',
   message: '',
-  delay: 2500
+  delay: 0
 });
 
 const visible = ref<boolean>(false);
