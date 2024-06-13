@@ -49,8 +49,8 @@ declare global {
 
   interface MagazineArticleDetailResponseType {
     article: ArticleType;
-    numberOfReads: number;
-    orderSate: UserDataType['planType'];
+    quota: number;
+    planType: UserDataType['planType'];
   }
 }
 
