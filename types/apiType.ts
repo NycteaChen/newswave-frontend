@@ -37,8 +37,8 @@ declare global {
     limit: number;
   }
 
-  interface MagazineArticlePageRequestType extends PageRequestType {
-    category: string;
+  interface ArticlePageRequestType extends PageRequestType {
+    category?: string;
   }
 
   interface OrderRequestType {

@@ -8,15 +8,27 @@ class guestApi {
     return res;
   }
 
-  static async getMagazineArticlePage(
-    query: MagazineArticlePageRequestType
-  ): Promise<ApiResponseType<ArticlePageType>> {
+  static async getMagazineArticlePage(query: ArticlePageRequestType): Promise<ApiResponseType<ArticlePageType>> {
     const params = {
       category: query.category,
       pageIndex: query.pageIndex,
       pageSize: query.pageSize
     };
     const res = await useApi('/guest/magazine-article-page', {
+      method: 'get',
+      params
+    });
+
+    return res;
+  }
+
+  static async getNewsPage(query: ArticlePageRequestType): Promise<ApiResponseType<ArticlePageType>> {
+    const params = {
+      topic: query.category,
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    };
+    const res = await useApi('/guest/news-page', {
       method: 'get',
       params
     });
