@@ -3,27 +3,19 @@
     <div class="d-flex">
       <div class="title-img me-4">
         <img
-          :src="magazineContent.categoryImg"
-          :alt="magazineContent.categoryDescribe"
+          :src="magazineContent?.categoryImg"
+          :alt="magazineContent?.categoryDescribe"
           class="h-100 object-fit-cover"
         />
       </div>
       <div class="text-primary">
-        <div class="fw-bold fs-3">{{ magazineContent.categoryName }}</div>
-        <div>
-          <div
-            v-if="!isMobile || showFullContent"
-            class="mt-4"
-          >
-            {{ magazineContent.categoryDescribe }}
-          </div>
-          <div
-            v-else
-            class="limit-line-two mt-2"
-          >
-            {{ magazineContent.categoryDescribe }}
-          </div>
-        </div>
+        <div class="fw-bold fs-3">{{ magazineContent?.categoryName }}</div>
+        <p
+          class="mb-0 mt-2 mt-md-4"
+          :class="{ 'limit-line-two': !showFullContent }"
+        >
+          {{ magazineContent?.categoryDescribe }}
+        </p>
       </div>
     </div>
     <div
@@ -41,16 +33,16 @@
     </div>
   </section>
   <section>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
       <div
         v-for="(item, index) in isMobile ? magazineArticlePhoneList : magazineArticleList"
         :key="index"
       >
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
-          <div class="card">
+          <div class="card overflow-hidden">
             <div class="overflow-hidden">
               <img
-                :src="magazineContent.categoryImg"
+                :src="magazineContent?.categoryImg"
                 class="card-img-top"
                 :alt="item.imageDescribe"
               />
@@ -78,74 +70,57 @@
         </nuxt-link>
       </div>
     </div>
-    <div class="d-flex justify-content-center pagination-position">
-      <NPagination
-        :total-pages="pagination.totalPages"
-        :current-page="currentPage"
-        @page-change="handlePageChange"
-      />
-    </div>
+    <n-pagination
+      v-model:current="pagination.current"
+      class="pagination-position"
+      :total-pages="pagination.totalPages"
+      :btn-loading="btnLoading"
+    />
   </section>
 </template>
 <script setup lang="ts">
+import type { PaginationType } from '@/components/NPagination.vue';
+
 const route = useRoute();
 const { getMagazineArticlePage } = useGuestApi();
 
 const magazineArticleList = ref<ArticleType[]>([]);
 const magazineArticlePhoneList = ref<ArticleType[]>([]);
-const pagination = ref<PageType>({
-  firstPage: false,
-  lastPage: false,
-  empty: false,
-  totalElements: 0,
-  totalPages: 0,
-  targetPage: 0
+const btnLoading = ref<boolean>(false);
+
+const pagination = reactive<PaginationType>({
+  current: 1,
+  totalPages: 1
 });
-const currentPage = ref(1);
+
 const getMagazineArticlePageHandler = async () => {
+  btnLoading.value = true;
+
   const params: MagazineArticlePageRequestType = {
-    pageIndex: currentPage.value,
-    category: route.params.category
+    pageIndex: pagination.current,
+    category: String(route.params.category),
+    pageSize: 6
   };
   const { status, data } = await getMagazineArticlePage(params);
   if (status) {
     magazineArticleList.value = data.articles;
-    if (currentPage.value === 1) {
-      magazineArticlePhoneList.value = data.articles;
-    } else {
-      magazineArticlePhoneList.value = [...magazineArticlePhoneList.value, ...data.articles];
-    }
 
-    pagination.value = {
-      firstPage: data.firstPage,
-      lastPage: data.lastPage,
-      empty: data.empty,
-      totalElements: data.totalElements || 0,
-      totalPages: data.totalPages || 0,
-      targetPage: data.targetPage || 0
-    };
+    magazineArticlePhoneList.value =
+      pagination.current === 1 ? data.articles : [...magazineArticlePhoneList.value, ...data.articles];
+
+    pagination.totalPages = data.totalPages || 1;
   }
+
+  btnLoading.value = false;
 };
 
-const handlePageChange = (page: number) => {
-  currentPage.value = page;
-  getMagazineArticlePageHandler();
-};
 const isMobile = inject('isMobile');
 const guestStore = useGuestStore();
 const { magazineCategoryList } = storeToRefs(guestStore);
 
 const magazineContent = computed(() => {
   const { category } = route.params;
-  const matchingCategory = magazineCategoryList.value.find((item) => item.categoryId === category);
-  if (matchingCategory) {
-    return {
-      categoryDescribe: matchingCategory.categoryDescribe,
-      categoryImg: matchingCategory.categoryImg,
-      categoryName: matchingCategory.categoryName
-    };
-  }
-  return {};
+  return magazineCategoryList.value?.find((item) => item.categoryId === category);
 });
 
 const showFullContent = ref(false);
@@ -164,6 +139,13 @@ onMounted(async () => {
     getMagazineArticlePageHandler();
   });
 });
+
+watch(
+  () => pagination.current,
+  () => {
+    getMagazineArticlePageHandler();
+  }
+);
 </script>
 <style lang="scss" scoped>
 .title-img {
@@ -212,16 +194,6 @@ onMounted(async () => {
     line-height: 33px;
     transition: all 0.3s ease-in-out;
   }
-
-  &:hover {
-    .card-img-top {
-      transform: scale(1.2);
-    }
-
-    .card-title {
-      opacity: 0.5;
-    }
-  }
 }
 
 .card-body {
@@ -266,6 +238,16 @@ onMounted(async () => {
 @include media-breakpoint-up(md) {
   .title {
     padding: 16px;
+  }
+
+  .card:hover {
+    .card-img-top {
+      transform: scale(1.2);
+    }
+
+    .card-title {
+      opacity: 0.5;
+    }
   }
 }
 </style>

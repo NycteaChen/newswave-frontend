@@ -69,12 +69,14 @@
     </table>
     <n-pagination
       v-if="pagination"
-      v-bind="pagination"
+      v-model:current="currentPage"
+      :total-pages="pagination.totalPages"
+      :btn-loading="btnLoading"
     />
   </div>
 </template>
 <script setup lang="ts">
-import type { NPaginationProps } from '@/components/NPagination.vue';
+import type { PaginationType } from '@/components/NPagination.vue';
 
 export type ColumnItemType = {
   title: string;
@@ -85,14 +87,41 @@ export type ColumnItemType = {
 interface NTableProps {
   columns: ColumnItemType[];
   dataSource: any[];
-  pagination?: NPaginationProps | undefined;
+  pagination?: PaginationType | false;
+  btnLoading?: boolean;
 }
 
-withDefaults(defineProps<NTableProps>(), {
+const props = withDefaults(defineProps<NTableProps>(), {
   columns: () => [],
   dataSource: () => [],
-  pagination: undefined
+  pagination: false
 });
+
+const currentPage = ref<PaginationType['current']>(1);
+
+const emit = defineEmits<{
+  (e: 'changePage', pageIndex: PaginationType['current']): void;
+}>();
+
+watch(
+  () => props.pagination,
+  (val) => {
+    if (val) {
+      currentPage.value = val.current;
+    }
+  },
+  {
+    immediate: true,
+    deep: true
+  }
+);
+
+watch(
+  () => currentPage.value,
+  (val) => {
+    emit('changePage', val);
+  }
+);
 </script>
 <style lang="scss" scoped>
 .table {
