@@ -105,6 +105,35 @@ class userApi {
 
     return res;
   }
+
+  static async getCollectPage(query: PageRequestType): Promise<ApiResponseType<ArticlePageType>> {
+    const params = {
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    };
+    const res = await useApi(`/user/collect-page`, {
+      method: 'get',
+      params
+    });
+
+    return res;
+  }
+
+  static async addCollectArticle(articleId: ArticleType['articleId']): Promise<ApiResponseType<undefined>> {
+    const res = await useApi(`/user/collect-article/${articleId}`, {
+      method: 'post'
+    });
+
+    return res;
+  }
+
+  static async deleteCollectArticle(articleId: ArticleType['articleId']): Promise<ApiResponseType<undefined>> {
+    const res = await useApi(`/user/collect-article/${articleId}`, {
+      method: 'delete'
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;

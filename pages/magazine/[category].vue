@@ -35,7 +35,7 @@
   <section>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
       <div
-        v-for="(item, index) in isMobile ? magazineArticlePhoneList : magazineArticleList"
+        v-for="(item, index) in renderList"
         :key="index"
       >
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
@@ -81,6 +81,8 @@
 <script setup lang="ts">
 import type { PaginationType } from '@/components/NPagination.vue';
 
+const isMobile = inject<any>('isMobile');
+
 const route = useRoute();
 const { getMagazineArticlePage } = useGuestApi();
 
@@ -90,8 +92,10 @@ const btnLoading = ref<boolean>(false);
 
 const pagination = reactive<PaginationType>({
   current: 1,
-  totalPages: 1
+  totalPages: 0
 });
+
+const renderList = computed(() => (isMobile.value ? magazineArticlePhoneList.value : magazineArticleList.value));
 
 const getMagazineArticlePageHandler = async () => {
   btnLoading.value = true;
@@ -108,13 +112,12 @@ const getMagazineArticlePageHandler = async () => {
     magazineArticlePhoneList.value =
       pagination.current === 1 ? data.articles : [...magazineArticlePhoneList.value, ...data.articles];
 
-    pagination.totalPages = data.totalPages || 1;
+    pagination.totalPages = data.totalPages || 0;
   }
 
   btnLoading.value = false;
 };
 
-const isMobile = inject('isMobile');
 const guestStore = useGuestStore();
 const { magazineCategoryList } = storeToRefs(guestStore);
 

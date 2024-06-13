@@ -10,7 +10,7 @@ class guestApi {
 
   static async getMagazineArticlePage(
     query: MagazineArticlePageRequestType
-  ): Promise<ApiResponseType<MagazineArticlePageType>> {
+  ): Promise<ApiResponseType<ArticlePageType>> {
     const params = {
       category: query.category,
       pageIndex: query.pageIndex,

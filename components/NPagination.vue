@@ -1,5 +1,8 @@
 <template>
-  <div class="d-flex justify-content-center">
+  <div
+    v-if="totalPages"
+    class="d-flex justify-content-center"
+  >
     <div
       v-if="!isLastPage || (isLastPage && btnLoading)"
       class="w-100 text-center d-md-none"
@@ -138,7 +141,7 @@ interface NPaginationProps {
 }
 
 const props = withDefaults(defineProps<NPaginationProps>(), {
-  totalPages: 1,
+  totalPages: 0,
   btnLoading: false
 });
 

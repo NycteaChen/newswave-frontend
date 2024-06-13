@@ -12,7 +12,8 @@ export const useUserStore = defineStore('user', {
     avatar: '',
     subscribeExpiredAt: '',
     planType: '',
-    autoRenew: ''
+    autoRenew: '',
+    collects: [] as UserDataType['collects']
   }),
 
   getters: {
@@ -33,17 +34,13 @@ export const useUserStore = defineStore('user', {
     async getUserData() {
       const { data, status } = await userApi.getUserData(this.id);
       if (status) {
-        Object.entries(data || {}).forEach(([key, val]) => {
-          this[key as keyof UserDataType] = val;
-        });
+        this.SET_USER_DATA(data);
       }
     },
     async getUserInfo() {
       const { data, status } = await userApi.getUserInfo(this.id);
       if (status) {
-        Object.entries(data || {}).forEach(([key, val]) => {
-          this[key as keyof UserInfoType] = val;
-        });
+        this.SET_USER_INFO(data);
       }
     }
   },

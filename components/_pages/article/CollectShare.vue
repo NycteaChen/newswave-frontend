@@ -1,14 +1,16 @@
 <template>
   <div class="d-flex align-items-center justify-content-center gap-2">
-    <n-button
-      v-for="item in btnList"
-      :key="item.text"
-      size="sm"
-      color="secondary"
-      :text="item.text"
-      :icon-src="requireImage(`icon/${item.icon}.svg`)"
-      @click="item.clickFn()"
-    />
+    <client-only>
+      <n-button
+        v-for="item in btnList"
+        :key="item.text"
+        size="sm"
+        color="secondary"
+        :text="item.text"
+        :icon-src="requireImage(`icon/${item.icon}.svg`)"
+        @click="item.clickFn()"
+      />
+    </client-only>
 
     <Teleport to="body">
       <auth-hint-modal v-model:visible="showHintModal" />
@@ -19,7 +21,9 @@
 const route = useRoute();
 const token: any = useCookie('token');
 
-const isCollect = ref<boolean>(false);
+const userStore = useUserStore();
+const { collects } = storeToRefs(userStore);
+
 const showHintModal = ref<boolean>(false);
 
 const copyLinkHandler = () => {
@@ -31,14 +35,15 @@ const collect = () => {
     showHintModal.value = true;
     return;
   }
-  isCollect.value = !isCollect.value;
-  collectHandler(isCollect.value);
+  collectHandler(String(route.params?.articleId));
 };
+
+const isCollected = computed<boolean>(() => collects.value?.includes(String(route.params?.articleId)));
 
 const btnList = computed(() => [
   {
     text: '收藏',
-    icon: `collect${isCollect.value ? '-active' : ''}`,
+    icon: `collect${isCollected.value ? '-active' : ''}`,
     clickFn: collect
   },
   {

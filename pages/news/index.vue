@@ -104,7 +104,7 @@ definePageMeta({
 const btnLoading = ref<boolean>(false);
 const pagination = reactive<PaginationType>({
   current: 1,
-  totalPages: 1
+  totalPages: 0
 });
 
 const route = useRoute();
