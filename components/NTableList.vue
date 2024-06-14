@@ -72,7 +72,7 @@
       v-if="pagination"
       v-model:current="currentPage"
       :total-pages="pagination.totalPages"
-      :btn-loading="btnLoading"
+      :btn-loading="loadMoreLoading"
     />
   </div>
 </template>
@@ -89,13 +89,14 @@ interface NTableProps {
   columns: ColumnItemType[];
   dataSource: any[];
   pagination?: PaginationType | false;
-  btnLoading?: boolean;
+  loadMoreLoading?: boolean;
 }
 
 const props = withDefaults(defineProps<NTableProps>(), {
   columns: () => [],
   dataSource: () => [],
-  pagination: false
+  pagination: false,
+  loadMoreLoading: false
 });
 
 const currentPage = ref<PaginationType['current']>(1);

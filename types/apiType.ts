@@ -52,6 +52,19 @@ declare global {
     quota: number;
     planType: UserDataType['planType'];
   }
+
+  interface ArticleCommentPageRequestType extends PageRequestType {
+    articleId: ArticleType['articleId'];
+  }
+
+  interface ArticleCommentPageResponseType extends PageResponseType {
+    comments: CommentType[];
+  }
+
+  interface ArticleCommentRequestType {
+    articleId: ArticleType['articleId'];
+    content?: CommentType['content'];
+  }
 }
 
 export {};

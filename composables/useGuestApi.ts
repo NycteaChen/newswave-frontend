@@ -45,6 +45,22 @@ class guestApi {
 
     return res;
   }
+
+  static async getArticleCommentPage(
+    query: ArticleCommentPageRequestType
+  ): Promise<ApiResponseType<ArticleCommentPageResponseType>> {
+    const params = {
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    };
+
+    const res = await useApi(`/guest/article-comment-page/${query.articleId}`, {
+      method: 'get',
+      params
+    });
+
+    return res;
+  }
 }
 
 export default () => guestApi;
