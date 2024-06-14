@@ -96,6 +96,16 @@ class userApi {
     return res;
   }
 
+  static async getMagazineArticleQuota(
+    articleId: ArticleType['articleId']
+  ): Promise<ApiResponseType<MagazineArticleDetailResponseType>> {
+    const res = await useApi(`/user/magazine-article-quota/${articleId}`, {
+      method: 'get'
+    });
+
+    return res;
+  }
+
   static async getMagazineArticleDetail(
     articleId: ArticleType['articleId']
   ): Promise<ApiResponseType<MagazineArticleDetailResponseType>> {

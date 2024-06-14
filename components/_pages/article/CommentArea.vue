@@ -1,7 +1,7 @@
 <template>
   <section class="comment-area">
     <h5 class="mb-3">公開留言</h5>
-    <div class="p-3">
+    <div class="pt-3">
       <ul>
         <!-- <li
           v-for="comment in commentList"
