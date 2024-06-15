@@ -21,6 +21,10 @@
 const token: any = useCookie('token');
 const userStore = useUserStore();
 const { isVip } = storeToRefs(userStore);
+
+useHead({
+  titleTemplate: (title) => `${title} - 雜誌`
+});
 </script>
 <style lang="scss" scoped>
 .alert {

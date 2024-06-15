@@ -12,6 +12,10 @@
 definePageMeta({
   layout: 'home'
 });
+
+useHead({
+  titleTemplate: (title) => `${title} - 介紹`
+});
 </script>
 <style lang="scss" scoped>
 ::v-deep(.wave-img) {

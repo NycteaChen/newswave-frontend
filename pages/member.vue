@@ -9,4 +9,8 @@ definePageMeta({
   layout: 'member',
   middleware: ['auth']
 });
+
+useHead({
+  titleTemplate: (title) => `${title} - 會員中心`
+});
 </script>

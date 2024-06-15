@@ -96,6 +96,10 @@ definePageMeta({
   layout: 'login'
 });
 
+useHead({
+  titleTemplate: (title) => `${title} - 登入註冊`
+});
+
 const route = useRoute();
 const userStore = useUserStore();
 const { login, register } = useUserApi();

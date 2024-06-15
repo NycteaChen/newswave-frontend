@@ -155,6 +155,10 @@ watch(
     }
   }
 );
+
+useHead({
+  titleTemplate: (title) => `${title} - 文章`
+});
 </script>
 <style lang="scss" scoped>
 .card.has-paywall {

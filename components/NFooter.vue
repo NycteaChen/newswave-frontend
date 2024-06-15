@@ -105,7 +105,7 @@ const footerNav = [
     linkList: [
       {
         title: '常見問題集',
-        path: '/questions'
+        path: '/faq'
       },
       {
         title: '聯絡我們',
