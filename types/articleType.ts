@@ -38,6 +38,11 @@ declare global {
     publishedAt: string;
     id: string;
   }
+
+  interface NoticeType extends ArticleType {
+    id: string;
+    read: boolean;
+  }
 }
 
 export {};

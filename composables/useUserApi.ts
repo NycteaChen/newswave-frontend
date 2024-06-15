@@ -179,6 +179,40 @@ class userApi {
 
     return res;
   }
+
+  static async getNoticeList(query: NoticePageRequestType): Promise<ApiResponseType<NoticePageResponseType>> {
+    const params = {
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize,
+      readState: query.readState
+    };
+    const res = await useApi(`/user/notice-list`, {
+      method: 'get',
+      params
+    });
+
+    return res;
+  }
+
+  static async readNotice(noticeId: NoticeType['id']): Promise<ApiResponseType<undefined>> {
+    const res = await useApi(`/user/notice/${noticeId}`, {
+      method: 'patch'
+    });
+
+    return res;
+  }
+
+  static async deleteAllNotice(readState: NoticePageRequestType['readState']): Promise<ApiResponseType<undefined>> {
+    const params = {
+      readState
+    };
+    const res = await useApi(`/user/notice`, {
+      method: 'delete',
+      params
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;

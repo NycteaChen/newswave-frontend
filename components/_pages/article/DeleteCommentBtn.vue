@@ -3,10 +3,13 @@
     <n-button
       color="danger"
       type="outline"
-      :icon-src="isMobile ? requireImage('icon/delete.svg') : ''"
+      :icon-src="requireImage(`icon/delete${isHover ? '-active' : ''}.svg`)"
       :text="isMobile ? '' : '刪除留言'"
       size="sm"
+      icon-position="left"
       @click="showHintModal = true"
+      @mouseover="isHover = !isMobile"
+      @mouseleave="isHover = false"
     />
 
     <Teleport to="body">
@@ -37,6 +40,8 @@ const { deleteArticleComment } = useUserApi();
 
 const btnLoading = ref<boolean>(false);
 const showHintModal = ref<boolean>(false);
+
+const isHover = ref<boolean>(false);
 
 const close = () => {
   showHintModal.value = false;

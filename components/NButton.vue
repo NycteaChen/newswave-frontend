@@ -33,7 +33,7 @@
 </template>
 <script setup lang="ts">
 export interface NBtnProps {
-  text: string;
+  text?: string;
   /**
    * 按鈕色
    * purchase、secondary 僅能與 type: fill 搭配

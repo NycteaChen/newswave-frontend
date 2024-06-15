@@ -18,11 +18,12 @@
         @click="clickTab(item, index)"
       >
         {{ item.label }}
+        <notice-badge v-if="item.badge === 'notice'" />
         <span
-          v-if="item.badge"
+          v-else-if="item.badge"
           class="tab-badge"
-          >{{ item.badge }}</span
-        >
+          >{{ item.badge }}
+        </span>
       </li>
     </ul>
     <div
@@ -163,9 +164,10 @@ watch(
 }
 
 @include media-breakpoint-up(md) {
-  .n-tab-item:hover {
+  .n-tab-item:not(.n-tab-item-active):hover {
+    border-radius: 4px 4px 0 0;
+    background: $blue-100;
     color: $primary;
-    font-weight: bold;
   }
 
   ::-webkit-scrollbar {

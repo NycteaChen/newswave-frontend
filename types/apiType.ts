@@ -65,6 +65,14 @@ declare global {
     articleId: ArticleType['articleId'];
     content?: CommentType['content'];
   }
+
+  interface NoticePageRequestType extends PageRequestType {
+    readState?: 'read' | 'unread';
+  }
+
+  interface NoticePageResponseType extends PageResponseType {
+    notices: NoticeType[];
+  }
 }
 
 export {};

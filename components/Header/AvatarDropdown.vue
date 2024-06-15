@@ -64,6 +64,7 @@
 <script lang="ts" setup>
 const token: any = useCookie('token');
 const userStore = useUserStore();
+const noticeStore = useNoticeStore();
 const { isVip } = storeToRefs(userStore);
 
 const { logout } = useUserApi();
@@ -92,6 +93,7 @@ const logoutHandler = async () => {
   if (status) {
     token.value = undefined;
     userStore.$reset();
+    noticeStore.$reset();
 
     showToast({
       id: 'logout-success',
