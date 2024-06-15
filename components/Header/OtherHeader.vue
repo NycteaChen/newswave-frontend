@@ -8,20 +8,10 @@
         <n-logo target-path="/news" />
         <div class="d-flex align-items-center gap-1 gap-md-3">
           <client-only>
-            <nuxt-link
-              class="header-icon"
-              to="/search"
-            >
-              <img :src="requireImage('icon/search.svg')" />
+            <nuxt-link to="/search">
+              <nav-icon-btn icon="search" />
             </nuxt-link>
-            <template v-if="token">
-              <nuxt-link
-                class="header-icon"
-                to="/member/notification/personal"
-              >
-                <img :src="requireImage('icon/notice.svg')" />
-              </nuxt-link>
-            </template>
+            <notice-bell v-if="token" />
             <avatar-dropdown v-if="token || isMobile" />
             <n-button
               v-if="token && !isVip"
@@ -59,7 +49,7 @@
 </template>
 <script lang="ts" setup>
 import type { TabItemType } from '@/components/NTabs.vue';
-import type { BtnTypes } from '@/components/Header/Avatar/AvatarDropdown.vue';
+import type { BtnTypes } from '~/components/Header/AvatarDropdown.vue';
 
 const token: any = useCookie('token');
 const userStore = useUserStore();
@@ -120,26 +110,9 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
   box-shadow: 0 2px 2px 0 rgba($dark, 0.122);
 }
 
-.header-icon {
-  display: flex;
-  padding: 8px 10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 @include media-breakpoint-up(md) {
   .header-container {
     border-bottom: 0 !important;
-  }
-
-  .header-icon {
-    transition: all 0.2s ease-in-out;
-
-    &:hover {
-      background: $gray-300;
-    }
   }
 
   .exclude-nav-tab-header {
