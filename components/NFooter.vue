@@ -120,15 +120,15 @@ const footerNav = [
     linkList: [
       {
         title: 'facebook',
-        path: '#'
+        path: 'https://www.facebook.com/hexschool/?locale=zh_TW'
       },
       {
         title: 'instagram',
-        path: '#'
+        path: 'https://www.instagram.com/hexschool/'
       },
       {
-        title: 'line',
-        path: '#'
+        title: 'github',
+        path: 'https://github.com/NycteaChen/newswave-frontend'
       }
     ]
   }
@@ -150,7 +150,7 @@ const illustrationAuthorList = [
 ];
 
 const renderSocialMedia = (type: string) => ({
-  backgroundImage: `url(${requireImage(`icon/${type}.svg`)})`
+  backgroundImage: `url(${requireImage(`footer/${type}.svg`)})`
 });
 </script>
 <style lang="scss" scoped>
