@@ -212,6 +212,8 @@ const submit = async () => {
     return;
   }
 
+  clearValidator();
+
   btnLoading.value = true;
 
   const { status, data, message } = mode.value === 'login' ? await login(formState) : await register(formState);
@@ -225,17 +227,16 @@ const submit = async () => {
       id: 'login-success',
       message
     });
+
     setTimeout(async () => {
       await userStore.getUserData();
       await goBack();
+      btnLoading.value = false;
     }, 100);
   } else {
     warnMessage.value = message;
+    btnLoading.value = false;
   }
-
-  btnLoading.value = false;
-
-  clearValidator();
 };
 
 const switchMode = () => {
