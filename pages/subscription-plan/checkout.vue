@@ -11,4 +11,8 @@ definePageMeta({
   middleware: ['auth'],
   layout: 'checkout'
 });
+
+useHead({
+  titleTemplate: (title) => `${title} - 訂閱`
+});
 </script>

@@ -1,7 +1,7 @@
 <template>
   <header
     class="other-header w-100 d-flex align-items-center flex-column bg-body z-header"
-    :class="{ 'subscription-header': isSubscriptionPage }"
+    :class="{ 'exclude-nav-tab-header': excludeNavTabPage }"
   >
     <section class="header-container container-xxl py-2 pt-md-4 px-xxl-0">
       <nav class="d-flex justify-content-between align-items-center gap-3">
@@ -49,7 +49,7 @@
       </nav>
     </section>
     <n-tabs
-      v-show="!isSubscriptionPage"
+      v-show="!excludeNavTabPage"
       v-model:currentTab="currentTab"
       class="container-xxl px-xxl-0"
       :tab-list="tabList"
@@ -72,7 +72,9 @@ const { newsNav, memberNav, memberSubNav } = useNav();
 const currentTab = ref<TabItemType['label']>('');
 
 const isMemberCenter = computed(() => route.path.startsWith('/member'));
-const isSubscriptionPage = computed(() => route.path.startsWith('/subscription-plan'));
+const excludeNavTabPage = computed(() =>
+  route.matched.some((e) => e?.meta?.layout === 'info' || e?.meta?.layout === 'checkout' || e.name === 'slug')
+);
 
 const changeTab = (tabItem: NavItemWithSubType) => {
   if (isMemberCenter.value) {
@@ -114,7 +116,7 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
 ]);
 </script>
 <style lang="scss" scoped>
-.subscription-header {
+.exclude-nav-tab-header {
   box-shadow: 0 2px 2px 0 rgba($dark, 0.122);
 }
 
@@ -140,12 +142,9 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
     }
   }
 
-  .subscription-header {
-    box-shadow: none;
-
+  .exclude-nav-tab-header {
     .header-container {
       padding-bottom: 24px !important;
-      border-bottom: 1px solid $gray-300 !important;
     }
   }
 }

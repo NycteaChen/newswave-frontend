@@ -5,11 +5,11 @@
       :class="isArticlePage ? 'pt-2' : 'pt-3'"
     >
       <client-only>
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <n-breadcrumb />
+        <div class="d-flex align-items-center justify-content-between">
+          <n-breadcrumb class="mb-2" />
           <collect-share
             v-if="isArticlePage"
-            class="d-md-none"
+            class="d-md-none mb-2"
           />
         </div>
       </client-only>

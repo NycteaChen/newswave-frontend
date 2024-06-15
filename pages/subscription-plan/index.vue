@@ -39,6 +39,10 @@ definePageMeta({
   layout: 'info'
 });
 
+useHead({
+  titleTemplate: (title) => `${title} - 方案介紹`
+});
+
 const sectionList = computed(() => [
   {
     title: '選擇方案',

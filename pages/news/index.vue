@@ -74,6 +74,10 @@
 <script setup lang="ts">
 import type { PaginationType } from '@/components/NPagination.vue';
 
+useHead({
+  titleTemplate: (title) => `${title} - 新聞`
+});
+
 definePageMeta({
   pageTransition: {
     name: 'slide-right',
