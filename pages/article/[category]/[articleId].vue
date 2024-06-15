@@ -3,7 +3,7 @@
     <client-only>
       <section
         class="card overflow-hidden"
-        :class="{ 'has-paywall': !showMagazineContent }"
+        :class="{ 'has-paywall': showPaywall }"
       >
         <div class="card-body p-2 pb-4">
           <header class="card-title p-2 p-md-3 d-flex flex-column gap-3">
@@ -44,7 +44,7 @@
           </footer>
         </div>
         <article-paywall
-          v-if="!showMagazineContent"
+          v-if="showPaywall"
           ref="articlePaywallRef"
           :read-quota="readQuota"
           class="position-absolute bottom-0"
@@ -52,7 +52,7 @@
         />
       </section>
       <comment-area
-        v-if="showMagazineContent"
+        v-if="!showPaywall"
         class="mt-2"
       />
     </client-only>
@@ -80,8 +80,8 @@ const articleData = ref<ArticleType>();
 const articlePaywallRef = ref<InstanceType<typeof ArticlePaywall> | null>(null);
 
 const isMagazine = computed<boolean>(() => String(route.params.articleId).startsWith('M-'));
-const showMagazineContent = computed<boolean>(
-  () => token.value && (planType.value || isFreeRead.value) && isMagazine.value
+const showPaywall = computed<boolean>(
+  () => isMagazine.value && (!token.value || !(planType.value || isFreeRead.value))
 );
 
 const renderDefaultMagazineImage = computed(
@@ -139,7 +139,7 @@ const freeReadHandler = async () => {
 
 onMounted(async () => {
   await nextTick(() => {
-    if (isMagazine.value) {
+    if (isMagazine.value && token.value) {
       getMagazineArticleDetailHandler();
     } else {
       getArticleDetailHandler();
