@@ -7,7 +7,7 @@ declare global {
     publishedAt: string;
     imageDescribe: string;
     image: string;
-    content: string;
+    content?: string;
     tags: string[];
     source: {
       name: string;
@@ -23,6 +23,20 @@ declare global {
   }
   interface ArticlePageType extends PageResponseType {
     articles: ArticleType[];
+  }
+
+  interface CommentType {
+    user?: {
+      name: UserInfoType['name'];
+      avatar: UserDataType['avatar'];
+    };
+    userId?: {
+      _id: UserInfoType['id'];
+    };
+    article?: ArticleType;
+    content: string;
+    publishedAt: string;
+    id: string;
   }
 }
 

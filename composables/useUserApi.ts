@@ -144,6 +144,41 @@ class userApi {
 
     return res;
   }
+
+  static async addArticleComment(params: ArticleCommentRequestType): Promise<ApiResponseType<undefined>> {
+    const body = {
+      content: params.content
+    };
+    const res = await useApi(`/user/article-comment/${params.articleId}`, {
+      method: 'post',
+      body
+    });
+
+    return res;
+  }
+
+  static async deleteArticleComment(commentId: CommentType['id']): Promise<ApiResponseType<undefined>> {
+    const res = await useApi(`/user/article-comment/${commentId}`, {
+      method: 'delete'
+    });
+
+    return res;
+  }
+
+  static async getUserArticleCommentPage(
+    query: PageRequestType
+  ): Promise<ApiResponseType<ArticleCommentPageResponseType>> {
+    const params = {
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    };
+    const res = await useApi(`/user/article-comment-page`, {
+      method: 'get',
+      params
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;

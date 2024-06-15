@@ -66,7 +66,7 @@
     <n-pagination
       v-model:current="pagination.current"
       :total-pages="pagination.totalPages"
-      :btn-loading="btnLoading"
+      :btn-loading="loadMoreLoading"
       class="mt-4"
     />
   </div>
@@ -101,7 +101,7 @@ definePageMeta({
   }
 });
 
-const btnLoading = ref<boolean>(false);
+const loadMoreLoading = ref<boolean>(false);
 const pagination = reactive<PaginationType>({
   current: 1,
   totalPages: 0

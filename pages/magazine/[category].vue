@@ -74,7 +74,7 @@
       v-model:current="pagination.current"
       class="pagination-position"
       :total-pages="pagination.totalPages"
-      :btn-loading="btnLoading"
+      :btn-loading="loadMoreLoading"
     />
   </section>
 </template>
@@ -88,7 +88,7 @@ const { getMagazineArticlePage } = useGuestApi();
 
 const magazineArticleList = ref<ArticleType[]>([]);
 const magazineArticlePhoneList = ref<ArticleType[]>([]);
-const btnLoading = ref<boolean>(false);
+const loadMoreLoading = ref<boolean>(false);
 
 const pagination = reactive<PaginationType>({
   current: 1,
@@ -98,7 +98,7 @@ const pagination = reactive<PaginationType>({
 const renderList = computed(() => (isMobile.value ? magazineArticlePhoneList.value : magazineArticleList.value));
 
 const getMagazineArticlePageHandler = async () => {
-  btnLoading.value = true;
+  loadMoreLoading.value = true;
 
   const params: MagazineArticlePageRequestType = {
     pageIndex: pagination.current,
@@ -115,7 +115,7 @@ const getMagazineArticlePageHandler = async () => {
     pagination.totalPages = data.totalPages || 0;
   }
 
-  btnLoading.value = false;
+  loadMoreLoading.value = false;
 };
 
 const guestStore = useGuestStore();

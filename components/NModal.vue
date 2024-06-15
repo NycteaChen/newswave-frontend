@@ -36,7 +36,7 @@
         </div>
         <div
           class="modal-footer border-top-0 position-relative overflow-hidden"
-          :class="[isSmallModal ? 'gap-2' : 'gap-4']"
+          :class="[isSmallModal ? 'gap-2' : 'gap-3 gap-md-4']"
         >
           <n-button
             v-if="showCancelBtn"

@@ -6,26 +6,28 @@
     :class="[btnClass, isSmallBtn ? 'rounded-1' : 'rounded-2']"
   >
     <div
-      class="btn-content d-flex align-items-center justify-content-center"
+      class="btn-content d-flex align-items-center justify-content-center position-relative"
       :class="{ 'flex-row-reverse': iconPosition === 'left' }"
     >
-      <n-spin
-        v-if="loading"
-        is-small
+      <span
+        class="button-loading position-absolute top-50 start-50 translate-middle"
+        :class="loading ? 'd-flex' : 'd-none'"
+      >
+        <n-spin is-small />
+      </span>
+      <span
+        v-if="text"
+        class="btn-text flex-fill fw-bold whitespace-nowrap"
+        :class="[isSmallBtn ? 'mx-1' : 'mx-4', { 'opacity-0': loading }]"
+      >
+        {{ text }}
+      </span>
+      <img
+        v-if="iconSrc"
+        class="btn-icon"
+        :class="{ 'opacity-0': loading }"
+        :src="iconSrc"
       />
-      <template v-else>
-        <span
-          class="btn-text flex-fill fw-bold whitespace-nowrap"
-          :class="isSmallBtn ? 'mx-1' : 'mx-4'"
-        >
-          {{ text }}
-        </span>
-        <img
-          v-if="iconSrc"
-          class="btn-icon"
-          :src="iconSrc"
-        />
-      </template>
     </div>
   </button>
 </template>
@@ -34,7 +36,7 @@ export interface NBtnProps {
   text: string;
   /**
    * 按鈕色
-   * purchase、secondary、danger 僅能與 type: fill 搭配
+   * purchase、secondary 僅能與 type: fill 搭配
    * light 僅能與 type: outline 搭配
    */
   color?: 'primary' | 'secondary' | 'purchase' | 'accent' | 'light' | 'danger';
@@ -323,15 +325,35 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
     color: $orange-200;
   }
 
+  &-outline {
+    @extend %btn-outline;
+
+    border: 1px solid $orange;
+    color: $orange;
+
+    &:disabled,
+    &:disabled:active {
+      @extend %btn-disabled;
+
+      border-color: $orange-300;
+      background: $orange-300;
+      color: $orange-100;
+    }
+  }
+
   @media screen and (width >= 768px) {
     &:hover:not([disabled]),
-    &:active:not([disabled]) {
+    &:active:not([disabled]),
+    &-outline:hover:not([disabled]),
+    &-outline:active:not([disabled]) {
+      border-color: $orange-400;
       background: $orange-400;
       color: $gray-100;
     }
   }
 
-  &:focus-visible:not([disabled]) {
+  &:focus-visible:not([disabled]),
+  &-outline:focus-visible:not([disabled]) {
     background: $orange;
     box-shadow: 0 0 0 4px $orange-200;
     color: $gray-100;

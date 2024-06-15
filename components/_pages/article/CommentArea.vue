@@ -1,23 +1,7 @@
 <template>
   <section class="comment-area">
     <h5 class="mb-3">公開留言</h5>
-    <div class="pt-3">
-      <ul>
-        <!-- <li
-          v-for="comment in commentList"
-          :key="comment.id"
-        >
-          <p>{{ comment.content }}</p>
-        </li> -->
-        <li
-          v-if="!commentList.length"
-          class="empty-box text-muted text-sm text-center rounded-2 mb-3 mb-md-4"
-        >
-          <div class="d-flex align-items-center justify-content-center">
-            目前沒有留言，趕快發表這篇文章的第一則評論吧！
-          </div>
-        </li>
-      </ul>
+    <div class="pt-3 px-3 d-flex flex-column gap-3 gap-md-4">
       <section :class="{ 'd-sm-flex align-items-center gap-2': token }">
         <div
           v-if="token"
@@ -25,48 +9,178 @@
         >
           <n-avatar />
           <n-input
-            v-model:value="comment"
+            v-model:value="commentValue"
             class="w-100"
-            placeholder="發表留言"
+            :placeholder="`以「${name}」身份發表留言`"
           />
         </div>
         <div class="text-center">
           <n-button
+            class="operation-btn"
+            :loading="buttonInfo.loading"
             :text="buttonInfo.text"
             :icon-src="requireImage(`icon/${buttonInfo.icon}.svg`)"
             @click="buttonInfo.clickFn()"
           />
         </div>
       </section>
+      <ul class="d-flex flex-column gap-1">
+        <li
+          v-for="comment in renderList"
+          :key="comment.id"
+          class="p-4 rounded-2"
+        >
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-center gap-3">
+              <div
+                class="fw-bold"
+                :class="{ 'text-primary': comment.userId?._id === id }"
+              >
+                {{ comment.user?.name || '-' }}
+              </div>
+              <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
+              <delete-comment-btn
+                v-if="comment.userId?._id === id"
+                :comment-id="comment.id"
+                class="ms-auto"
+                @success="successDeleteHandler(comment.id)"
+              />
+            </div>
+            <p class="mb-0 break-word">{{ comment.content }}</p>
+          </div>
+        </li>
+        <li
+          v-if="!renderList.length"
+          class="empty-box text-muted text-sm text-center rounded-2"
+        >
+          <div class="d-flex align-items-center justify-content-center">
+            目前沒有留言，趕快發表這篇文章的第一則評論吧！
+          </div>
+        </li>
+      </ul>
+      <n-pagination
+        v-model:current="pagination.current"
+        :total-pages="pagination.totalPages"
+        :btn-loading="loadMoreLoading"
+      />
     </div>
   </section>
 </template>
 <script lang="ts" setup>
+import type { PaginationType } from '@/components/NPagination.vue';
+
 const token: any = useCookie('token');
-const commentList = ref([]);
+const route = useRoute();
 
-const comment = ref<string>('');
+const { getArticleCommentPage } = useGuestApi();
+const { addArticleComment } = useUserApi();
 
-const submitComment = () => {
-  console.log('留言 :>> ', comment);
+const userStore = useUserStore();
+const { id, name } = storeToRefs(userStore);
+
+const isMobile = inject<any>('isMobile');
+const commentList = ref<CommentType[]>([]);
+const commentPhoneList = ref<CommentType[]>([]);
+const renderList = computed(() => (isMobile.value ? commentPhoneList.value : commentList.value));
+
+const commentValue = ref<string>('');
+
+const loadMoreLoading = ref<boolean>(false);
+const btnLoading = ref<boolean>(false);
+
+const pagination = reactive<PaginationType>({
+  current: 1,
+  totalPages: 0
+});
+
+const articleId = computed<string>(() => `${route.params.articleId}`);
+
+const getArticleCommentPageHandler = async () => {
+  loadMoreLoading.value = true;
+
+  const params = {
+    articleId: articleId.value,
+    pageIndex: pagination.current
+  };
+
+  const { status, data } = await getArticleCommentPage(params);
+  if (status) {
+    commentList.value = data.comments || [];
+
+    commentPhoneList.value = pagination.current === 1 ? data.comments : [...commentPhoneList.value, ...data.comments];
+
+    pagination.totalPages = data.totalPages || 0;
+  }
+
+  loadMoreLoading.value = false;
+};
+
+const successDeleteHandler = (commentId: CommentType['id']) => {
+  commentList.value = commentList.value.filter((e) => e.id !== commentId);
+  commentPhoneList.value = commentPhoneList.value.filter((e) => e.id !== commentId);
+};
+
+const addArticleCommentHandler = async () => {
+  if (!commentValue.value?.trim()) {
+    showToast({
+      id: `comment-empty`,
+      icon: 'icon/warning.svg',
+      message: '請輸入留言內容'
+    });
+    return;
+  }
+
+  btnLoading.value = true;
+  const params = {
+    articleId: articleId.value,
+    content: commentValue.value
+  };
+
+  const { status, message } = await addArticleComment(params);
+  if (status) {
+    pagination.current = 1;
+    getArticleCommentPageHandler();
+    commentValue.value = '';
+  }
+  showToast({
+    id: `comment-${status}`,
+    icon: status ? '' : 'icon/warning.svg',
+    message
+  });
+
+  btnLoading.value = false;
 };
 
 const buttonInfo = computed(() =>
   token.value
     ? {
         text: '留言',
+        loading: btnLoading.value,
         icon: 'comment',
         clickFn: () => {
-          submitComment();
+          addArticleCommentHandler();
         }
       }
     : {
-        text: '登入帳號',
+        text: '登入留言',
         icon: 'login',
         clickFn: () => {
           navigateTo('/login-register');
         }
       }
+);
+
+onMounted(async () => {
+  await nextTick(() => {
+    getArticleCommentPageHandler();
+  });
+});
+
+watch(
+  () => pagination.current,
+  () => {
+    getArticleCommentPageHandler();
+  }
 );
 </script>
 <style lang="scss" scoped>
@@ -92,15 +206,15 @@ const buttonInfo = computed(() =>
   }
 }
 
-::v-deep(.n-button) {
-  .btn-icon {
+.operation-btn {
+  ::v-deep(.btn-icon) {
     width: 18px;
     height: 18px;
   }
 }
 
 @include media-breakpoint-down(md) {
-  ::v-deep(.n-button) {
+  .operation-btn {
     width: 100%;
   }
 }

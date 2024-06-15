@@ -1,7 +1,7 @@
 <template>
   <div
     class="toast-container position-fixed start-50 top-0"
-    :class="{ 'show z-toast': visible, 'z-minus': !visible }"
+    :class="{ show: visible, 'z-minus': !visible }"
   >
     <div
       :id="toastInfo.id"
