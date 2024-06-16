@@ -66,7 +66,7 @@
             />
           </div>
         </form>
-        <p class="warn-text text-accent text-sm">
+        <p class="warn-text text-danger text-sm">
           {{ warnMessage }}
         </p>
         <p class="text-sm text-center">

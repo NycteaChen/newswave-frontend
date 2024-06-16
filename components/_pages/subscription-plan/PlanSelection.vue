@@ -213,7 +213,7 @@ watchImmediate(
   top: 16px;
   left: 16px;
   padding: 8px 12px;
-  background: $danger;
+  background: $accent;
 
   img {
     width: 24px;

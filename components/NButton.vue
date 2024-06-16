@@ -206,7 +206,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
 .btn-accent {
   @extend %btn-fill;
 
-  background: $danger;
+  background: $accent;
   color: $gray-100;
 
   &:disabled,
@@ -220,8 +220,8 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
   &-outline {
     @extend %btn-outline;
 
-    border: 1px solid $danger;
-    color: $danger;
+    border: 1px solid $accent;
+    color: $accent;
 
     &:disabled,
     &:disabled:active {
@@ -245,7 +245,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
 
   &:focus-visible:not([disabled]),
   &-outline:focus-visible:not([disabled]) {
-    background: $danger;
+    background: $accent;
     box-shadow: 0 0 0 4px $red-200;
     color: $gray-100;
   }
@@ -314,7 +314,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
 .btn-danger {
   @extend %btn-fill;
 
-  background: $orange;
+  background: $danger;
   color: $gray-100;
 
   &:disabled,
@@ -328,8 +328,8 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
   &-outline {
     @extend %btn-outline;
 
-    border: 1px solid $orange;
-    color: $orange;
+    border: 1px solid $danger;
+    color: $danger;
 
     &:disabled,
     &:disabled:active {
@@ -354,7 +354,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
 
   &:focus-visible:not([disabled]),
   &-outline:focus-visible:not([disabled]) {
-    background: $orange;
+    background: $danger;
     box-shadow: 0 0 0 4px $orange-200;
     color: $gray-100;
   }
