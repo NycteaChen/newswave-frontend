@@ -54,7 +54,7 @@
         </div>
         <div
           v-if="errorMessage[field.value]"
-          class="text-accent"
+          class="text-danger"
         >
           {{ errorMessage[field.value] }}
         </div>
@@ -69,7 +69,7 @@
       </div>
       <p
         v-show="warnMessage"
-        class="text-accent text-sm mt-3 mb-0"
+        class="text-danger text-sm mt-3 mb-0"
       >
         {{ warnMessage }}
       </p>

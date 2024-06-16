@@ -48,7 +48,7 @@
         </div>
         <p
           v-show="warnMessage"
-          class="text-accent text-sm mt-3 mb-0"
+          class="text-danger text-sm mt-3 mb-0"
         >
           {{ warnMessage }}
         </p>
