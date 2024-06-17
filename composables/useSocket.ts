@@ -5,7 +5,7 @@ let SOCKET: any;
 class Socket {
   static connect() {
     const config = useRuntimeConfig();
-    const URL = `${config.public.apiBase}/`;
+    const URL = `${config.public.socketBase}/`;
 
     const userStore = useUserStore();
     const { id } = storeToRefs(userStore);
