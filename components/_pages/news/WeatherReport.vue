@@ -8,15 +8,18 @@
       </div>
       <div class="d-flex align-items-center justify-content-center">
         <div class="weather-status flex-fill">
-          <weather-icon
-            :weather-code="currentWeather.weatherCode"
-            :moment="getMoment"
-          />
-          <div>{{ currentWeather.description }}</div>
+          <template v-if="currentWeather.weatherCode && currentWeather.description">
+            <weather-icon
+              :weather-code="currentWeather.weatherCode"
+              :moment="getMoment"
+            />
+            <div>{{ currentWeather.description }}</div>
+          </template>
+          <span v-else> - </span>
         </div>
         <div class="temperature-area flex-fill">
           <div>
-            <span class="temperature fw-bold">{{ currentWeather.temperature }}</span
+            <span class="temperature fw-bold">{{ currentWeather.temperature || '-' }}</span
             >°C
           </div>
           <div
@@ -54,11 +57,11 @@ const now = ref(new Date());
 const countryName = ref('臺北市');
 
 const currentWeather = ref({
-  description: '晴天', // 天氣描述
-  weatherCode: '1', // 天氣代碼
+  description: '', // 天氣描述
+  weatherCode: '', // 天氣代碼
   rainPossibility: '0', // 降雨機率
   comfort: '0', // 舒適度
-  temperature: '0' // 溫度
+  temperature: '' // 溫度
 });
 
 const dateTimeFormat = computed(() => {
