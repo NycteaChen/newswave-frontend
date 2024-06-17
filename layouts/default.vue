@@ -2,10 +2,10 @@
   <main class="default-layout container-xxl">
     <div
       class="pt-md-4"
-      :class="isArticlePage ? 'pt-2' : 'pt-3'"
+      :class="isArticlePage ? 'article-padding-top' : 'pt-3'"
     >
       <client-only>
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-1 align-items-center justify-content-between">
           <n-breadcrumb class="mb-2" />
           <collect-share
             v-if="isArticlePage"
@@ -122,5 +122,9 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .page-container {
   transition: transform 0.1s ease-out;
+}
+
+.article-padding-top {
+  padding-top: 11px;
 }
 </style>

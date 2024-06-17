@@ -52,6 +52,7 @@ const memberNav: NavItemWithSubType[] = [
   {
     label: '通知中心',
     value: 'notification',
+    badge: 'notice',
     childrenRoute: [
       {
         label: '最新公告',
@@ -59,7 +60,8 @@ const memberNav: NavItemWithSubType[] = [
       },
       {
         label: '我的通知',
-        value: 'personal'
+        value: 'personal',
+        badge: 'notice'
       }
     ]
   }

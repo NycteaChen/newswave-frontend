@@ -13,6 +13,7 @@
           :to="{ name: subItem.value }"
         >
           {{ subItem.label }}
+          <notice-badge v-if="subItem?.badge === 'notice'" />
         </nuxt-link>
       </nav>
       <div class="pt-3 pt-md-4">

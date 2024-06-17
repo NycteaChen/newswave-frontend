@@ -3,6 +3,7 @@
     <!-- <nuxt-loading-indicator /> -->
     <teleport to="body">
       <n-toast />
+      <notice-modal />
     </teleport>
     <n-header v-if="!isLoginPage" />
     <nuxt-layout class="layouts">
@@ -18,6 +19,7 @@
 </template>
 <script setup lang="ts">
 const { getMagazineCategoryList } = useGuestStore();
+const Socket = useSocket();
 const route = useRoute();
 const { width } = useWindowSize();
 const { y } = useWindowScroll();
@@ -44,6 +46,17 @@ onMounted(async () => {
     }
   });
 });
+
+watchImmediate(
+  () => token.value,
+  (val) => {
+    if (val) {
+      Socket.connect();
+    } else {
+      Socket.disconnect();
+    }
+  }
+);
 </script>
 <style lang="scss" scoped>
 @include media-breakpoint-down(md) {
