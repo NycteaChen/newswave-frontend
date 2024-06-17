@@ -1,25 +1,29 @@
-const responseHandler = ({ status = false, message = '', type = '' }) => {
-  if (status) {
-    showToast({
-      id: `${type}-collect-success`,
-      message
-    });
-  }
-};
-
 export default async (articleId: ArticleType['articleId']) => {
+  const pageLoadingBus = useEventBus('pageLoadingBus');
+
   const userStore = useUserStore();
   const { collects } = storeToRefs(userStore);
 
   const { addCollectArticle, deleteCollectArticle } = useUserApi();
 
-  if (collects.value.includes(articleId)) {
-    const { status, message } = await deleteCollectArticle(articleId);
-    responseHandler({ status, message, type: 'cancel' });
-  } else {
-    const { status, message } = await addCollectArticle(articleId);
-    responseHandler({ status, message, type: 'add' });
-  }
+  pageLoadingBus.emit(true);
 
-  userStore.getUserData();
+  const isCollected = collects.value.includes(articleId);
+  const type = isCollected ? 'cancel' : 'add';
+
+  const { status, message } = isCollected ? await deleteCollectArticle(articleId) : await addCollectArticle(articleId);
+
+  setTimeout(async () => {
+    if (status) {
+      await userStore.getUserData();
+    }
+
+    showToast({
+      id: `${type}-collect-${status}`,
+      icon: status ? '' : 'icon/warning.svg',
+      message
+    });
+
+    pageLoadingBus.emit(false);
+  }, 500);
 };

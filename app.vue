@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <nuxt-loading-indicator /> -->
+    <n-page-loading />
     <teleport to="body">
       <n-toast />
       <notice-modal />
