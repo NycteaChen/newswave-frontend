@@ -6,34 +6,38 @@
       key-field="value"
       @change-tab="changeTab"
     />
-    <ul
-      v-if="newsList.length"
-      class="news-container pt-3 gap-1 d-flex flex-column"
-    >
-      <li
-        v-for="item in newsList"
-        :key="item.articleId"
-        class="bg-body-light p-2 rounded-2"
+    <n-loading :loading="loading">
+      <ul
+        v-if="newsList.length"
+        class="news-container pt-3 gap-1 d-flex flex-column"
       >
-        <nuxt-link
-          class="d-flex align-items-center"
-          :to="`/article/${item.topic[0]}/${item.articleId}`"
+        <li
+          v-for="item in newsList"
+          :key="item.articleId"
+          class="bg-body-light p-2 rounded-2"
         >
-          <div class="text-muted text-sm pe-2">{{ useDateFormat(item.publishedAt, 'HH:mm').value }}</div>
-          <div class="limit-line-two text-body border-start ps-2">{{ item.title }}</div>
-        </nuxt-link>
-      </li>
-    </ul>
-    <n-empty
-      v-else
-      text="暫無文章資料"
-    />
+          <nuxt-link
+            class="d-flex align-items-center"
+            :to="`/article/${item.topic[0]}/${item.articleId}`"
+          >
+            <div class="text-muted text-sm pe-2">{{ useDateFormat(item.publishedAt, 'HH:mm').value }}</div>
+            <div class="limit-line-two text-body border-start ps-2">{{ item.title }}</div>
+          </nuxt-link>
+        </li>
+      </ul>
+      <n-empty
+        v-else-if="!loading"
+        text="暫無文章資料"
+      />
+    </n-loading>
   </section>
 </template>
 <script lang="ts" setup>
 import type { TabItemType } from '@/components/NTabs.vue';
 
 const { getHotNewsList } = useGuestApi();
+
+const loading = ref<boolean>(true);
 
 const currentTab = ref<HotNewsListRequestType['type']>('news');
 
@@ -51,6 +55,8 @@ const tabList: TabItemType[] = [
 const newsList = ref<ArticleType[]>([]);
 
 const getHotNewsListHandler = async () => {
+  loading.value = true;
+
   const params = {
     limit: 15,
     type: currentTab.value
@@ -59,7 +65,11 @@ const getHotNewsListHandler = async () => {
   const { data, status } = await getHotNewsList(params);
   if (status) {
     newsList.value = data;
+  } else {
+    newsList.value = [];
   }
+
+  loading.value = false;
 };
 
 const changeTab = () => {

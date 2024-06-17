@@ -1,71 +1,73 @@
 <template>
   <article class="article-item position-relative mb-4">
-    <client-only>
-      <template v-if="hasArticle">
-        <teleport to="#shareCollect">
-          <collect-share class="d-md-none mb-2" />
-        </teleport>
-        <section
-          class="card overflow-hidden"
-          :class="{ 'has-paywall': showPaywall }"
-        >
-          <div class="card-body p-2 pb-4">
-            <header class="card-title p-2 p-md-3 d-flex flex-column gap-3">
-              <div class="d-flex align-items-center gap-2">
-                <article-label
-                  v-for="item in articleData?.topic"
-                  :key="item"
-                  :text="item"
-                />
-              </div>
-              <h3 class="mb-0">{{ articleData?.title }}</h3>
-              <div class="d-flex justify-content-between align-items-center">
-                <div>
-                  <div class="text-sm">{{ articleData?.editor }}</div>
-                  <div class="text-muted text-xs">{{ articleData?.publishedAt }}</div>
+    <n-loading :loading="loading">
+      <client-only>
+        <template v-if="hasArticle">
+          <teleport to="#shareCollect">
+            <collect-share class="d-md-none mb-2" />
+          </teleport>
+          <section
+            class="card overflow-hidden"
+            :class="{ 'has-paywall': showPaywall }"
+          >
+            <div class="card-body p-2 pb-4">
+              <header class="card-title p-2 p-md-3 d-flex flex-column gap-3">
+                <div class="d-flex align-items-center gap-2">
+                  <article-label
+                    v-for="item in articleData?.topic"
+                    :key="item"
+                    :text="item"
+                  />
                 </div>
-                <collect-share class="d-none d-md-flex" />
-              </div>
-            </header>
-            <figure
-              v-if="articleData?.image || renderDefaultMagazineImage"
-              class="mb-md-4"
-            >
-              <img
-                :src="articleData?.image || renderDefaultMagazineImage"
-                class="rounded-1 mb-2"
-              />
-              <figcaption class="text-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
-                {{ articleData?.imageDescribe }}
-              </figcaption>
-            </figure>
+                <h3 class="mb-0">{{ articleData?.title }}</h3>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <div class="text-sm">{{ articleData?.editor }}</div>
+                    <div class="text-muted text-xs">{{ articleData?.publishedAt }}</div>
+                  </div>
+                  <collect-share class="d-none d-md-flex" />
+                </div>
+              </header>
+              <figure
+                v-if="articleData?.image || renderDefaultMagazineImage"
+                class="mb-md-4"
+              >
+                <img
+                  :src="articleData?.image || renderDefaultMagazineImage"
+                  class="rounded-1 mb-2"
+                />
+                <figcaption class="text-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
+                  {{ articleData?.imageDescribe }}
+                </figcaption>
+              </figure>
 
-            <p class="card-text mx-2 pb-3 mx-md-4 pb-md-4 border-bottom mb-2">
-              {{ articleData?.content }}
-            </p>
-            <footer class="p-3">
-              <collect-share />
-            </footer>
-          </div>
-          <article-paywall
-            v-if="showPaywall"
-            ref="articlePaywallRef"
-            :read-quota="readQuota"
-            class="position-absolute bottom-0"
-            @free-read="freeReadHandler"
+              <p class="card-text mx-2 pb-3 mx-md-4 pb-md-4 border-bottom mb-2">
+                {{ articleData?.content }}
+              </p>
+              <footer class="p-3">
+                <collect-share />
+              </footer>
+            </div>
+            <article-paywall
+              v-if="showPaywall"
+              ref="articlePaywallRef"
+              :read-quota="readQuota"
+              class="position-absolute bottom-0"
+              @free-read="freeReadHandler"
+            />
+          </section>
+          <comment-area
+            v-if="!showPaywall"
+            class="mt-2"
           />
-        </section>
-        <comment-area
-          v-if="!showPaywall"
-          class="mt-2"
-        />
-      </template>
+        </template>
+      </client-only>
       <n-empty
-        v-else
+        v-if="!loading && !hasArticle"
         text="無此文章資料"
         width="300"
       />
-    </client-only>
+    </n-loading>
   </article>
 </template>
 <script setup lang="ts">
@@ -84,6 +86,7 @@ const userStore = useUserStore();
 const { planType } = storeToRefs(userStore);
 const { magazineCategoryList } = storeToRefs(guestStore);
 
+const loading = ref<boolean>(true);
 const isFreeRead = ref<boolean>(false);
 const readQuota = ref<number>(0);
 const articleData = ref<ArticleType>();
@@ -115,6 +118,7 @@ const responseHandler = (status: boolean, article: ArticleType) => {
 };
 
 const getMagazineArticleQuotaHandler = async () => {
+  loading.value = true;
   const { status, data, message } = await getMagazineArticleQuota(articleId.value);
   responseHandler(status, data?.article);
   readQuota.value = data?.quota || 0;
@@ -127,18 +131,24 @@ const getMagazineArticleQuotaHandler = async () => {
       message
     });
   }
+  loading.value = false;
 };
 
 const getMagazineArticleDetailHandler = async () => {
+  loading.value = true;
   const { status, data } = await getMagazineArticleDetail(articleId.value);
   responseHandler(status, data?.article);
   readQuota.value = data?.quota || 0;
+  loading.value = false;
 };
 
 const getArticleDetailHandler = async () => {
+  loading.value = true;
   const { status, data } = await getArticleDetail(articleId.value);
   responseHandler(status, data);
   readQuota.value = 0;
+
+  loading.value = false;
 };
 
 const freeReadHandler = async () => {

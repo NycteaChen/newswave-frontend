@@ -1,76 +1,78 @@
 <template>
   <div class="news-page">
-    <section class="p-3 border rounded-2 mb-4 news-container">
-      <nuxt-link
-        class="d-flex flex-column gap-4 flex-md-row"
-        :to="`/article/${headline.topic?.[0]}/${headline.articleId}`"
-      >
-        <div class="headline-col overflow-hidden rounded-1">
-          <img
-            class="news-image object-fit-cover"
-            :src="headline.image"
-          />
-        </div>
-        <div class="headline-col d-flex flex-column gap-3">
-          <h3 class="news-title text-body fw-bold limit-line-two">{{ headline.title }}</h3>
-          <img
-            class="wave-icon d-none d-md-inline-block"
-            :src="requireImage('icon/wave-cyan.svg')"
-          />
-          <div class="d-none d-md-block text-muted">
-            <p class="limit-line-four">{{ headline.content }}</p>
-          </div>
-          <div class="d-flex align-items-center mt-auto">
-            <article-label
-              :text="headline.topic?.[0]"
-              class="me-3"
-            />
-            <div class="text-muted flex-fill px-3 border-start border-layout whitespace-nowrap">
-              {{ headline.editor }}
-            </div>
-            <div class="publish-date text-muted text-end border-start border-layout">
-              {{ useDateFormat(headline.publishedAt, 'YYYY/MM/DD').value }}
-            </div>
-          </div>
-        </div>
-      </nuxt-link>
-    </section>
-    <ul
-      v-if="newsArticleList.length"
-      class="row gy-4 gx-md-10"
-    >
-      <li
-        v-for="(item, index) in newsArticleList"
-        :key="index"
-        class="col-12 col-md-6 news-container"
-      >
+    <n-loading :loading="showLoading">
+      <section class="p-3 border rounded-2 mb-4 news-container">
         <nuxt-link
-          class="d-flex gap-2 news-item pb-2 border-bottom"
-          :to="`/article/${item?.topic?.[0]}/${item?.articleId}`"
+          class="d-flex flex-column gap-4 flex-md-row"
+          :to="`/article/${headline.topic?.[0]}/${headline.articleId}`"
         >
-          <div class="news-image-container overflow-hidden rounded-1">
+          <div class="headline-col overflow-hidden rounded-1">
             <img
-              :src="item.image"
               class="news-image object-fit-cover"
+              :src="headline.image"
             />
           </div>
-          <div class="d-flex flex-column justify-content-between gap-2 flex-fill">
-            <h6 class="news-title text-body fw-bold limit-line-two">{{ item.title }}</h6>
-            <div class="d-flex align-items-center mt-auto justify-content-between">
-              <article-label :text="item.topic?.[0]" />
-              <div class="publish-date text-muted text-end">
-                {{ useDateFormat(item.publishedAt, 'YYYY/MM/DD').value }}
+          <div class="headline-col d-flex flex-column gap-3">
+            <h3 class="news-title text-body fw-bold limit-line-two">{{ headline.title }}</h3>
+            <img
+              class="wave-icon d-none d-md-inline-block"
+              :src="requireImage('icon/wave-cyan.svg')"
+            />
+            <div class="d-none d-md-block text-muted">
+              <p class="limit-line-four">{{ headline.content }}</p>
+            </div>
+            <div class="d-flex align-items-center mt-auto">
+              <article-label
+                :text="headline.topic?.[0]"
+                class="me-3"
+              />
+              <div class="text-muted flex-fill px-3 border-start border-layout whitespace-nowrap">
+                {{ headline.editor }}
+              </div>
+              <div class="publish-date text-muted text-end border-start border-layout">
+                {{ useDateFormat(headline.publishedAt, 'YYYY/MM/DD').value }}
               </div>
             </div>
           </div>
         </nuxt-link>
-      </li>
-    </ul>
-    <n-empty
-      v-else
-      width="250"
-      text="暫無新聞資料"
-    />
+      </section>
+      <ul
+        v-if="newsArticleList.length"
+        class="row gy-4 gx-md-10"
+      >
+        <li
+          v-for="(item, index) in newsArticleList"
+          :key="index"
+          class="col-12 col-md-6 news-container"
+        >
+          <nuxt-link
+            class="d-flex gap-2 news-item pb-2 border-bottom"
+            :to="`/article/${item?.topic?.[0]}/${item?.articleId}`"
+          >
+            <div class="news-image-container overflow-hidden rounded-1">
+              <img
+                :src="item.image"
+                class="news-image object-fit-cover"
+              />
+            </div>
+            <div class="d-flex flex-column justify-content-between gap-2 flex-fill">
+              <h6 class="news-title text-body fw-bold limit-line-two">{{ item.title }}</h6>
+              <div class="d-flex align-items-center mt-auto justify-content-between">
+                <article-label :text="item.topic?.[0]" />
+                <div class="publish-date text-muted text-end">
+                  {{ useDateFormat(item.publishedAt, 'YYYY/MM/DD').value }}
+                </div>
+              </div>
+            </div>
+          </nuxt-link>
+        </li>
+      </ul>
+      <n-empty
+        v-else-if="!showLoading"
+        width="250"
+        text="暫無新聞資料"
+      />
+    </n-loading>
     <n-pagination
       v-model:current="pagination.current"
       :total-pages="pagination.totalPages"
@@ -113,10 +115,21 @@ definePageMeta({
   }
 });
 
+const isMobile = inject<any>('isMobile');
+
 const loadMoreLoading = ref<boolean>(false);
+const loading = ref<boolean>(true);
+
 const pagination = reactive<PaginationType>({
   current: 1,
   totalPages: 0
+});
+
+const showLoading = computed(() => {
+  if (isMobile.value) {
+    return !pagination.totalPages && loading.value;
+  }
+  return loading.value;
 });
 
 const route = useRoute();
@@ -176,6 +189,10 @@ const newsArticleList = computed(() => {
       topic: [list[index % 6].label]
     }))
     .filter((e) => (route.query.category ? e.topic?.includes(query) : true));
+});
+
+onMounted(() => {
+  loading.value = false;
 });
 </script>
 <style lang="scss" scoped>

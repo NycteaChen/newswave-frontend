@@ -1,44 +1,46 @@
 <template>
   <div>
-    <ul
-      v-if="renderList.length"
-      class="d-flex flex-column gap-2 gap-md-3"
-    >
-      <li
-        v-for="comment in renderList"
-        :key="comment.id"
-        class="p-3 rounded-2 bg-body-light"
+    <n-loading :loading="showLoading">
+      <ul
+        v-if="renderList.length"
+        class="d-flex flex-column gap-2 gap-md-3"
       >
-        <div class="d-flex flex-column gap-2">
-          <div class="d-flex align-items-center gap-2">
-            <article-label
-              v-for="item in comment?.article?.topic"
-              :key="item"
-              :text="item"
-            />
-            <delete-comment-btn
-              :comment-id="comment.id"
-              class="ms-auto"
-              @success="successDeleteHandler(comment.id)"
-            />
+        <li
+          v-for="comment in renderList"
+          :key="comment.id"
+          class="p-3 rounded-2 bg-body-light"
+        >
+          <div class="d-flex flex-column gap-2">
+            <div class="d-flex align-items-center gap-2">
+              <article-label
+                v-for="item in comment?.article?.topic"
+                :key="item"
+                :text="item"
+              />
+              <delete-comment-btn
+                :comment-id="comment.id"
+                class="ms-auto"
+                @success="successDeleteHandler(comment.id)"
+              />
+            </div>
+            <h5 class="mb-0">
+              <nuxt-link
+                class="is-btn text-primary"
+                :to="`/article/${comment?.article?.articleId.startsWith('M-') ? comment?.article?.source?.name : comment?.article?.topic[0]}/${comment?.article?.articleId}`"
+              >
+                {{ comment?.article?.title }}
+              </nuxt-link>
+            </h5>
+            <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
+            <p class="mb-0 break-word">{{ comment.content }}</p>
           </div>
-          <h5 class="mb-0">
-            <nuxt-link
-              class="is-btn text-primary"
-              :to="`/article/${comment?.article?.articleId.startsWith('M-') ? comment?.article?.source?.name : comment?.article?.topic[0]}/${comment?.article?.articleId}`"
-            >
-              {{ comment?.article?.title }}
-            </nuxt-link>
-          </h5>
-          <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
-          <p class="mb-0 break-word">{{ comment.content }}</p>
-        </div>
-      </li>
-    </ul>
-    <n-empty
-      v-else
-      img="icon/no-data.svg"
-    />
+        </li>
+      </ul>
+      <n-empty
+        v-else-if="!showLoading"
+        img="icon/no-data.svg"
+      />
+    </n-loading>
     <n-pagination
       v-model:current="pagination.current"
       class="mt-4"
@@ -61,14 +63,23 @@ const pagination = reactive<PaginationType>({
   totalPages: 0
 });
 const loadMoreLoading = ref<boolean>(false);
+const loading = ref<boolean>(true);
 
 const isMobile = inject<any>('isMobile');
 const commentList = ref<CommentType[]>([]);
 const commentPhoneList = ref<CommentType[]>([]);
 const renderList = computed(() => (isMobile.value ? commentPhoneList.value : commentList.value));
 
+const showLoading = computed(() => {
+  if (isMobile.value) {
+    return !pagination.totalPages && loading.value;
+  }
+  return loading.value;
+});
+
 const getUserArticleCommentPageHandler = async () => {
-  loadMoreLoading.value = true;
+  loading.value = true;
+  loadMoreLoading.value = pagination.totalPages > 1;
 
   const params = {
     pageIndex: pagination.current
@@ -80,8 +91,11 @@ const getUserArticleCommentPageHandler = async () => {
     commentPhoneList.value = pagination.current === 1 ? data.comments : [...commentPhoneList.value, ...data.comments];
 
     pagination.totalPages = data.totalPages || 0;
+  } else {
+    commentList.value = [];
   }
 
+  loading.value = false;
   loadMoreLoading.value = false;
 };
 

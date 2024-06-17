@@ -1,22 +1,24 @@
 <template>
   <div class="magazine">
-    <ul
-      v-if="magazineCategoryList.length"
-      class="row g-4 gx-xl-0"
-    >
-      <li
-        v-for="item in magazineCategoryList"
-        :key="item.categoryId"
-        class="d-block col-12 col-sm-6 col-lg-4 col-xl-3"
+    <n-loading :loading="loading">
+      <ul
+        v-if="magazineCategoryList.length"
+        class="row g-4 gx-xl-0"
       >
-        <magazine-category-card :category-data="item" />
-      </li>
-    </ul>
-    <n-empty
-      v-else
-      text="暫無雜誌資料"
-      width="300"
-    />
+        <li
+          v-for="item in magazineCategoryList"
+          :key="item.categoryId"
+          class="d-block col-12 col-sm-6 col-lg-4 col-xl-3"
+        >
+          <magazine-category-card :category-data="item" />
+        </li>
+      </ul>
+      <n-empty
+        v-else-if="!loading"
+        text="暫無雜誌資料"
+        width="300"
+      />
+    </n-loading>
   </div>
 </template>
 <script setup lang="ts">
@@ -28,8 +30,16 @@ definePageMeta({
   keepalive: true
 });
 
+const loading = ref<boolean>(true);
+
 const guestStore = useGuestStore();
 const { magazineCategoryList } = storeToRefs(guestStore);
+
+onMounted(async () => {
+  await nextTick(() => {
+    loading.value = false;
+  });
+});
 </script>
 <style lang="scss" scoped>
 ::v-deep(.magazine-category-card) {
