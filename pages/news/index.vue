@@ -35,7 +35,10 @@
         </div>
       </nuxt-link>
     </section>
-    <ul class="row gy-4 gx-md-10">
+    <ul
+      v-if="newsArticleList.length"
+      class="row gy-4 gx-md-10"
+    >
       <li
         v-for="(item, index) in newsArticleList"
         :key="index"
@@ -63,6 +66,11 @@
         </nuxt-link>
       </li>
     </ul>
+    <n-empty
+      v-else
+      width="250"
+      text="暫無新聞資料"
+    />
     <n-pagination
       v-model:current="pagination.current"
       :total-pages="pagination.totalPages"

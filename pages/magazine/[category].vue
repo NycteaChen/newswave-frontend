@@ -33,10 +33,13 @@
     </div>
   </section>
   <section>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
-      <div
-        v-for="(item, index) in renderList"
-        :key="index"
+    <ul
+      v-if="renderList.length"
+      class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
+    >
+      <li
+        v-for="item in renderList"
+        :key="item.articleId"
       >
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
           <div class="card overflow-hidden">
@@ -68,8 +71,13 @@
             </div>
           </div>
         </nuxt-link>
-      </div>
-    </div>
+      </li>
+    </ul>
+    <n-empty
+      v-else
+      text="暫無文章資料"
+      width="300"
+    />
     <n-pagination
       v-model:current="pagination.current"
       class="pagination-position"

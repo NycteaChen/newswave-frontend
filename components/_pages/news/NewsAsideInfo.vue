@@ -6,7 +6,10 @@
       key-field="value"
       @change-tab="changeTab"
     />
-    <ul class="news-container pt-3 gap-1 d-flex flex-column">
+    <ul
+      v-if="newsList.length"
+      class="news-container pt-3 gap-1 d-flex flex-column"
+    >
       <li
         v-for="item in newsList"
         :key="item.articleId"
@@ -21,6 +24,10 @@
         </nuxt-link>
       </li>
     </ul>
+    <n-empty
+      v-else
+      text="暫無文章資料"
+    />
   </section>
 </template>
 <script lang="ts" setup>
