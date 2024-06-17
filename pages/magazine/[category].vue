@@ -32,7 +32,7 @@
       />
     </div>
   </section>
-  <section>
+  <n-loading :loading="showLoading">
     <ul
       v-if="renderList.length"
       class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
@@ -74,17 +74,17 @@
       </li>
     </ul>
     <n-empty
-      v-else
+      v-else-if="!showLoading"
       text="暫無文章資料"
       width="300"
     />
-    <n-pagination
-      v-model:current="pagination.current"
-      class="pagination-position"
-      :total-pages="pagination.totalPages"
-      :btn-loading="loadMoreLoading"
-    />
-  </section>
+  </n-loading>
+  <n-pagination
+    v-model:current="pagination.current"
+    class="pagination-position"
+    :total-pages="pagination.totalPages"
+    :btn-loading="loadMoreLoading"
+  />
 </template>
 <script setup lang="ts">
 import type { PaginationType } from '@/components/NPagination.vue';
@@ -97,16 +97,25 @@ const { getMagazineArticlePage } = useGuestApi();
 const magazineArticleList = ref<ArticleType[]>([]);
 const magazineArticlePhoneList = ref<ArticleType[]>([]);
 const loadMoreLoading = ref<boolean>(false);
+const loading = ref<boolean>(true);
 
 const pagination = reactive<PaginationType>({
   current: 1,
   totalPages: 0
 });
 
+const showLoading = computed(() => {
+  if (isMobile.value) {
+    return !pagination.totalPages && loading.value;
+  }
+  return loading.value;
+});
+
 const renderList = computed(() => (isMobile.value ? magazineArticlePhoneList.value : magazineArticleList.value));
 
 const getMagazineArticlePageHandler = async () => {
-  loadMoreLoading.value = true;
+  loading.value = true;
+  loadMoreLoading.value = pagination.totalPages > 1;
 
   const params: MagazineArticlePageRequestType = {
     pageIndex: pagination.current,
@@ -121,8 +130,11 @@ const getMagazineArticlePageHandler = async () => {
       pagination.current === 1 ? data.articles : [...magazineArticlePhoneList.value, ...data.articles];
 
     pagination.totalPages = data.totalPages || 0;
+  } else {
+    magazineArticleList.value = [];
   }
 
+  loading.value = false;
   loadMoreLoading.value = false;
 };
 

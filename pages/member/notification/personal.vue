@@ -26,43 +26,46 @@
         @success="getNoticeListHandler"
       />
     </div>
-    <ul
-      v-if="renderList.length"
-      class="d-flex flex-column gap-2 gap-md-3"
-    >
-      <li
-        v-for="item in renderList"
-        :key="item.id"
-        class="notice-card d-flex gap-2 gap-sm-3 gap-md-4 cursor-pointer p-3 rounded-2"
-        :class="item.read ? 'notice-card-read bg-body border' : 'notice-card-unread bg-body-light'"
-        @click="openNoticeModal(item)"
+
+    <n-loading :loading="showLoading">
+      <ul
+        v-if="renderList.length"
+        class="d-flex flex-column gap-2 gap-md-3"
       >
-        <img
-          class="site-logo"
-          :src="requireImage('site/site.svg')"
-        />
-        <div class="flex-fill notice-content">
-          <h5 class="text-primary">
-            <notice-badge
-              v-if="!item.read"
-              class="me-1 mb-xl-1"
-            />
-            {{ noticeTemplate(item?.topic?.[0]).title }}
-          </h5>
-          <p class="mb-2 text-sm">
-            {{ noticeTemplate().subTitle }}
-          </p>
-          <h6>{{ `${item.title}...` }}</h6>
-          <div class="text-muted text-sm">
-            {{ useDateFormat(item?.publishedAt, 'YYYY/MM/DD HH:mm').value }}
+        <li
+          v-for="item in renderList"
+          :key="item.id"
+          class="notice-card d-flex gap-2 gap-sm-3 gap-md-4 cursor-pointer p-3 rounded-2"
+          :class="item.read ? 'notice-card-read bg-body border' : 'notice-card-unread bg-body-light'"
+          @click="openNoticeModal(item)"
+        >
+          <img
+            class="site-logo"
+            :src="requireImage('site/site.svg')"
+          />
+          <div class="flex-fill notice-content">
+            <h5 class="text-primary">
+              <notice-badge
+                v-if="!item.read"
+                class="me-1 mb-xl-1"
+              />
+              {{ noticeTemplate(item?.topic?.[0]).title }}
+            </h5>
+            <p class="mb-2 text-sm">
+              {{ noticeTemplate().subTitle }}
+            </p>
+            <h6>{{ `${item.title}...` }}</h6>
+            <div class="text-muted text-sm">
+              {{ useDateFormat(item?.publishedAt, 'YYYY/MM/DD HH:mm').value }}
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
-    <n-empty
-      v-else
-      img="icon/no-data.svg"
-    />
+        </li>
+      </ul>
+      <n-empty
+        v-else-if="!showLoading"
+        img="icon/no-data.svg"
+      />
+    </n-loading>
     <n-pagination
       v-model:current="pagination.current"
       :total-pages="pagination.totalPages"
@@ -77,11 +80,6 @@ import type { PaginationType } from '@/components/NPagination.vue';
 definePageMeta({
   title: '通知中心 - 我的通知'
 });
-
-const { getNoticeList } = useUserApi();
-
-const readState = ref<NoticePageRequestType['readState'] | 'all'>('all');
-const loadMoreLoading = ref<boolean>(false);
 
 const radioOptions = [
   {
@@ -98,18 +96,33 @@ const radioOptions = [
   }
 ];
 
+const { getNoticeList } = useUserApi();
+
+const isMobile = inject<any>('isMobile');
+const noticeList = ref<NoticeType[]>([]);
+const noticePhoneList = ref<NoticeType[]>([]);
+const readState = ref<NoticePageRequestType['readState'] | 'all'>('all');
+const loadMoreLoading = ref<boolean>(false);
+const loading = ref<boolean>(true);
+const changeState = ref<boolean>(false);
+
+const renderList = computed(() => (isMobile.value ? noticePhoneList.value : noticeList.value));
+
 const pagination = reactive<PaginationType>({
   current: 1,
   totalPages: 0
 });
 
-const isMobile = inject<any>('isMobile');
-const noticeList = ref<NoticeType[]>([]);
-const noticePhoneList = ref<NoticeType[]>([]);
-const renderList = computed(() => (isMobile.value ? noticePhoneList.value : noticeList.value));
+const showLoading = computed(() => {
+  if (isMobile.value) {
+    return (changeState.value || !pagination.totalPages) && loading.value;
+  }
+  return loading.value;
+});
 
 const getNoticeListHandler = async () => {
-  loadMoreLoading.value = true;
+  loading.value = true;
+  loadMoreLoading.value = pagination.totalPages > 1;
 
   const params = {
     pageIndex: pagination.current,
@@ -123,9 +136,13 @@ const getNoticeListHandler = async () => {
     noticePhoneList.value = pagination.current === 1 ? data.notices : [...noticePhoneList.value, ...data.notices];
 
     pagination.totalPages = data.totalPages || 0;
+  } else {
+    noticeList.value = [];
   }
 
+  loading.value = false;
   loadMoreLoading.value = false;
+  changeState.value = false;
 };
 
 const noticeModalBus = useEventBus('noticeModalBus');
@@ -142,6 +159,11 @@ onMounted(async () => {
   });
 });
 
+const getNoticeEventBusHandler = () => {
+  changeState.value = true;
+  getNoticeListHandler();
+};
+
 onBeforeUnmount(() => {
   personalNotificationBus.off(getNoticeListHandler);
 });
@@ -156,6 +178,7 @@ watch(
 watchImmediate(
   () => readState.value,
   (val) => {
+    changeState.value = true;
     if (pagination.current !== 1) {
       pagination.current = 1;
     } else {
@@ -163,9 +186,9 @@ watchImmediate(
     }
 
     if (val === 'read') {
-      personalNotificationBus.off(getNoticeListHandler);
+      personalNotificationBus.off(getNoticeEventBusHandler);
     } else {
-      personalNotificationBus.on(getNoticeListHandler);
+      personalNotificationBus.on(getNoticeEventBusHandler);
     }
   }
 );

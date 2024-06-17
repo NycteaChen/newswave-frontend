@@ -24,40 +24,42 @@
           />
         </div>
       </section>
-      <ul class="d-flex flex-column gap-1">
-        <li
-          v-for="comment in renderList"
-          :key="comment.id"
-          class="p-4 rounded-2"
-        >
-          <div class="d-flex flex-column gap-3">
-            <div class="d-flex align-items-center gap-3">
-              <div
-                class="fw-bold"
-                :class="{ 'text-primary': comment.userId?._id === id }"
-              >
-                {{ comment.user?.name || '-' }}
+      <n-loading :loading="showLoading">
+        <ul class="d-flex flex-column gap-1">
+          <li
+            v-for="comment in renderList"
+            :key="comment.id"
+            class="p-4 rounded-2"
+          >
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <div
+                  class="fw-bold"
+                  :class="{ 'text-primary': comment.userId?._id === id }"
+                >
+                  {{ comment.user?.name || '-' }}
+                </div>
+                <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
+                <delete-comment-btn
+                  v-if="comment.userId?._id === id"
+                  :comment-id="comment.id"
+                  class="ms-auto"
+                  @success="successDeleteHandler(comment.id)"
+                />
               </div>
-              <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
-              <delete-comment-btn
-                v-if="comment.userId?._id === id"
-                :comment-id="comment.id"
-                class="ms-auto"
-                @success="successDeleteHandler(comment.id)"
-              />
+              <p class="mb-0 break-word">{{ comment.content }}</p>
             </div>
-            <p class="mb-0 break-word">{{ comment.content }}</p>
-          </div>
-        </li>
-        <li
-          v-if="!renderList.length"
-          class="empty-box text-muted text-sm text-center rounded-2"
-        >
-          <div class="d-flex align-items-center justify-content-center">
-            目前沒有留言，趕快發表這篇文章的第一則評論吧！
-          </div>
-        </li>
-      </ul>
+          </li>
+          <li
+            v-if="!renderList.length && !showLoading"
+            class="empty-box text-muted text-sm text-center rounded-2"
+          >
+            <div class="d-flex align-items-center justify-content-center">
+              目前沒有留言，趕快發表這篇文章的第一則評論吧！
+            </div>
+          </li>
+        </ul>
+      </n-loading>
       <n-pagination
         v-model:current="pagination.current"
         :total-pages="pagination.totalPages"
@@ -86,6 +88,7 @@ const renderList = computed(() => (isMobile.value ? commentPhoneList.value : com
 const commentValue = ref<string>('');
 
 const loadMoreLoading = ref<boolean>(false);
+const loading = ref<boolean>(true);
 const btnLoading = ref<boolean>(false);
 
 const pagination = reactive<PaginationType>({
@@ -93,10 +96,18 @@ const pagination = reactive<PaginationType>({
   totalPages: 0
 });
 
+const showLoading = computed(() => {
+  if (isMobile.value) {
+    return !pagination.totalPages && loading.value;
+  }
+  return loading.value;
+});
+
 const articleId = computed<string>(() => `${route.params.articleId}`);
 
 const getArticleCommentPageHandler = async () => {
-  loadMoreLoading.value = true;
+  loading.value = true;
+  loadMoreLoading.value = pagination.totalPages > 1;
 
   const params = {
     articleId: articleId.value,
@@ -112,6 +123,7 @@ const getArticleCommentPageHandler = async () => {
     pagination.totalPages = data.totalPages || 0;
   }
 
+  loading.value = false;
   loadMoreLoading.value = false;
 };
 

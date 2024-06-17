@@ -2,6 +2,7 @@
   <n-table-list
     :columns="tableColumn"
     :data-source="dataList"
+    :table-loading="loading"
   />
 </template>
 <script lang="ts" setup>
@@ -42,8 +43,11 @@ const tableColumn: ColumnItemType[] = [
 ];
 
 const dataList = ref<SubscriptionOrderType[]>([]);
+const loading = ref<boolean>(true);
 
 const getSubscriptionListHandler = async () => {
+  loading.value = true;
+
   const { status, data } = await getSubscriptionList();
   if (status) {
     dataList.value = data.map((e) => ({
@@ -54,6 +58,8 @@ const getSubscriptionListHandler = async () => {
         e.payStatus === 'paid' ? useDateFormat(e.subscribeExpiredAt, 'YYYY/MM/DD HH:mm:ss').value : '-'
     }));
   }
+
+  loading.value = false;
 };
 
 onMounted(async () => {
