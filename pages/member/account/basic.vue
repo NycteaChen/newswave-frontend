@@ -9,6 +9,7 @@
         v-for="field in fieldList"
         :key="field.value"
         class="col-12"
+        :class="{ 'col-sm-6': field.type === 'radio' }"
       >
         <div class="d-flex flex-column">
           <label class="form-label fs-6">
@@ -19,28 +20,11 @@
               >*</span
             >
           </label>
-          <div
+          <n-radio-group
             v-if="field.type === 'radio'"
-            class="d-flex gap-3"
-          >
-            <label
-              v-for="option in field.options"
-              :key="option.value"
-              class="d-flex align-items-center"
-            >
-              <input
-                :id="option.value"
-                v-model="formState[field.value]"
-                :type="field.type"
-                :name="field.value"
-                :value="option.value"
-                class="me-2"
-                :required="field.require"
-                @keyup.enter="submit"
-              />
-              {{ option.label }}
-            </label>
-          </div>
+            v-model:checked="formState[field.value]"
+            :options="field.options"
+          />
           <n-input
             v-else
             :id="field.value"
@@ -59,14 +43,12 @@
           {{ errorMessage[field.value] }}
         </div>
       </div>
-      <div class="d-flex flex-column gap-3 flex-sm-row">
-        <n-button
-          class="w-100"
-          text="確認"
-          :loading="btnLoading"
-          @click="submit"
-        />
-      </div>
+      <n-button
+        class="w-100"
+        text="確認"
+        :loading="btnLoading"
+        @click="submit"
+      />
       <p
         v-show="warnMessage"
         class="text-danger text-sm mt-3 mb-0"
