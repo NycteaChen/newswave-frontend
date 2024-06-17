@@ -1,14 +1,22 @@
 <template>
   <div class="magazine">
-    <div class="row g-4 gx-xl-0">
-      <div
+    <ul
+      v-if="magazineCategoryList.length"
+      class="row g-4 gx-xl-0"
+    >
+      <li
         v-for="item in magazineCategoryList"
         :key="item.categoryId"
-        class="col-12 col-sm-6 col-lg-4 col-xl-3"
+        class="d-block col-12 col-sm-6 col-lg-4 col-xl-3"
       >
         <magazine-category-card :category-data="item" />
-      </div>
-    </div>
+      </li>
+    </ul>
+    <n-empty
+      v-else
+      text="暫無雜誌資料"
+      width="300"
+    />
   </div>
 </template>
 <script setup lang="ts">

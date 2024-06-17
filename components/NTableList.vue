@@ -22,7 +22,10 @@
           </li>
         </ul>
       </div>
-      <n-empty v-if="!dataSource.length" />
+      <n-empty
+        v-if="!dataSource.length"
+        img="icon/no-data.svg"
+      />
     </div>
     <table class="d-none d-md-table n-table table mb-md-4">
       <thead class="table-head">
@@ -63,7 +66,7 @@
             class="border-bottom-0 align-middle"
             :colspan="columns.length"
           >
-            <n-empty />
+            <n-empty img="icon/no-data.svg" />
           </td>
         </tr>
       </tbody>

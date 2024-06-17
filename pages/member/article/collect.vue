@@ -14,7 +14,10 @@
         />
       </li>
     </ul>
-    <n-empty v-else />
+    <n-empty
+      v-else
+      img="icon/no-data.svg"
+    />
     <n-pagination
       v-model:current="pagination.current"
       :total-pages="pagination.totalPages"

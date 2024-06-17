@@ -7,10 +7,7 @@
       <client-only>
         <div class="d-flex flex-wrap gap-1 align-items-center justify-content-between">
           <n-breadcrumb class="mb-2" />
-          <collect-share
-            v-if="isArticlePage"
-            class="d-md-none mb-2"
-          />
+          <div id="shareCollect" />
         </div>
       </client-only>
       <div class="row flex-column flex-lg-row align-items-start">
