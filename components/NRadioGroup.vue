@@ -3,10 +3,11 @@
     <label
       v-for="(item, index) in options"
       :key="item.value"
-      class="n-radio text-sm text-center py-1 px-3 cursor-pointer rounded-1"
+      class="position-relative z-2 n-radio text-sm text-center py-1 px-3 cursor-pointer rounded-1"
       :style="!index ? { '--index': activeIndex } : ''"
       :class="{
-        'position-relative first-option': !index
+        'first-option': !index,
+        'n-radio-active': item.value === checked
       }"
     >
       <input
@@ -19,7 +20,7 @@
         autocomplete="off"
       />
       <span
-        class="n-radio-label position-relative z-1"
+        class="n-radio-label position-relative z-2"
         :class="item.value === checked ? 'text-body-white' : 'text-primary'"
       >
         <slot
@@ -77,7 +78,7 @@ const activeIndex = computed(() => {
 
 @include media-breakpoint-up(md) {
   .n-radio {
-    &:hover {
+    &:not(.n-radio-active):hover {
       background: $blue-100;
     }
   }
@@ -89,6 +90,7 @@ const activeIndex = computed(() => {
   position: absolute;
   top: 50%;
   left: 50%;
+  z-index: 1;
   width: 100%;
   height: 100%;
   border-radius: 4px;
