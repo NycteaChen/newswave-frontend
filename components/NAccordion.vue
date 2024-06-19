@@ -17,7 +17,7 @@
           aria-expanded="false"
           :aria-controls="`flush-collapse${index}`"
         >
-          <h3>{{ item.title }}</h3>
+          <h3 class="me-3">{{ item.title }}</h3>
         </button>
       </h3>
       <div

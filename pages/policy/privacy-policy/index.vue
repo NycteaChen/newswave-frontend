@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="privacy-policy">
     <p>歡迎您使用 NewsWave，我們非常重視您的隱私權，並致力於保護您的個人資訊。</p>
     <p>在使用我們的服務之前，請您仔細閱讀以下隱私權政策：</p>
     <section class="space-getter">

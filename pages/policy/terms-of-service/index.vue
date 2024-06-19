@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="terms-of-service">
     <p>歡迎您使用 NewsWave，NewsWave 提供個人化訂閱服務，讓會員能追蹤感興趣的主題文章。</p>
     <p>
       您對我們服務的使用受本《服務條款》約束，本《服務條款》所稱「NewWave 服務」、「我們的服務」或「服務」，是指 NewWave
