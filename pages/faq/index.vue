@@ -27,6 +27,7 @@ useHead({
 <style lang="scss" scoped>
 .faq {
   &-banner {
+    margin-bottom: 40px !important;
     padding: 40px 16px;
 
     img {
@@ -37,6 +38,8 @@ useHead({
 
 @include media-breakpoint-up(md) {
   .faq {
+    margin-top: 60px;
+
     &-banner {
       padding: 60px 16px;
 
