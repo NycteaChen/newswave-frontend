@@ -38,8 +38,6 @@ useHead({
 
 @include media-breakpoint-up(md) {
   .faq {
-    margin-top: 60px;
-
     &-banner {
       padding: 60px 16px;
 
