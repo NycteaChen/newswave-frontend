@@ -92,11 +92,11 @@ const footerNav = [
       },
       {
         title: '服務條款',
-        path: '/terms-of-service'
+        path: '/policy/terms-of-service'
       },
       {
         title: '隱私權政策',
-        path: '/privacy-policy'
+        path: '/policy/privacy-policy'
       }
     ]
   },
