@@ -6,7 +6,7 @@
     <section class="container position-relative">
       <h2
         v-if="title"
-        class="text-primary text-center mb-3 position-relative z-2"
+        class="title text-primary text-center mb-3 position-relative z-2"
       >
         {{ title }}
       </h2>
@@ -32,6 +32,10 @@ const title = computed(() => route.matched?.find((e) => e.name === String(route.
 <style lang="scss" scoped>
 .container {
   max-width: 720px !important;
+
+  .title {
+    margin-bottom: 40px !important;
+  }
 }
 
 .seagull-img {

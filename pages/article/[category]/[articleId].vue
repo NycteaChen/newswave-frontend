@@ -34,7 +34,7 @@
               >
                 <img
                   :src="articleData?.image || renderDefaultMagazineImage"
-                  class="rounded-1 mb-2"
+                  class="news-image rounded-1 mb-2 d-block mx-auto"
                 />
                 <figcaption class="text-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
                   {{ articleData?.imageDescribe }}
@@ -191,5 +191,11 @@ useHead({
 
 .card-text {
   white-space: pre-wrap;
+}
+
+@include media-breakpoint-up(md) {
+  .news-image {
+    max-width: 75%;
+  }
 }
 </style>
