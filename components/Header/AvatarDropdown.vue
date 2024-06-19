@@ -17,18 +17,19 @@
               @click="navigateTo('/subscription-plan')"
             />
           </li>
-          <li
-            class="menu-item mb-3 d-flex align-items-center gap-2"
-            @click="navigateTo('/member')"
+          <nuxt-link
+            :to="redirectItem.to"
+            class="text-primary"
           >
-            <img :src="requireImage('member/member.svg')" />
-            <nuxt-link
-              to="/member"
-              class="text-primary"
+            <li
+              class="menu-item mb-3 d-flex align-items-center gap-2"
+              @click="navigateTo(redirectItem.to)"
             >
-              會員中心
-            </nuxt-link>
-          </li>
+              <img :src="requireImage(redirectItem.icon)" />
+
+              {{ redirectItem.label }}
+            </li>
+          </nuxt-link>
           <li
             class="menu-item text-primary d-flex align-items-center gap-2"
             @click="logoutHandler"
@@ -75,6 +76,20 @@ export interface BtnTypes {
   color: 'primary' | 'secondary';
   query?: any;
 }
+
+const redirectItem = computed(() =>
+  String(route.name).includes('member')
+    ? {
+        label: '首頁',
+        to: '/news',
+        icon: 'icon/home.svg'
+      }
+    : {
+        label: '會員中心',
+        to: '/member',
+        icon: 'member/member.svg'
+      }
+);
 
 const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
   {
