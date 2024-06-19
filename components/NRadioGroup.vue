@@ -93,7 +93,7 @@ const activeIndex = computed(() => {
   z-index: 1;
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: $border-radius-sm;
   background-color: $primary;
   content: '';
   transform: translate(calc(-50% + (100% + 8px) * var(--index)), -50%);
