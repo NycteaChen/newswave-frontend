@@ -26,23 +26,7 @@
 <script setup lang="ts">
 import type { AccordionItem } from '@/components/NAccordion.vue';
 
-const list = ref<AccordionItem[]>([
-  {
-    title: 'NewsWave 是什麼？',
-    content:
-      'NewsWave 是一個致力於提供零廣告干擾的免費新聞閱讀應用程式，讓您能輕鬆快速地瀏覽世界最新動態，專注於真正重要的內容。無論何時何地，只要透過可連接網路的行動裝置，NewsWave 便能為您提供最新、最有價值的新聞資訊。'
-  },
-  {
-    title: 'NewsWave可閱讀什麼樣內容',
-    content:
-      'NewsWave 為您整理的六大熱門新聞主題，不論國際新聞、財經資訊、科技趨勢還是娛樂八卦，都能在 NewsWave 找到您想要的新聞！'
-  },
-  {
-    title: 'NewsWave Plus 是什麼？',
-    content:
-      'NewsWave Plus 是 NewsWave 提供的訂閱服務，一個月最多只要 100 元，便能專享限定的雜誌內容，豐富您的閱讀生活。'
-  }
-]);
+const list = ref<AccordionItem[]>(renderFaqList('home'));
 </script>
 
 <style lang="scss" scoped>
