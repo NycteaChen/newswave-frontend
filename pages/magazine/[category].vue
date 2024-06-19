@@ -117,7 +117,7 @@ const getMagazineArticlePageHandler = async () => {
   loading.value = true;
   loadMoreLoading.value = pagination.totalPages > 1;
 
-  const params: MagazineArticlePageRequestType = {
+  const params: ArticlePageRequestType = {
     pageIndex: pagination.current,
     category: String(route.params.category),
     pageSize: 6
