@@ -54,7 +54,7 @@
               class="mt-2"
               :class="{
                 'ms-2': item.type === 'socialMedia' && index,
-                'social-media-item': item.type === 'socialMedia'
+                'social-media-item rounded-circle': item.type === 'socialMedia'
               }"
             >
               <nuxt-link
@@ -177,7 +177,6 @@ const renderSocialMedia = (type: string) => ({
   width: 40px;
   height: 40px;
   border: 1px solid $border-color;
-  border-radius: 50%;
 
   a {
     display: block;

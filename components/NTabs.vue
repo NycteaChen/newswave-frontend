@@ -165,7 +165,7 @@ watch(
 
 @include media-breakpoint-up(md) {
   .n-tab-item:not(.n-tab-item-active):hover {
-    border-radius: 4px 4px 0 0;
+    border-radius: $border-radius $border-radius 0 0;
     background: $blue-100;
     color: $primary;
   }

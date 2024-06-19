@@ -1,5 +1,5 @@
 <template>
-  <section class="title mb-4 bg-body-light">
+  <section class="title mb-4 bg-body-light rounded-1">
     <div class="d-flex">
       <div class="title-img me-4">
         <img
@@ -241,10 +241,6 @@ watch(
 
 .expand-text {
   font-size: 12px;
-}
-
-.title {
-  border-radius: 8px;
 }
 
 @include media-breakpoint-down(md) {
