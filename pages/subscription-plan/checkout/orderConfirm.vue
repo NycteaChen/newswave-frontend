@@ -54,7 +54,7 @@
       感謝您購買我們的產品，為了維護您的權益，請您確認訂單之前，仔細閱讀我們的
       <nuxt-link
         class="is-btn"
-        to="/terms-of-service"
+        to="/policy/terms-of-service"
         target="_blank"
       >
         服務條款
@@ -62,7 +62,7 @@
       與
       <nuxt-link
         class="is-btn"
-        to="/privacy-polic"
+        to="/policy/privacy-policy"
         target="_blank"
       >
         隱私權政策
