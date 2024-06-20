@@ -24,7 +24,7 @@
 <script lang="ts" setup>
 const value = defineModel('value', { type: String, required: true, default: '' });
 
-interface NInputProps {
+export interface NInputProps {
   id?: string;
   placeholder?: string;
   type?: string;
