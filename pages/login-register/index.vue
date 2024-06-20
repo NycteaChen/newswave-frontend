@@ -97,7 +97,8 @@ interface FieldType {
 }
 
 definePageMeta({
-  layout: 'login'
+  layout: 'login',
+  middleware: ['no-auth']
 });
 
 useHead({
