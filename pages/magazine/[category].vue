@@ -1,7 +1,7 @@
 <template>
   <section class="title mb-4 bg-body-light rounded-1">
     <div class="d-flex">
-      <div class="title-img me-4">
+      <div class="title-img me-4 flex-shrink-0">
         <img
           :src="magazineContent?.categoryImg"
           :alt="magazineContent?.categoryDescribe"
@@ -172,7 +172,6 @@ watch(
 </script>
 <style lang="scss" scoped>
 .title-img {
-  flex-shrink: 0;
   width: 120px;
   height: 120px;
 }
