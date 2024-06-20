@@ -5,6 +5,7 @@
     :type="inputType"
     :suffix-icon="`icon/eye${eyeType}.svg`"
     :suffix-icon-click-fn="showPasswordHandler"
+    @click-icon="showPasswordHandler"
   />
 </template>
 <script setup lang="ts">

@@ -8,9 +8,7 @@
         <n-logo target-path="/news" />
         <div class="d-flex align-items-center gap-1 gap-md-3">
           <client-only>
-            <nuxt-link to="/search">
-              <nav-icon-btn icon="search" />
-            </nuxt-link>
+            <global-search />
             <notice-bell v-if="token" />
             <avatar-dropdown v-if="token || isMobile" />
             <n-button

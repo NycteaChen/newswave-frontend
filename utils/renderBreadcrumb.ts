@@ -19,6 +19,12 @@ export default (): NavItemType[] => {
       label: magazineItem?.categoryName || '',
       value: `/magazine/${magazineItem?.categoryId}`
     });
+  } else if (route.name === 'search') {
+    list = newsNav.filter((e) => e.label === '首頁');
+    list.push({
+      label: '搜尋',
+      value: ''
+    });
   } else {
     list = [];
   }

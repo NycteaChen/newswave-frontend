@@ -13,9 +13,9 @@
     />
     <div
       v-if="suffixIcon"
-      class="suffix-icon position-absolute h-100 py-2"
+      class="suffix-icon position-absolute h-100 d-flex align-items-center"
       :class="{ 'is-btn': suffixIconClickFn }"
-      @click="suffixIconClickFn"
+      @click="$emit('clickIcon')"
     >
       <img :src="requireImage(suffixIcon)" />
     </div>
@@ -46,7 +46,7 @@ withDefaults(defineProps<NInputProps>(), {
   suffixIconClickFn: undefined
 });
 
-defineEmits<{ (e: 'pressEnter'): void }>();
+defineEmits<{ (e: 'pressEnter'): void; (e: 'clickIcon'): void }>();
 </script>
 <style lang="scss" scoped>
 .n-input {

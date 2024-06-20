@@ -53,9 +53,21 @@ const route = useRoute();
 
 const { newsNav } = useNav();
 
-const isArticlePage = computed(() => route.name === 'article-category-articleId');
-const showAsideInfo = computed(() => String(route.name)?.startsWith('news') || isArticlePage.value);
-const noTouchEvent = computed(() => !isMobile.value || isArticlePage.value);
+const isArticlePage = computed(() => String(route.name) === 'article-category-articleId');
+
+const showAsideInfo = computed(
+  () => String(route.name) === 'news' || String(route.name) === 'search' || isArticlePage.value
+);
+
+const hasTouchEvent = computed(() => {
+  switch (String(route.name)) {
+    case 'news':
+    case 'magazine':
+      return isMobile.value;
+    default:
+      return false;
+  }
+});
 
 const currentTab = computed(() => {
   switch (route.name) {
@@ -83,19 +95,19 @@ const transformStyle = computed(() => ({
 }));
 
 const pressHandler = () => {
-  if (noTouchEvent.value) return;
+  if (!hasTouchEvent.value) return;
   isPress.value = true;
 };
 
 const releaseHandler = () => {
-  if (noTouchEvent.value) return;
+  if (!hasTouchEvent.value) return;
   setTimeout(() => {
     isPress.value = false;
   }, 100);
 };
 
 const swiperHeader = (direction: string) => {
-  if (noTouchEvent.value) return;
+  if (!hasTouchEvent.value) return;
   if (direction === 'left') {
     navigateTo(swiperRoute.value.next);
   } else {
@@ -108,6 +120,7 @@ const { magazineCategoryList } = storeToRefs(guestStore);
 
 watchImmediate([() => route.fullPath, () => magazineCategoryList.value], () => {
   if (isArticlePage.value) return;
+
   const list = renderBreadcrumb();
   guestStore.SET_BREADCRUMB_NAV(list);
 });

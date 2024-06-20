@@ -16,6 +16,7 @@
                   <article-label
                     v-for="item in articleData?.topic"
                     :key="item"
+                    :article-id="articleData?.articleId"
                     :text="item"
                   />
                 </div>
