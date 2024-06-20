@@ -1,5 +1,8 @@
 <template>
-  <footer class="n-footer bg-primary-gradient text-body-white pt-3">
+  <footer
+    class="n-footer bg-primary-gradient text-body-white"
+    :class="$route.name === 'index' ? 'pt-3' : 'pt-64'"
+  >
     <div class="container-xxl row mx-auto text-center text-md-start gx-5 py-3">
       <section class="footer-desc col-12 text-blue-400 col-md-6 fs-sm">
         <n-logo
@@ -154,6 +157,10 @@ const renderSocialMedia = (type: string) => ({
 });
 </script>
 <style lang="scss" scoped>
+.pt-64 {
+  padding-top: 64px;
+}
+
 .n-footer {
   padding-bottom: 80px;
 }

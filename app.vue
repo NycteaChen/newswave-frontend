@@ -80,7 +80,12 @@ watchImmediate(
 @include media-breakpoint-up(md) {
   .layouts,
   ::v-deep(.layouts) {
-    &:not(.login-layout, .home-layout) {
+    &.info-layout {
+      padding-bottom: 80px;
+      min-height: calc(100vh - $pc-header-height - 372px);
+    }
+
+    &:not(.login-layout, .home-layout, .info-layout) {
       padding-bottom: 80px;
       min-height: calc(100vh - $pc-header-tab-height - 372px);
     }
