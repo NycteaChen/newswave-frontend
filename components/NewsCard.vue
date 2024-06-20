@@ -32,6 +32,7 @@
           >
             <article-label
               :text="newsData.topic?.[0]"
+              :article-id="newsData?.articleId"
               class="me-3"
             />
           </div>
