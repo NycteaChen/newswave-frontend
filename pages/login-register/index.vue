@@ -47,6 +47,7 @@
                 v-model:value="formState[field.value]"
                 :placeholder="`請輸入${field.label}`"
                 :has-error="!!errorMessage[field.value]"
+                :inputmode="field.inputmode || 'text'"
                 @press-enter="submit"
               />
             </client-only>
@@ -86,10 +87,13 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { NInputProps } from '@/components/NInput.vue';
+
 interface FieldType {
   label: string;
   value: keyof RegisterRequestType;
   hidden?: boolean;
+  inputmode?: NInputProps['inputmode'];
 }
 
 definePageMeta({
@@ -159,7 +163,8 @@ const fieldList = computed(() => {
     },
     {
       label: 'Email',
-      value: 'email'
+      value: 'email',
+      inputmode: 'email' as const
     },
     {
       label: '密碼',
