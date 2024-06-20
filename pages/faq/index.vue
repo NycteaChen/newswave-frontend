@@ -26,6 +26,8 @@ useHead({
 </script>
 <style lang="scss" scoped>
 .faq {
+  padding-bottom: 80px;
+
   &-banner {
     margin-bottom: 40px !important;
     padding: 40px 16px;
