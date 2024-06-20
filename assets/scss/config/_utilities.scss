@@ -115,3 +115,17 @@ $utilities: map-merge(
     )
   )
 );
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'flex': (
+      responsive: true,
+      property: flex,
+      values: (
+        1: 1 1 0,
+        fill: 1 1 auto
+      )
+    )
+  )
+);

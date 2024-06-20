@@ -7,7 +7,7 @@
         <span class="fw-bold">{{ `臺灣, ${countryName}` }}</span>
       </div>
       <div class="d-flex align-items-center justify-content-center">
-        <div class="weather-status flex-fill">
+        <div class="weather-status flex-1 pe-2">
           <template v-if="currentWeather.weatherCode && currentWeather.description">
             <weather-icon
               :weather-code="currentWeather.weatherCode"
@@ -17,7 +17,7 @@
           </template>
           <span v-else> - </span>
         </div>
-        <div class="temperature-area flex-fill">
+        <div class="temperature-area flex-1">
           <div>
             <span class="temperature fw-bold">{{ currentWeather.temperature || '-' }}</span
             >°C

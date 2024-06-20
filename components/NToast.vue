@@ -13,7 +13,7 @@
       aria-atomic="true"
     >
       <div class="d-flex gap-3 p-3 pb-0">
-        <div class="toast-icon pt-1">
+        <div class="toast-icon pt-1 flex-shrink-0">
           <img
             :src="requireImage(toastInfo.icon || 'icon/magazine.svg')"
             alt="toastIcon"
@@ -23,7 +23,7 @@
           <header class="d-flex align-items-center w-100 justify-content-between mb-2">
             <h5 class="text-primary mb-0">系統提示</h5>
             <img
-              class="toast-icon close-icon is-btn"
+              class="toast-icon close-icon is-btn flex-shrink-0"
               :src="requireImage('icon/close-gray.svg')"
               @click="closeToast('hide')"
             />
@@ -109,7 +109,6 @@ onBeforeMount(() => {
 }
 
 .toast-icon {
-  flex-shrink: 0;
   width: 24px;
 
   &.close-icon {

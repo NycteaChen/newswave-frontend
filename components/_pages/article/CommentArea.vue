@@ -7,7 +7,7 @@
           v-if="token"
           class="py-2 d-flex align-items-center gap-2 flex-fill"
         >
-          <n-avatar />
+          <n-avatar class="flex-shrink-0" />
           <n-input
             v-model:value="commentValue"
             class="w-100"
@@ -206,10 +206,6 @@ watch(
       padding: 40px;
     }
   }
-}
-
-::v-deep(.n-avatar) {
-  flex-shrink: 0;
 }
 
 ::v-deep(.n-input) {
