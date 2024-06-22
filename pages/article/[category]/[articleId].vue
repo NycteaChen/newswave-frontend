@@ -30,11 +30,11 @@
                 </div>
               </header>
               <figure
-                v-if="articleData?.image || renderDefaultMagazineImage"
+                v-if="articleData?.image || articleData?.articleId?.startsWith('M-')"
                 class="mb-md-4"
               >
-                <img
-                  :src="articleData?.image || renderDefaultMagazineImage"
+                <article-image
+                  :article-data="articleData"
                   class="news-image rounded-1 mb-2 d-block mx-auto"
                 />
                 <figcaption class="text-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
@@ -85,7 +85,6 @@ const guestStore = useGuestStore();
 const userStore = useUserStore();
 
 const { planType } = storeToRefs(userStore);
-const { magazineCategoryList } = storeToRefs(guestStore);
 
 const loading = ref<boolean>(true);
 const isFreeRead = ref<boolean>(false);
@@ -98,10 +97,6 @@ const hasArticle = ref<boolean>(false);
 const isMagazine = computed<boolean>(() => String(route.params.articleId).startsWith('M-'));
 const showPaywall = computed<boolean>(
   () => isMagazine.value && (!token.value || !(planType.value || isFreeRead.value))
-);
-
-const renderDefaultMagazineImage = computed(
-  () => magazineCategoryList.value?.find((e) => String(route.params.category) === e.categoryId)?.categoryImg || ''
 );
 
 const articleId = computed<string>(() => `${route.params.articleId}`);

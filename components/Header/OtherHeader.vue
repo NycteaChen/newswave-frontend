@@ -8,7 +8,7 @@
         <n-logo target-path="/news" />
         <div class="d-flex align-items-center gap-1 gap-md-3">
           <client-only>
-            <global-search />
+            <global-search v-if="!isSearchPage" />
             <notice-bell v-if="token" />
             <avatar-dropdown v-if="token || isMobile" />
             <n-button
@@ -59,6 +59,7 @@ const route = useRoute();
 const { newsNav, memberNav, memberSubNav } = useNav();
 const currentTab = ref<TabItemType['label']>('');
 
+const isSearchPage = computed(() => String(route.name) === 'search');
 const isMemberCenter = computed(() => route.path.startsWith('/member'));
 const excludeNavTabPage = computed(() =>
   route.matched.some((e) => e?.meta?.layout === 'info' || e?.meta?.layout === 'checkout' || e.name === 'slug')

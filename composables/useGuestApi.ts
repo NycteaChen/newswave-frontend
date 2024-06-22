@@ -73,6 +73,23 @@ class guestApi {
 
     return res;
   }
+
+  static async getSearchPage(query: SearchPageRequestType): Promise<ApiResponseType<ArticlePageType>> {
+    const params = {
+      keyword: query.keyword,
+      type: query.type,
+      topic: query.topic,
+      pageIndex: query.pageIndex,
+      pageSize: query.pageSize
+    };
+
+    const res = await useApi(`/guest/search-news-page`, {
+      method: 'get',
+      params
+    });
+
+    return res;
+  }
 }
 
 export default () => guestApi;
