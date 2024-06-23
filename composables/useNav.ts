@@ -9,11 +9,13 @@ const memberNav: NavItemWithSubType[] = [
     childrenRoute: [
       {
         label: '修改個人資料',
-        value: 'basic'
+        value: 'basic',
+        img: 'icon/basic.svg'
       },
       {
         label: '修改密碼',
-        value: 'password'
+        value: 'password',
+        img: 'icon/password.svg'
       }
     ]
   },
@@ -23,11 +25,13 @@ const memberNav: NavItemWithSubType[] = [
     childrenRoute: [
       {
         label: '訂閱資訊',
-        value: 'info'
+        value: 'info',
+        img: 'icon/info.svg'
       },
       {
         label: '訂單記錄',
-        value: 'order'
+        value: 'order',
+        img: 'icon/order.svg'
       }
     ]
   },
@@ -37,15 +41,18 @@ const memberNav: NavItemWithSubType[] = [
     childrenRoute: [
       {
         label: '我的收藏',
-        value: 'collect'
+        value: 'collect',
+        img: 'icon/collect.svg'
       },
       {
         label: '我的追蹤',
-        value: 'follow'
+        value: 'follow',
+        img: 'icon/follow.svg'
       },
       {
         label: '我的留言',
-        value: 'comment'
+        value: 'comment',
+        img: 'icon/member-comment.svg'
       }
     ]
   },
@@ -56,12 +63,14 @@ const memberNav: NavItemWithSubType[] = [
     childrenRoute: [
       {
         label: '最新公告',
-        value: 'announcement'
+        value: 'announcement',
+        img: 'icon/announcement.svg'
       },
       {
         label: '我的通知',
         value: 'personal',
-        badge: 'notice'
+        badge: 'notice',
+        img: 'icon/personal.svg'
       }
     ]
   }
@@ -86,9 +95,10 @@ const newsNav: NavItemType[] = ['首頁', ...newsCategory()]
   .map((e, index) => ({
     label: e,
     value: index ? `/news?category=${e}` : '/news',
-    badge: ''
+    badge: '',
+    img: ''
   }))
-  .concat({ label: '精選雜誌', value: '/magazine', badge: 'Plus' });
+  .concat({ label: '精選雜誌', value: '/magazine', badge: 'Plus', img: '' });
 
 export default () => ({
   memberNav,

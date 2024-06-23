@@ -17,6 +17,7 @@ declare global {
     planType: PlanItem['type'];
     autoRenew: boolean;
     collects: string[];
+    follows: string[];
   }
 
   interface TransactionIdType {
