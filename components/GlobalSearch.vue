@@ -31,7 +31,6 @@
 <script lang="ts" setup>
 const isMobile = inject<any>('isMobile');
 const keyword = ref<string>('');
-const route = useRoute();
 
 const showInput = ref<boolean>(false);
 const searchInputRef = ref<HTMLElement | null>(null);
@@ -41,50 +40,47 @@ const initInput = () => {
   keyword.value = '';
 };
 
-onClickOutside(searchInputRef, () => {
-  if (isMobile.value || String(route.name) !== 'search') {
-    initInput();
-  }
-});
-
 const goToSearch = async () => {
-  if (keyword.value?.trim() || String(route.name) === 'search') {
+  if (keyword.value?.trim()) {
     await navigateTo({
       path: '/search',
       query: {
-        keyword: keyword.value || undefined
+        keyword: keyword.value || undefined,
+        type: 'all',
+        topic: 'all'
       }
     });
-
-    if (isMobile.value) {
-      initInput();
-    }
   } else {
     initInput();
   }
 };
 
-watch(
-  () => String(route.name),
-  (val) => {
-    if (val !== 'search') {
-      initInput();
-    }
-  }
-);
+onClickOutside(searchInputRef, () => {
+  initInput();
+});
 </script>
 <style lang="scss" scoped>
 .search-input {
+  z-index: -1;
   width: 0;
   opacity: 0;
 
   &.show {
+    z-index: 12;
     opacity: 100;
   }
 
   ::v-deep(.n-input input) {
     height: 40px;
     transition: padding 0.1s 0.2s ease-in-out;
+  }
+
+  &:not(.show) {
+    ::v-deep(.n-input input) {
+      &.has-suffix-icon {
+        padding-right: 0 !important;
+      }
+    }
   }
 }
 
@@ -101,16 +97,15 @@ watch(
     top: 0;
     right: 50%;
     left: 50%;
-    z-index: 12;
-    padding: 8px 12px 0;
-    height: 100%;
     transition: background 0.3s ease-in-out;
     transform: translateX(-50%);
     transform-origin: center;
 
     &.show {
+      padding: 8px 12px 0;
       width: 100%;
-      background: rgba($gray-100, 0.7);
+      height: 100%;
+      background: rgba($gray-100, 0.9);
     }
   }
 }
@@ -130,14 +125,6 @@ watch(
 
     &.show {
       width: 250px;
-    }
-
-    &:not(.show) {
-      ::v-deep(.n-input input) {
-        &.has-suffix-icon {
-          padding-right: 0 !important;
-        }
-      }
     }
   }
 }

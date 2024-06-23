@@ -73,6 +73,12 @@ declare global {
   interface NoticePageResponseType extends PageResponseType {
     notices: NoticeType[];
   }
+
+  interface SearchPageRequestType extends PageRequestType {
+    keyword?: string;
+    type?: 'all' | 'news' | 'magazine';
+    topic?: string;
+  }
 }
 
 export {};

@@ -5,10 +5,9 @@
       :to="redirectLink"
     >
       <div class="card-img-top rounded-1 mb-2 position-relative">
-        <img
-          :src="newsData.image || renderDefaultMagazineImage"
+        <article-image
+          :article-data="newsData"
           class="article-image object-fit-cover h-100"
-          :alt="newsData.imageDescribe"
         />
         <div
           v-if="showCollect"
@@ -63,16 +62,10 @@ const props = withDefaults(defineProps<NewsCardProps>(), {
 const isMobile = inject('isMobile');
 const isPc = inject('isPc');
 
-const guestStore = useGuestStore();
-const { magazineCategoryList } = storeToRefs(guestStore);
-
 const userStore = useUserStore();
 const { collects } = storeToRefs(userStore);
 
 const isCollected = computed<boolean>(() => collects.value?.includes(props.newsData?.articleId));
-const renderDefaultMagazineImage = computed(
-  () => magazineCategoryList.value?.find((e) => props.newsData?.source?.name === e.categoryId)?.categoryImg || ''
-);
 
 const publishDate = useDateFormat(props.newsData.publishedAt, 'YYYY/MM/DD');
 

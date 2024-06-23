@@ -5,17 +5,23 @@
       :class="
         size === 'small' ? 'gap-2 news-item pb-2 border-bottom' : 'flex-column gap-4 flex-md-row p-3 border rounded-2'
       "
-      :to="`/article/${newsData?.topic?.[0]}/${newsData?.articleId}`"
+      :to="`/article/${isMagazine ? newsData?.source?.name : newsData?.topic?.[0]}/${newsData?.articleId}`"
     >
       <template v-if="size === 'small'">
-        <div class="news-image-container overflow-hidden rounded-1">
-          <img
-            :src="newsData?.image"
+        <div class="news-image-container overflow-hidden rounded-1 flex-shrink-0">
+          <article-image
+            :article-data="newsData"
             class="news-image object-fit-cover"
           />
         </div>
-        <div class="d-flex flex-column justify-content-between gap-2 flex-fill">
+        <div class="d-flex flex-column justify-content-between gap-2 flex-1">
           <h6 class="news-title text-body fw-bold limit-line-two">{{ newsData?.title }}</h6>
+          <p
+            v-if="showContent"
+            class="text-muted text-sm mb-0 limit-line-two"
+          >
+            {{ newsData?.content }}
+          </p>
           <div class="d-flex align-items-center mt-auto justify-content-between">
             <article-label
               :text="newsData?.topic?.[0]"
@@ -29,9 +35,9 @@
       </template>
       <template v-else>
         <div class="headline-col overflow-hidden rounded-1">
-          <img
+          <article-image
+            :article-data="newsData"
             class="news-image object-fit-cover h-100"
-            :src="newsData?.image"
           />
         </div>
         <div class="headline-col d-flex flex-column gap-3">
@@ -65,11 +71,15 @@
 interface NewsCardProps {
   newsData: ArticleType;
   size?: 'small' | 'big';
+  showContent: boolean;
 }
 
-withDefaults(defineProps<NewsCardProps>(), {
-  size: 'small'
+const props = withDefaults(defineProps<NewsCardProps>(), {
+  size: 'small',
+  showContent: false
 });
+
+const isMagazine = computed(() => props.newsData?.articleId?.startsWith('M-'));
 </script>
 
 <style lang="scss" scoped>

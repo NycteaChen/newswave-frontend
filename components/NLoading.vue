@@ -1,5 +1,8 @@
 <template>
-  <section class="n-loading-container position-relative">
+  <section
+    class="n-loading-container position-relative"
+    :class="{ show: loading }"
+  >
     <slot />
     <div v-show="loading">
       <div
@@ -18,7 +21,9 @@ withDefaults(defineProps<{ loading: boolean }>(), {
 </script>
 <style lang="scss" scoped>
 .n-loading-container {
-  min-height: 300px;
+  &.show {
+    min-height: 300px;
+  }
 }
 
 .n-loading {

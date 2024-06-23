@@ -1,26 +1,73 @@
 <template>
   <div class="search-page">
-    <n-loading :loading="loading">
+    <section class="text-sm row g-3 mb-4 col-lg-10">
+      <div
+        v-for="field in fieldList"
+        :key="field.value"
+        class="col-12"
+        :class="{ 'col-sm-6': field.type === 'select' }"
+      >
+        <label
+          :for="field.value"
+          class="form-label fs-6"
+        >
+          {{ field.label }}
+        </label>
+        <n-input
+          v-if="field.type === 'input'"
+          :id="field.value"
+          v-model:value="searchQuery[field.value]"
+          :inputmode="field.inputmode || 'text'"
+          :placeholder="`請輸入${field.label}`"
+          suffix-icon="icon/search.svg"
+          @press-enter="goToSearch"
+        />
+        <n-select
+          v-else
+          :id="field.value"
+          v-model:selected="searchQuery[field.value]"
+          :options="field.options || []"
+          :placeholder="`請選擇${field.label}`"
+        />
+      </div>
+      <div class="col-12 d-flex gap-2 gap-sm-3 flex-column flex-sm-row">
+        <n-button
+          text="搜尋"
+          :disabled="loading"
+          @click="goToSearch"
+        />
+        <n-button
+          text="重置"
+          type="outline"
+          :disabled="loading"
+          @click="reset"
+        />
+      </div>
+    </section>
+    <n-loading :loading="showLoading">
       <h4
-        v-if="keyword"
+        v-if="currentKeyword"
         class="mb-4 text-primary"
       >
-        {{ `搜尋標題包含「${keyword}」的文章：` }}
+        {{ `搜尋標題包含「${currentKeyword}」的文章：` }}
       </h4>
       <ul
-        v-if="renderList.length && keyword"
+        v-if="renderList.length"
         class="d-flex flex-column gap-4"
       >
         <li
           v-for="(item, index) in renderList"
           :key="index"
         >
-          <article-row :news-data="item" />
+          <article-row
+            :news-data="item"
+            :show-content="true"
+          />
         </li>
       </ul>
       <n-empty
-        v-else-if="!keyword || !loading"
-        :text="!keyword ? '請輸入搜尋關鍵字' : '無搜尋結果'"
+        v-else-if="!loading"
+        text="暫無搜尋結果，請重新輸入關鍵字"
         width="300"
       />
     </n-loading>
@@ -33,104 +80,199 @@
   </div>
 </template>
 <script lang="ts" setup>
+import type { NSelectProps } from '@/components/NSelect.vue';
+import type { NInputProps } from '@/components/NInput.vue';
 import type { PaginationType } from '@/components/NPagination.vue';
+
+interface QueryType {
+  keyword: SearchPageRequestType['keyword'];
+  type: SearchPageRequestType['type'] | 'all';
+  topic: SearchPageRequestType['topic'] | 'all';
+}
 
 useHead({
   titleTemplate: (title) => `${title} - 搜尋`
 });
 const route = useRoute();
 
-// const isMobile = inject<any>('isMobile');
+const { getSearchPage } = useGuestApi();
 
+const isMobile = inject<any>('isMobile');
+
+const initState: QueryType = {
+  keyword: undefined,
+  type: 'all',
+  topic: 'all'
+};
+
+const searchQuery = reactive({ ...initState });
 const pagination = reactive<PaginationType>({
   current: 1,
   totalPages: 0
 });
 
-// const searchList = ref<ArticleType[]>([]);
-// const searchPhoneList = ref<ArticleType[]>([]);
+const searchList = ref<ArticleType[]>([]);
+const searchPhoneList = ref<ArticleType[]>([]);
 const loadMoreLoading = ref<boolean>(false);
 const loading = ref<boolean>(false);
+const currentKeyword = ref<string>('');
 
-const keyword = computed(() => route.query?.keyword);
-// const showLoading = computed(() => {
-//   if (isMobile.value) {
-//     return !pagination.totalPages && loading.value;
-//   }
-//   return loading.value;
-// });
+interface FieldType {
+  label: string;
+  type: 'input' | 'select';
+  value: keyof QueryType;
+  hidden?: boolean;
+  inputmode?: NInputProps['inputmode'];
+  options?: NSelectProps['options'];
+}
 
-// const renderList = computed(() => (isMobile.value ? searchPhoneList.value : searchList.value));
-const renderList = computed(() => [
+const allOption = {
+  label: '全部',
+  value: 'all'
+};
+
+const typeList = ref<NSelectProps['options']>([
+  allOption,
   {
-    topic: ['社會'],
-    editor: '聯合新聞網',
-    articleId: 'N-1001',
-    title: '誤把室外熱水器裝在室內 竹北夫妻一氧化碳中毒1死1傷',
-    publishedAt: '2024-01-08 14:22',
-    imageDescribe: '新竹縣竹北市一對夫妻在住家浴室內安裝室外型熱水器,導致一氧化碳中毒,丈夫死亡,妻子受傷住院。',
-    image:
-      'https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2024/01/30/realtime/28854189.jpg&s=Y&x=0&y=11&sw=1479&sh=986&exp=3600',
-    content:
-      '新竹縣竹北市今天凌晨0時許發生一氧化碳中毒意外,一對劉姓夫妻疑似天冷洗澡後,熱水器疑似燃燒不完全,釋放出一氧化碳,加上裝置熱水器的陽台加裝鋁門窗阻擋排氣,造成2人一氧化碳中毒,其中42歲丈夫因血液一氧化碳濃度高達63.1%,經搶救無效死亡,32歲妻子血液一氧化碳濃度為26.7%,目前意識清楚、醫院留觀中。\n\n新竹縣消防局指出,今天凌晨0點50分接獲一氧化碳中毒通報,消防人員到場時,一名劉姓男子已呈現昏迷,其妻子意識清楚但肢體無力,消防人員立即將2人送醫搶救,不過由於劉姓男子因嚴重缺氧,經搶救後今天凌晨4時許仍宣告不治。\n\n據了解,這對夫妻和女方媽媽住在同層公寓內,當時因天冷3人晚間輪流洗澡後,熱水器疑似燃燒不完全,釋放出一氧化碳,其中劉妻媽媽發覺頭暈、四肢無力,進房找女兒和女婿求救時,發現2人叫不醒,且呈現無力、昏迷狀態,立即向住在同一棟不同層的兒子(劉妻弟弟)求救,劉妻弟弟到場後撥打119報案。\n\n消防人員到場時發現,屋內遍布一氧化碳氣體,且戶外型熱水器裝在陽台,卻加裝鋁門窗阻擋排氣。雖當時劉妻弟弟表示,陽台窗戶有開一小縫,並未完全關閉,但仍無法完全排出一氧化碳。\n\n新竹縣消防局提醒,冬天因天氣寒冷且風又大,民眾習慣將門窗緊閉,造成空氣不流通,容易產生一氧化碳,導致一氧化碳中毒,請民眾務必注意,燃氣熱水器應安裝於空氣流通處的室外,雖然天氣冷,還是要保持室內通風,且一氧化碳無色無味,但中毒時會有頭暈、噁心、嘔吐、全身無力等症狀,如有以上症狀,立刻關閉熱水器,並打開門窗通風。',
-    tags: ['hot'],
-    source: {
-      name: '聯合新聞網',
-      url: 'https://udn.com/'
-    }
+    label: '新聞',
+    value: 'news'
   },
   {
-    topic: ['社會'],
-    editor: '聯合新聞網',
-    articleId: 'M-1001',
-    title: '誤把室外熱水器裝在室內 竹北夫妻一氧化碳中毒1死1傷',
-    publishedAt: '2024-01-08 14:22',
-    imageDescribe: '新竹縣竹北市一對夫妻在住家浴室內安裝室外型熱水器,導致一氧化碳中毒,丈夫死亡,妻子受傷住院。',
-    image:
-      'https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2024/01/30/realtime/28854189.jpg&s=Y&x=0&y=11&sw=1479&sh=986&exp=3600',
-    content:
-      '新竹縣竹北市今天凌晨0時許發生一氧化碳中毒意外,一對劉姓夫妻疑似天冷洗澡後,熱水器疑似燃燒不完全,釋放出一氧化碳,加上裝置熱水器的陽台加裝鋁門窗阻擋排氣,造成2人一氧化碳中毒,其中42歲丈夫因血液一氧化碳濃度高達63.1%,經搶救無效死亡,32歲妻子血液一氧化碳濃度為26.7%,目前意識清楚、醫院留觀中。\n\n新竹縣消防局指出,今天凌晨0點50分接獲一氧化碳中毒通報,消防人員到場時,一名劉姓男子已呈現昏迷,其妻子意識清楚但肢體無力,消防人員立即將2人送醫搶救,不過由於劉姓男子因嚴重缺氧,經搶救後今天凌晨4時許仍宣告不治。\n\n據了解,這對夫妻和女方媽媽住在同層公寓內,當時因天冷3人晚間輪流洗澡後,熱水器疑似燃燒不完全,釋放出一氧化碳,其中劉妻媽媽發覺頭暈、四肢無力,進房找女兒和女婿求救時,發現2人叫不醒,且呈現無力、昏迷狀態,立即向住在同一棟不同層的兒子(劉妻弟弟)求救,劉妻弟弟到場後撥打119報案。\n\n消防人員到場時發現,屋內遍布一氧化碳氣體,且戶外型熱水器裝在陽台,卻加裝鋁門窗阻擋排氣。雖當時劉妻弟弟表示,陽台窗戶有開一小縫,並未完全關閉,但仍無法完全排出一氧化碳。\n\n新竹縣消防局提醒,冬天因天氣寒冷且風又大,民眾習慣將門窗緊閉,造成空氣不流通,容易產生一氧化碳,導致一氧化碳中毒,請民眾務必注意,燃氣熱水器應安裝於空氣流通處的室外,雖然天氣冷,還是要保持室內通風,且一氧化碳無色無味,但中毒時會有頭暈、噁心、嘔吐、全身無力等症狀,如有以上症狀,立刻關閉熱水器,並打開門窗通風。',
-    tags: ['hot'],
-    source: {
-      name: '聯合新聞網',
-      url: 'https://udn.com/'
-    }
+    label: '雜誌',
+    value: 'magazine'
   }
 ]);
 
+const guestStore = useGuestStore();
+const { magazineCategoryList } = storeToRefs(guestStore);
+
+const topicList = computed(() => {
+  const newsOptions =
+    newsCategory().map((e) => ({
+      label: e,
+      value: e
+    })) || [];
+
+  const magazineOptions =
+    magazineCategoryList.value?.map((e) => ({
+      label: e.categoryName,
+      value: e.categoryId
+    })) || [];
+
+  newsOptions.unshift(allOption);
+  magazineOptions.unshift(allOption);
+
+  return {
+    news: newsOptions,
+    magazine: magazineOptions
+  };
+});
+
+const fieldList = computed(() => {
+  const list = [
+    {
+      label: '文章標題',
+      value: 'keyword',
+      type: 'input'
+    },
+    {
+      label: '類別',
+      value: 'type',
+      type: 'select',
+      options: typeList.value
+    },
+    {
+      label: searchQuery.type === 'news' ? '新聞主題' : '雜誌種類',
+      value: 'topic',
+      type: 'select',
+      hidden: searchQuery.type === 'all',
+      options: searchQuery.type && searchQuery.type !== 'all' ? topicList.value[searchQuery.type] : []
+    }
+  ].filter((e) => !e.hidden);
+  return list as FieldType[];
+});
+
+const showLoading = computed(() => {
+  if (isMobile.value) {
+    return !pagination.totalPages && loading.value;
+  }
+  return loading.value;
+});
+
+const renderList = computed(() => (isMobile.value ? searchPhoneList.value : searchList.value));
+
+const reset = () => {
+  searchList.value = [];
+  searchPhoneList.value = [];
+  pagination.current = 1;
+  pagination.totalPages = 0;
+  currentKeyword.value = '';
+  Object.assign(searchQuery, initState);
+};
+
 const getSearchPageHandler = async () => {
+  if (!searchQuery.keyword?.trim()) return;
+
   loading.value = true;
   loadMoreLoading.value = pagination.totalPages > 1;
 
-  // const params = {
-  //   pageIndex: pagination.current,
-  //   keyword: keyword.value || undefined
-  // };
-  // const { status, data } = await getSearchPage(params);
-  // if (status) {
-  //   searchList.value = data.comments || [];
+  const params = {
+    pageIndex: pagination.current,
+    keyword: searchQuery.keyword?.trim(),
+    type: searchQuery.type === 'all' ? undefined : searchQuery.type,
+    topic: searchQuery.type === 'all' || searchQuery.topic === 'all' ? undefined : searchQuery.topic
+  };
 
-  //   searchPhoneList.value = pagination.current === 1 ? data.comments : [...searchPhoneList.value, ...data.comments];
+  const { status, data } = await getSearchPage(params);
+  if (status) {
+    currentKeyword.value = searchQuery.keyword;
 
-  // pagination.totalPages = data.totalPages || 0;
-  pagination.totalPages = 1;
-  // } else {
-  //   searchList.value = [];
-  // }
+    searchList.value = data.articles || [];
 
-  setTimeout(() => {
-    loading.value = false;
-    loadMoreLoading.value = false;
-  }, 1000);
+    searchPhoneList.value = pagination.current === 1 ? data.articles : [...searchPhoneList.value, ...data.articles];
+
+    pagination.totalPages = data.totalPages || 0;
+  } else {
+    searchList.value = [];
+  }
+
+  loading.value = false;
+  loadMoreLoading.value = false;
+};
+
+const goToSearch = () => {
+  if (searchQuery.keyword?.trim()) {
+    navigateTo({
+      path: '/search',
+      query: searchQuery
+    });
+  }
 };
 
 watchImmediate(
-  () => keyword.value,
+  () => route.query,
   (val) => {
     if (val) {
+      searchQuery.keyword = String(val.keyword) || undefined;
+      searchQuery.topic = String(val.topic) || 'all';
+      searchQuery.type = (String(val.type) as QueryType['type']) || 'all';
       pagination.current = 1;
       getSearchPageHandler();
     }
+  }
+);
+
+watch(
+  () => pagination.current,
+  () => {
+    getSearchPageHandler();
+  }
+);
+
+watch(
+  () => searchQuery.type,
+  (val) => {
+    searchQuery.topic = val === 'all' ? undefined : 'all';
   }
 );
 </script>
