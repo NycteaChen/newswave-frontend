@@ -17,13 +17,13 @@
             <notice-badge type="number" />
           </div>
           <nuxt-link
-            class="text-sm is-btn"
+            class="fs-sm is-btn"
             to="/member/notification/personal"
           >
             所有通知
           </nuxt-link>
         </header>
-        <ul class="notice-list text-sm">
+        <ul class="notice-list fs-sm">
           <li
             v-for="(item, index) in unreadList"
             :key="item.articleId"
@@ -35,10 +35,10 @@
               <notice-badge class="me-1" />
               {{ noticeTemplate(item.topic[0]).title }}
             </p>
-            <p class="mb-0 text-sm">
+            <p class="mb-0 fs-sm">
               {{ noticeTemplate().subTitle }}
             </p>
-            <div class="text-muted text-xs text-end">
+            <div class="text-muted fs-xs text-end">
               {{ useDateFormat(item.publishedAt, 'YYYY/MM/DD HH:mm').value }}
             </div>
           </li>

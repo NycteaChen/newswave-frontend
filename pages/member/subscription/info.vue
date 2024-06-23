@@ -12,7 +12,7 @@
             <div>{{ item.title }}</div>
             <p
               v-if="item.hint"
-              class="text-sm text-muted mb-0"
+              class="fs-sm text-muted mb-0"
             >
               {{ item.hint }}
             </p>

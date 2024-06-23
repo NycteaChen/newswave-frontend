@@ -4,7 +4,7 @@
       :src="requireImage(img)"
       :style="{ width: `${width}px` }"
     />
-    <p class="text-sm mb-0">{{ text }}</p>
+    <p class="fs-sm mb-0">{{ text }}</p>
   </div>
 </template>
 <script lang="ts" setup>

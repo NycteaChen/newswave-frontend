@@ -660,7 +660,9 @@ $font-sizes: (
   3: $h3-font-size,
   4: $h4-font-size,
   5: $h5-font-size,
-  6: $h6-font-size
+  6: $h6-font-size,
+  sm: $font-size-sm,
+  xs: $font-size-base * 0.75
 ) !default;
 
 // scss-docs-end font-sizes

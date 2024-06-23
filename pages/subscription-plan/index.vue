@@ -2,7 +2,7 @@
   <div class="subscription-plan">
     <plan-banner />
     <section
-      v-for="(item, index) in sectionList"
+      v-for="item in sectionList"
       :id="item.id"
       :key="item.title"
       :class="item.background"
@@ -11,7 +11,7 @@
         class="content text-center"
         :class="item.id === 'magazineSupplier' ? 'container-xxl px-0' : 'container'"
       >
-        <h2 :class="index === 1 ? 'text-body-white' : 'text-primary'">
+        <h2 :class="item.background === 'bg-primary-gradient' ? 'text-body-white' : 'text-primary'">
           {{ item.title }}
         </h2>
         <component :is="item.component" />

@@ -1,7 +1,7 @@
 <template>
   <form
     ref="formRef"
-    class="form pt-3 needs-validation text-sm bg-body-light rounded-2 my-0 mx-auto mx-md-0 overflow-hidden"
+    class="form pt-3 needs-validation fs-sm bg-body-light rounded-2 my-0 mx-auto mx-md-0 overflow-hidden"
     novalidate
   >
     <div class="bg-body d-flex gap-4 flex-column p-3 mx-3">
@@ -48,7 +48,7 @@
         </div>
         <p
           v-show="warnMessage"
-          class="text-danger text-sm mt-3 mb-0"
+          class="text-danger fs-sm mt-3 mb-0"
         >
           {{ warnMessage }}
         </p>

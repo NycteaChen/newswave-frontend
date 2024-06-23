@@ -30,7 +30,7 @@
       :to="prevRoute?.value"
     >
       <img :src="requireImage('icon/arrow-top.svg')" />
-      <span class="text-sm text-decoration-underline text-primary">{{ prevRoute?.label }}</span>
+      <span class="fs-sm text-decoration-underline text-primary">{{ prevRoute?.label }}</span>
     </nuxt-link>
   </nav>
 </template>

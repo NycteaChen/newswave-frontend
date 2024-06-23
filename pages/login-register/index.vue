@@ -17,7 +17,7 @@
         </header>
         <form
           ref="formRef"
-          class="row gy-4 needs-validation text-sm"
+          class="row gy-4 needs-validation fs-sm"
           novalidate
         >
           <div
@@ -67,10 +67,10 @@
             />
           </div>
         </form>
-        <p class="warn-text text-danger text-sm">
+        <p class="warn-text text-danger fs-sm">
           {{ warnMessage }}
         </p>
-        <p class="text-sm text-center">
+        <p class="fs-sm text-center">
           {{ modeText.hint }}
           <a
             class="text-primary is-btn"

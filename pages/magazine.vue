@@ -8,7 +8,7 @@
         class="alert alert-info d-flex align-items-center justify-content-between"
         role="alert"
       >
-        <div class="text-sm me-2">NewsWave Plus 享雜誌無限制觀看</div>
+        <div class="fs-sm me-2">NewsWave Plus 享雜誌無限制觀看</div>
         <img :src="requireImage('icon/arrow-right.svg')" />
       </div>
     </nuxt-link>

@@ -25,10 +25,10 @@ import userPhotoSrc from '@/assets/image/icon/user-photo.svg';
 
 interface NAvatarProps {
   /*
-   * 頭貼類型：用戶 or 雜誌文章作者
-   * 若為雜誌文章作者，要搭配使用 imgSrc
+   * 頭貼類型：用戶 or 非用戶
+   * 若為非用戶，要搭配使用 imgSrc
    */
-  type?: 'user' | 'editor';
+  type?: 'user' | 'other';
   imgSrc?: string;
   size?: number | string;
   shape?: 'square' | 'circle';
@@ -49,7 +49,7 @@ const avatarPhoto = computed(() => {
   if (token.value) {
     return props.type === 'user' ? userPhoto : props.imgSrc;
   }
-  return '';
+  return props.imgSrc;
 });
 </script>
 <style lang="scss" scoped>

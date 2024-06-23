@@ -3,7 +3,7 @@
     <label
       v-for="(item, index) in options"
       :key="item.value"
-      class="position-relative z-2 n-radio text-sm text-center py-1 px-3 cursor-pointer rounded-1"
+      class="position-relative z-2 n-radio fs-sm text-center py-1 px-3 cursor-pointer rounded-1"
       :style="!index ? { '--index': activeIndex } : ''"
       :class="{
         'first-option': !index,

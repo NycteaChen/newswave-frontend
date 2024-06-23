@@ -18,7 +18,7 @@
           <h6 class="news-title text-body fw-bold limit-line-two">{{ newsData?.title }}</h6>
           <p
             v-if="showContent"
-            class="text-muted text-sm mb-0 limit-line-two"
+            class="text-muted fs-sm mb-0 limit-line-two"
           >
             {{ newsData?.content }}
           </p>

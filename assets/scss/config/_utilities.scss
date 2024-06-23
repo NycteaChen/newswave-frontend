@@ -40,21 +40,6 @@ $utilities: map-merge(
 $utilities: map-merge(
   $utilities,
   (
-    'font-size': (
-      property: 'font-size',
-      class: 'text',
-      responsive: true,
-      values: (
-        'sm': $font-size-sm,
-        'xs': $font-size-base * 0.75
-      )
-    )
-  )
-);
-
-$utilities: map-merge(
-  $utilities,
-  (
     'border-color': (
       property: 'border-color',
       class: 'border',

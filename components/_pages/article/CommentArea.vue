@@ -39,7 +39,7 @@
                 >
                   {{ comment.user?.name || '-' }}
                 </div>
-                <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
+                <div class="fs-sm text-muted">{{ comment.publishedAt }}</div>
                 <delete-comment-btn
                   v-if="comment.userId?._id === id"
                   :comment-id="comment.id"
@@ -52,7 +52,7 @@
           </li>
           <li
             v-if="!renderList.length && !showLoading"
-            class="empty-box text-muted text-sm text-center rounded-2"
+            class="empty-box text-muted fs-sm text-center rounded-2"
           >
             <div class="d-flex align-items-center justify-content-center">
               目前沒有留言，趕快發表這篇文章的第一則評論吧！
