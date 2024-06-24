@@ -1,6 +1,6 @@
 <template>
   <div class="search-page">
-    <section class="text-sm row g-3 mb-4 col-lg-10">
+    <section class="fs-sm row g-3 mb-4 col-lg-10">
       <div
         v-for="field in fieldList"
         :key="field.value"

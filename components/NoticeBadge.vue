@@ -6,7 +6,7 @@
       'notice-dot d-inline-block': type === 'dot',
       badge: type === 'number',
       'rounded-circle': type === 'dot' || unreadCount < 10,
-      'rounded-pill text-xs': type === 'number' && unreadCount > 9
+      'rounded-pill fs-xs': type === 'number' && unreadCount > 9
     }"
   >
     <template v-if="type === 'number'">

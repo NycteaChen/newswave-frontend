@@ -50,7 +50,7 @@
         </ul>
       </div>
     </div>
-    <p class="mb-0 mt-2 text-sm text-muted">
+    <p class="mb-0 mt-2 fs-sm text-muted">
       感謝您購買我們的產品，為了維護您的權益，請您確認訂單之前，仔細閱讀我們的
       <nuxt-link
         class="is-btn"

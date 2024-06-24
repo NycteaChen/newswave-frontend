@@ -33,7 +33,7 @@
             :key="field.label"
             class="user-info mb-3 fw-bold p-3 rounded-2"
           >
-            <div class="text-muted text-sm">{{ field.label }}</div>
+            <div class="text-muted fs-sm">{{ field.label }}</div>
             <div
               v-if="field.note"
               class="mb-2 mt-2 text-end fw-normal"

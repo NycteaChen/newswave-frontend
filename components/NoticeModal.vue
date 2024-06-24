@@ -30,7 +30,7 @@
             </p>
             <div class="d-flex align-items-center justify-content-between">
               <article-label :text="noticeInfo?.topic?.[0]" />
-              <div class="text-muted text-end text-sm">
+              <div class="text-muted text-end fs-sm">
                 {{ useDateFormat(noticeInfo?.publishedAt, 'YYYY/MM/DD HH:mm').value }}
               </div>
             </div>

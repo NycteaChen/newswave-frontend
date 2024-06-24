@@ -15,7 +15,7 @@
             :class="{ 'col-md-6 col-lg-12 col-xl-8': field.type === 'radio' }"
           >
             <div class="d-flex flex-column">
-              <label class="form-label text-sm">
+              <label class="form-label fs-sm">
                 {{ field.label }}
                 <span class="text-accent">*</span>
               </label>
@@ -59,7 +59,7 @@
       <div
         class="extra-container col-lg-6 bg-white rounded-bottom-3 flex-fill d-flex flex-column gap-5 justify-content-center"
       >
-        <ol class="description text-sm text-muted d-flex flex-column gap-2 gap-lg-3">
+        <ol class="description fs-sm text-muted d-flex flex-column gap-2 gap-lg-3">
           <li>我們收到您的意見後將於工作日由專人以郵件回覆您，請務必確保您的電子信箱地址填寫正確。</li>
           <li>
             提交表單視同授權本單位將您的個資交付內部其他單位。除本公司之外，相關個資將不會交付給任何其他機構或第三人。

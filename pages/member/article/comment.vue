@@ -31,7 +31,7 @@
                 {{ comment?.article?.title }}
               </nuxt-link>
             </h5>
-            <div class="text-sm text-muted">{{ comment.publishedAt }}</div>
+            <div class="fs-sm text-muted">{{ comment.publishedAt }}</div>
             <p class="mb-0 break-word">{{ comment.content }}</p>
           </div>
         </li>

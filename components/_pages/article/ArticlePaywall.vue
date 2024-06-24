@@ -13,7 +13,7 @@
       >
         <div class="card-body d-flex flex-column gap-3 p-md-4">
           <h5 class="card-title flex-fill mb-0">{{ item.title }}</h5>
-          <p class="card-text mb-0 text-sm flex-fill">{{ item.text }}</p>
+          <p class="card-text mb-0 fs-sm flex-fill">{{ item.text }}</p>
           <n-button
             class="w-100"
             :text="item.btnText"

@@ -20,7 +20,7 @@
             class="d-flex align-items-center"
             :to="`/article/${item.topic[0]}/${item.articleId}`"
           >
-            <div class="text-muted text-sm pe-2">{{ useDateFormat(item.publishedAt, 'HH:mm').value }}</div>
+            <div class="text-muted fs-sm pe-2">{{ useDateFormat(item.publishedAt, 'HH:mm').value }}</div>
             <div class="limit-line-two text-body border-start ps-2">{{ item.title }}</div>
           </nuxt-link>
         </li>

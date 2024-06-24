@@ -51,11 +51,11 @@
               />
               {{ noticeTemplate(item?.topic?.[0]).title }}
             </h5>
-            <p class="mb-2 text-sm">
+            <p class="mb-2 fs-sm">
               {{ noticeTemplate().subTitle }}
             </p>
             <h6>{{ `${item.title}...` }}</h6>
-            <div class="text-muted text-sm">
+            <div class="text-muted fs-sm">
               {{ useDateFormat(item?.publishedAt, 'YYYY/MM/DD HH:mm').value }}
             </div>
           </div>

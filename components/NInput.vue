@@ -6,7 +6,7 @@
       :placeholder="placeholder"
       :type="type"
       :inputmode="inputmode"
-      class="form-control text-sm py-2"
+      class="form-control fs-sm py-2"
       :class="{ 'invalid-field': hasError, 'has-suffix-icon': suffixIcon }"
       :disabled="disabled"
       @keyup.enter="$emit('pressEnter')"

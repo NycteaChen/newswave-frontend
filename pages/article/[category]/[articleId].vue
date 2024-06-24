@@ -23,8 +23,8 @@
                 <h3 class="mb-0">{{ articleData?.title }}</h3>
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <div class="text-sm">{{ articleData?.editor }}</div>
-                    <div class="text-muted text-xs">{{ articleData?.publishedAt }}</div>
+                    <div class="fs-sm">{{ articleData?.editor }}</div>
+                    <div class="text-muted fs-xs">{{ articleData?.publishedAt }}</div>
                   </div>
                   <collect-share class="d-none d-md-flex" />
                 </div>
@@ -37,7 +37,7 @@
                   :article-data="articleData"
                   class="news-image rounded-1 mb-2 d-block mx-auto"
                 />
-                <figcaption class="text-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
+                <figcaption class="fs-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
                   {{ articleData?.imageDescribe }}
                 </figcaption>
               </figure>
