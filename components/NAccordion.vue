@@ -30,7 +30,7 @@
             class="wave-icon mb-3"
             :src="requireImage('icon/wave-cyan.svg')"
           />
-          <p class="mb-0 fs-md-5">{{ item.content }}</p>
+          <p class="mb-0 fs-md-5 text-pre-wrap">{{ item.content }}</p>
         </div>
       </div>
     </div>
@@ -75,5 +75,9 @@ withDefaults(defineProps<NAccordionProps>(), {
 
 .wave-icon {
   width: 36px;
+}
+
+.text-pre-wrap {
+  white-space: pre-wrap;
 }
 </style>
