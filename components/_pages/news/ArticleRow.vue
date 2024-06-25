@@ -71,7 +71,7 @@
 interface NewsCardProps {
   newsData: ArticleType;
   size?: 'small' | 'big';
-  showContent: boolean;
+  showContent?: boolean;
 }
 
 const props = withDefaults(defineProps<NewsCardProps>(), {

@@ -8,9 +8,12 @@
     <section
       v-for="(item, index) in sectionList"
       :key="`${item.titlePrefix}${item.titleSuffix}`"
-      :class="[item.background, { 'text-body-white': item.background === 'bg-primary-gradient' }]"
+      :class="[
+        item.background,
+        { 'text-body-white': item.background === 'bg-primary-gradient', 'our-team-container': index === 3 }
+      ]"
     >
-      <div class="container py-5">
+      <div class="container py-5 position-relative z-1">
         <h3 class="mb-4">
           <span>{{ item.titlePrefix }}</span>
           <span
@@ -100,6 +103,32 @@ const sectionList = computed(() => [
   }
 }
 
+.our-team-container {
+  position: relative;
+
+  &::after {
+    position: absolute;
+    right: -80px;
+    bottom: 80px;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: $blue-100;
+    content: '';
+  }
+
+  &::before {
+    position: absolute;
+    top: 180px;
+    left: -80px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: $blue-100;
+    content: '';
+  }
+}
+
 .about-us-banner {
   background-image: linear-gradient(135deg, rgba($blue-800, 0.6) 47%, rgba($primary, 0.4) 100%),
     url('@/assets/image/about/banner.webp');
@@ -108,7 +137,8 @@ const sectionList = computed(() => [
   background-repeat: no-repeat;
 
   .banner-text {
-    height: 40vh;
+    margin-top: 5%;
+    height: 45vh;
   }
 }
 
@@ -118,6 +148,16 @@ const sectionList = computed(() => [
       top: 30%;
       left: calc($h1-font-size * 1.5);
     }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  ::v-deep(.image-container) {
+    flex: 1 1 55%;
+  }
+
+  ::v-deep(.text-container) {
+    flex: 1 1 45%;
   }
 }
 </style>
