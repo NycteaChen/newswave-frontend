@@ -4,9 +4,9 @@
       <div class="field-container col-lg-5">
         <h3 class="text-center text-lg-start mb-4">聯絡我們</h3>
         <form
-          ref="formRef"
           class="form needs-validation d-flex flex-column gap-4"
           novalidate
+          :class="{ 'was-invalidated': isInvalidated }"
         >
           <div
             v-for="field in fieldList"
@@ -129,7 +129,7 @@ const contactList = [
 const { emptyValidator, emailValidator } = useValidator();
 
 const btnLoading = ref<boolean>(false);
-const formRef = ref<HTMLElement | null>(null);
+const isInvalidated = ref<boolean>(false);
 
 interface FieldValueType {
   email: string;
@@ -223,12 +223,12 @@ const checkValidityHandler = (): boolean => {
 };
 
 const clearValidator = () => {
-  formRef.value?.classList.remove('was-invalidated');
+  isInvalidated.value = false;
 };
 
 const submit = () => {
   if (!checkValidityHandler()) {
-    formRef.value?.classList.add('was-invalidated');
+    isInvalidated.value = true;
     return;
   }
 
