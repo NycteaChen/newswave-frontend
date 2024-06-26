@@ -1,8 +1,8 @@
 <template>
   <form
-    ref="formRef"
     class="form pt-3 needs-validation fs-sm bg-body-light rounded-2 my-0 mx-auto mx-md-0 overflow-hidden"
     novalidate
+    :class="{ 'was-invalidated': isInvalidated }"
   >
     <div class="bg-body d-flex gap-4 flex-column p-3 mx-3">
       <div
@@ -46,12 +46,6 @@
             @click="reset"
           />
         </div>
-        <p
-          v-show="warnMessage"
-          class="text-danger fs-sm mt-3 mb-0"
-        >
-          {{ warnMessage }}
-        </p>
       </div>
     </div>
     <img
@@ -92,6 +86,7 @@ const errorMessage = reactive<PasswordFieldType>({
 
 const formState = reactive<PasswordFieldType>({ ...initState });
 
+const isInvalidated = ref<boolean>(false);
 const btnLoading = ref<boolean>(false);
 
 const fieldList = computed(() => {
@@ -112,14 +107,10 @@ const fieldList = computed(() => {
   return list as FieldType[];
 });
 
-const warnMessage = ref<string>('');
-
-const formRef = ref<any>();
-
 const { passwordValidator } = useValidator();
 
 const clearValidator = () => {
-  formRef.value?.classList.remove('was-invalidated');
+  isInvalidated.value = false;
 };
 
 const checkValidityHandler = (): boolean => {
@@ -150,13 +141,11 @@ const checkValidityHandler = (): boolean => {
 const reset = () => {
   Object.assign(formState, initState);
   clearValidator();
-  warnMessage.value = '';
 };
 
 const submit = async () => {
   if (!checkValidityHandler()) {
-    warnMessage.value = '';
-    formRef.value?.classList.add('was-invalidated');
+    isInvalidated.value = true;
     return;
   }
 
@@ -171,7 +160,12 @@ const submit = async () => {
       message
     });
   } else {
-    warnMessage.value = message;
+    showToast({
+      id: 'password-fail',
+      icon: 'icon/warning.svg',
+      delay: 2500,
+      message
+    });
   }
 
   btnLoading.value = false;
