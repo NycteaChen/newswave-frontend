@@ -98,4 +98,9 @@ watch(
 .my-collect .row {
   margin-bottom: 40px;
 }
+
+::v-deep(.news-card-container),
+::v-deep(.news-card) {
+  height: 100%;
+}
 </style>

@@ -6,7 +6,7 @@
   />
 </template>
 <script lang="ts" setup>
-interface NSpinProps {
+export interface NSpinProps {
   isSmall?: boolean;
 }
 

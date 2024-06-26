@@ -12,9 +12,21 @@
         <div
           v-if="showCollect"
           class="collect-btn d-flex bg-body position-absolute rounded-circle p-2 border"
-          @click.prevent="collectHandler(newsData.articleId)"
+          :class="{ 'cursor-not-allowed': collectLoading }"
+          @click.prevent="collectLoading ? '' : collect()"
         >
-          <img :src="requireImage(`icon/collect${isCollected ? '-active' : ''}.svg`)" />
+          <n-loading
+            :loading="collectLoading"
+            :is-small="true"
+            :show-text="false"
+            class="w-100"
+          >
+            <img
+              v-show="!collectLoading"
+              class="position-absolute h-100"
+              :src="requireImage(`icon/collect${isCollected ? '-active' : ''}.svg`)"
+            />
+          </n-loading>
         </div>
       </div>
       <div class="d-flex flex-column justify-content-between flex-fill">
@@ -65,6 +77,8 @@ const isPc = inject('isPc');
 const userStore = useUserStore();
 const { collects } = storeToRefs(userStore);
 
+const collectLoading = ref<boolean>(false);
+
 const isCollected = computed<boolean>(() => collects.value?.includes(props.newsData?.articleId));
 
 const publishDate = useDateFormat(props.newsData.publishedAt, 'YYYY/MM/DD');
@@ -76,6 +90,14 @@ const redirectLink = computed(() => {
 
   return `/article/${category}/${props.newsData.articleId}`;
 });
+
+const collect = async () => {
+  collectLoading.value = true;
+
+  await collectHandler(props.newsData.articleId);
+
+  collectLoading.value = false;
+};
 </script>
 <style lang="scss" scoped>
 .card-img-top {
@@ -118,6 +140,14 @@ const redirectLink = computed(() => {
   height: 34px;
   box-shadow: 0 10px 40px 0 rgba($black, 0.078);
   transition: filter 0.3s ease-in-out;
+
+  ::v-deep(.n-loading-container.show) {
+    min-height: unset;
+  }
+
+  ::v-deep(.n-loading) {
+    background: transparent;
+  }
 }
 
 @include media-breakpoint-up(md) {
