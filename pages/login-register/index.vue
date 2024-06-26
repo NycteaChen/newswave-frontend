@@ -16,8 +16,8 @@
           <h3 class="text-center my-4">{{ modeText.name }}</h3>
         </header>
         <form
-          ref="formRef"
           class="row gy-4 needs-validation fs-sm"
+          :class="{ 'was-invalidated': isInvalidated }"
           novalidate
         >
           <div
@@ -67,10 +67,7 @@
             />
           </div>
         </form>
-        <p class="warn-text text-danger fs-sm">
-          {{ warnMessage }}
-        </p>
-        <p class="fs-sm text-center">
+        <p class="fs-sm text-center mb-0">
           {{ modeText.hint }}
           <a
             class="text-primary is-btn"
@@ -175,9 +172,7 @@ const fieldList = computed(() => {
   return list as FieldType[];
 });
 
-const warnMessage = ref<string>('');
-
-const formRef = ref<any>();
+const isInvalidated = ref<boolean>(false);
 
 const validators: any = useValidator();
 
@@ -200,7 +195,7 @@ const checkValidityHandler = (): boolean => {
 };
 
 const clearValidator = () => {
-  formRef.value?.classList.remove('was-invalidated');
+  isInvalidated.value = false;
 };
 
 const router = useRouter();
@@ -213,8 +208,7 @@ const goBack = async () => {
 
 const submit = async () => {
   if (!checkValidityHandler()) {
-    warnMessage.value = '';
-    formRef.value?.classList.add('was-invalidated');
+    isInvalidated.value = true;
     return;
   }
 
@@ -225,7 +219,6 @@ const submit = async () => {
   const { status, data, message } = mode.value === 'login' ? await login(formState) : await register(formState);
 
   if (status) {
-    warnMessage.value = '';
     userStore.SET_USER_INFO(data);
     token.value = data?.token;
 
@@ -240,14 +233,19 @@ const submit = async () => {
       btnLoading.value = false;
     }, 100);
   } else {
-    warnMessage.value = message;
+    showToast({
+      id: 'fail-message',
+      icon: 'icon/warning.svg',
+      delay: 2500,
+      message
+    });
+
     btnLoading.value = false;
   }
 };
 
 const switchMode = () => {
   clearValidator();
-  warnMessage.value = '';
   mode.value = mode.value === 'login' ? 'register' : 'login';
   Object.assign(formState, initialState);
 };
@@ -282,10 +280,6 @@ watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => 
 .login-register {
   overflow-y: auto;
   min-height: 100vh;
-}
-
-.warn-text {
-  height: 21px;
 }
 
 .invalid-feedback {
@@ -362,10 +356,14 @@ watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => 
     height: 60px;
   }
 
+  .field-container {
+    height: 524px;
+  }
+
   .form-box-container {
     display: flex;
     justify-content: flex-end;
-    padding: 80px 24px;
+    padding: 80px 24px 40px;
     max-width: 950px;
     background-image: linear-gradient(285deg, rgba($blue-100, 0.9) 47%, transparent 47.2%), var(--bg-image);
     background-position: center;
