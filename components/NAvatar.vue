@@ -7,11 +7,12 @@
     }"
     :style="{ height: `${size}px`, width: `${size}px` }"
   >
-    <img
+    <n-image
       v-if="avatarPhoto"
-      :src="avatarPhoto"
-      :alt="type"
-      class="w-100 h-100 object-fit-cover"
+      :img-src="avatarPhoto"
+      default-img="icon/user-photo.svg"
+      :alt="`${type}-${avatarPhoto}`"
+      class="w-100 object-fit-cover"
     />
     <div
       v-else
@@ -22,8 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import userPhotoSrc from '@/assets/image/icon/user-photo.svg';
-
 const userStore = useUserStore();
 const { avatar } = storeToRefs(userStore);
 interface NAvatarProps {
@@ -46,10 +45,8 @@ const props = withDefaults(defineProps<NAvatarProps>(), {
 
 const token: any = useCookie('token');
 
-const userPhoto = userPhotoSrc;
-
 const avatarPhoto = computed(() =>
-  token.value && props.type === 'user' && !props.imgSrc ? avatar?.value || userPhoto : props.imgSrc
+  token.value && props.type === 'user' ? avatar?.value || requireImage('icon/user-photo.svg') : props.imgSrc
 );
 </script>
 <style lang="scss" scoped>
