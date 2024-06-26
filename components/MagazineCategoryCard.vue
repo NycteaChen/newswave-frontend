@@ -3,9 +3,9 @@
     class="magazine-category-card d-block card text-start text-body-white position-relative"
     :to="`/magazine/${categoryData.categoryId}`"
   >
-    <img
-      :src="categoryData.categoryImg"
-      class="card-img h-100 object-fit-cover"
+    <n-image
+      :img-src="categoryData.categoryImg"
+      class="card-img object-fit-cover"
       :alt="categoryData.categoryDescribe"
     />
     <div class="card-img-overlay">

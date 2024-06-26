@@ -1,14 +1,14 @@
 <template>
-  <img
+  <n-image
+    :img-src="articleData?.image || renderDefaultMagazineImage"
     class="article-image"
-    :src="articleData?.image || renderDefaultMagazineImage"
-    :alt="articleData?.imageDescribe"
+    :alt="articleData?.imageDescribe || ''"
   />
 </template>
 
 <script lang="ts" setup>
 const props = defineProps<{
-  articleData?: ArticleType;
+  articleData: ArticleType;
 }>();
 
 const guestStore = useGuestStore();
