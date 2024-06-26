@@ -6,6 +6,7 @@
         :key="item.text"
         size="sm"
         color="secondary"
+        :loading="item.loading || false"
         :text="item.text"
         :icon-src="requireImage(`icon/${item.icon}.svg`)"
         @click="item.clickFn()"
@@ -21,21 +22,35 @@
 const route = useRoute();
 const token: any = useCookie('token');
 
+const collectShareBus = useEventBus('collectShareBus');
+
 const userStore = useUserStore();
 const { collects } = storeToRefs(userStore);
 
 const showHintModal = ref<boolean>(false);
+const collectLoading = ref<boolean>(false);
 
 const copyLinkHandler = () => {
   copyText({ text: `${window.origin}${route.fullPath}`, message: '複製連結成功' });
 };
 
-const collect = () => {
+const collectLoadingHandler: any = (bool: boolean): void => {
+  collectLoading.value = bool;
+};
+
+const collect = async () => {
   if (!token.value) {
     showHintModal.value = true;
     return;
   }
-  collectHandler(String(route.params?.articleId));
+
+  collectShareBus.emit(true);
+  collectLoadingHandler(true);
+
+  await collectHandler(String(route.params?.articleId));
+
+  collectShareBus.emit(false);
+  collectLoadingHandler(false);
 };
 
 const isCollected = computed<boolean>(() => collects.value?.includes(String(route.params?.articleId)));
@@ -44,7 +59,8 @@ const btnList = computed(() => [
   {
     text: '收藏',
     icon: `collect${isCollected.value ? '-active' : ''}`,
-    clickFn: collect
+    clickFn: collect,
+    loading: collectLoading.value
   },
   {
     text: '分享',
@@ -52,6 +68,14 @@ const btnList = computed(() => [
     clickFn: copyLinkHandler
   }
 ]);
+
+onBeforeMount(() => {
+  collectShareBus.on(collectLoadingHandler);
+});
+
+onBeforeUnmount(() => {
+  collectShareBus.off(collectLoadingHandler);
+});
 </script>
 <style lang="scss" scoped>
 ::v-deep(.btn-content) {
