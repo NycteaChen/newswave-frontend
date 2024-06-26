@@ -1,5 +1,8 @@
 <template>
-  <div class="n-input d-flex align-items-center position-relative">
+  <div
+    class="n-input d-flex align-items-center position-relative"
+    :class="{ 'cursor-not-allowed': disabled }"
+  >
     <input
       :id="id"
       v-model="value"
@@ -7,15 +10,15 @@
       :type="type"
       :inputmode="inputmode"
       class="form-control fs-sm py-2"
-      :class="{ 'invalid-field': hasError, 'has-suffix-icon': suffixIcon }"
+      :class="{ 'invalid-field': hasError, 'has-suffix-icon': suffixIcon, 'cursor-not-allowed': disabled }"
       :disabled="disabled"
       @keyup.enter="$emit('pressEnter')"
     />
     <div
       v-if="suffixIcon"
       class="suffix-icon position-absolute h-100 d-flex align-items-center"
-      :class="{ 'is-btn': suffixIconClickFn }"
-      @click="$emit('clickIcon')"
+      :class="{ 'is-btn': suffixIconClickFn && !disabled }"
+      @click="disabled ? '' : $emit('clickIcon')"
     >
       <img :src="requireImage(suffixIcon)" />
     </div>
@@ -57,7 +60,6 @@ defineEmits<{ (e: 'pressEnter'): void; (e: 'clickIcon'): void }>();
   input:disabled {
     background-color: #f5f5f5;
     color: #999;
-    cursor: not-allowed;
   }
 }
 

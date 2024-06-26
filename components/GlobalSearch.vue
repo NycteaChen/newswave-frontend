@@ -6,11 +6,12 @@
     >
       <div
         class="search-input position-absolute"
-        :class="{ show: showInput }"
+        :class="{ show: showInput, 'opacity-50': disabledInput }"
       >
         <n-input
           ref="searchInputRef"
           v-model:value="keyword"
+          :disabled="disabledInput"
           inputmode="search"
           placeholder="搜尋文章標題"
           suffix-icon="icon/search.svg"
@@ -32,6 +33,7 @@
 const isMobile = inject<any>('isMobile');
 const keyword = ref<string>('');
 
+const disabledInput = ref<boolean>(false);
 const showInput = ref<boolean>(false);
 const searchInputRef = ref<HTMLElement | null>(null);
 
@@ -42,6 +44,8 @@ const initInput = () => {
 
 const goToSearch = async () => {
   if (keyword.value?.trim()) {
+    disabledInput.value = true;
+
     await navigateTo({
       path: '/search',
       query: {
@@ -50,6 +54,8 @@ const goToSearch = async () => {
         topic: 'all'
       }
     });
+
+    disabledInput.value = false;
   } else {
     initInput();
   }
