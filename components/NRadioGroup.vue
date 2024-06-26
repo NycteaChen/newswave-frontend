@@ -60,7 +60,7 @@ const activeIndex = computed(() => {
 </script>
 <style lang="scss" scoped>
 .n-radio-group {
-  border: 1px solid $primary;
+  border: 1px solid $input-border-color;
 }
 
 %transition {

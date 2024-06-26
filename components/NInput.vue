@@ -56,11 +56,6 @@ defineEmits<{ (e: 'pressEnter'): void; (e: 'clickIcon'): void }>();
   input.has-suffix-icon {
     padding-right: 44px;
   }
-
-  input:disabled {
-    background-color: #f5f5f5;
-    color: #999;
-  }
 }
 
 .suffix-icon {
