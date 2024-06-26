@@ -35,6 +35,10 @@ declare global {
     paidAt?: string;
     subscribeExpiredAt?: UserDataType['subscribeExpiredAt'];
   }
+
+  interface UploadResponseType {
+    imgUrl: string;
+  }
 }
 
 export {};

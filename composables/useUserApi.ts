@@ -213,6 +213,29 @@ class userApi {
 
     return res;
   }
+
+  static async uploadImage(file: File): Promise<ApiResponseType<UploadResponseType>> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await useApi(`/upload/image`, {
+      method: 'post',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    return res;
+  }
+
+  static async getImageList(): Promise<ApiResponseType<UploadResponseType>> {
+    const res = await useApi(`/upload/image`, {
+      method: 'get'
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;

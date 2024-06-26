@@ -7,14 +7,14 @@
             <n-avatar
               class="mw-100"
               size="200"
-              img-src="blob:http://localhost:4000/41462fe7-27e2-4aa2-a2cc-0bb2a1819c57"
             />
             <div class="position-absolute customfile translate-middle">
               <input
                 id="customFile"
                 type="file"
                 class="d-none"
-                accept=".svg"
+                accept=".jpg, .png, .gif"
+                @change="handleFileUpload"
               />
               <label
                 class="d-inline-block cursor-pointer"
@@ -130,7 +130,7 @@
 const { memberSubNav } = useNav();
 const userStore = useUserStore();
 const { id, name, isVip, subscribeExpiredAt, collects, follows } = storeToRefs(userStore);
-
+const { uploadImage, updateUserInfo } = useUserApi();
 const nTabsBus = useEventBus('nTabsBus');
 
 definePageMeta({
@@ -183,6 +183,56 @@ const numberInfoList = computed(() => {
   ];
   return list as FieldType[];
 });
+
+const avatarFile = ref<File | null>(null);
+
+const handleFileUpload = async (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    const maxSizeInMB = 5;
+    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+    if (file.size > maxSizeInBytes) {
+      showToast({
+        id: 'file-too-large',
+        message: `文件大小不可超過 ${maxSizeInMB}MB`,
+        icon: 'icon/warning.svg'
+      });
+      return;
+    }
+
+    avatarFile.value = file;
+    try {
+      const { status, data, message } = await uploadImage(file);
+      if (status && data && data.imgUrl) {
+        const { imgUrl } = data;
+        userStore.avatar = imgUrl;
+        avatarFile.value = null;
+
+        await updateUserInfo({ avatar: imgUrl });
+
+        await userStore.getUserData();
+
+        showToast({
+          id: 'upload-success',
+          message
+        });
+      } else {
+        showToast({
+          id: 'upload-fail',
+          message,
+          icon: 'icon/warning.svg'
+        });
+      }
+    } catch (error: any) {
+      showToast({
+        id: 'upload-fail',
+        message: error.response?.data?.message || '上傳失敗，請重試',
+        icon: 'icon/warning.svg'
+      });
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .customfile {
