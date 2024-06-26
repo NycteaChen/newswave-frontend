@@ -2,10 +2,10 @@
   <section class="title mb-4 bg-body-light rounded-1">
     <div class="d-flex">
       <div class="title-img me-4 flex-shrink-0">
-        <img
-          :src="magazineContent?.categoryImg"
-          :alt="magazineContent?.categoryDescribe"
-          class="h-100 object-fit-cover"
+        <n-image
+          :img-src="magazineContent?.categoryImg || ''"
+          :alt="magazineContent?.categoryDescribe || ''"
+          class="object-fit-cover"
         />
       </div>
       <div class="text-primary">
@@ -44,10 +44,10 @@
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
           <div class="card overflow-hidden">
             <div class="overflow-hidden">
-              <img
-                :src="magazineContent?.categoryImg"
+              <n-image
+                :img-src="magazineContent?.categoryImg || ''"
                 class="card-img-top"
-                :alt="item.imageDescribe"
+                :alt="item.imageDescribe || ''"
               />
             </div>
             <NTags

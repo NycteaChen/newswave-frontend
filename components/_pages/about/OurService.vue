@@ -1,9 +1,10 @@
 <template>
   <div class="our-service d-flex flex-column flex-lg-row gap-4 gap-lg-5 align-items-center">
     <div class="image-container">
-      <img
+      <n-image
         class="rounded-2"
-        :src="requireImage('about/service.webp')"
+        :img-src="requireImage('about/service.webp')"
+        alt="service"
       />
     </div>
     <div class="text-container d-flex flex-column gap-4">
