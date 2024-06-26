@@ -5,7 +5,7 @@
   >
     <section class="header-container container-xxl py-2 pt-md-4 px-xxl-0">
       <nav class="d-flex justify-content-between align-items-center gap-3">
-        <n-logo target-path="/news" />
+        <n-logo />
         <div class="d-flex align-items-center gap-1 gap-md-3">
           <client-only>
             <global-search v-if="!isSearchPage" />

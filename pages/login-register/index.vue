@@ -11,7 +11,7 @@
         <header>
           <n-logo
             class="mx-auto"
-            @click.prevent="goBack"
+            :target-path="backRouter"
           />
           <h3 class="text-center my-4">{{ modeText.name }}</h3>
         </header>
