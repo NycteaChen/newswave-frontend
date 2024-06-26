@@ -3,12 +3,14 @@
     <div class="col-md-5 col-xl-3 order-2">
       <div class="d-flex flex-column justify-content-between bg-light h-100 rounded-2">
         <section class="p-3">
-          <div class="position-relative">
-            <n-avatar
-              class="mw-100"
-              size="200"
-            />
-            <div class="position-absolute customfile translate-middle">
+          <div class="avatar-area position-relative">
+            <n-loading :loading="uploadLoading">
+              <n-avatar
+                class="mw-100"
+                size="200"
+              />
+            </n-loading>
+            <div class="position-absolute custom-file">
               <input
                 id="customFile"
                 type="file"
@@ -17,7 +19,8 @@
                 @change="handleFileUpload"
               />
               <label
-                class="d-inline-block cursor-pointer"
+                class="d-inline-block"
+                :class="uploadLoading ? 'cursor-not-allowed opacity-50' : 'is-btn'"
                 for="customFile"
               >
                 <img
@@ -147,6 +150,8 @@ interface FieldType {
   length?: number;
 }
 
+const uploadLoading = ref<boolean>(false);
+
 const userInfoList = computed(() => {
   const list = [
     {
@@ -184,60 +189,70 @@ const numberInfoList = computed(() => {
   return list as FieldType[];
 });
 
-const avatarFile = ref<File | null>(null);
-
 const handleFileUpload = async (event: Event) => {
   const file = (event.target as HTMLInputElement).files?.[0];
-  if (file) {
-    const maxSizeInMB = 5;
-    const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+  if (!file) return;
 
-    if (file.size > maxSizeInBytes) {
+  const maxSizeInMB = 5;
+  const maxSizeInBytes = maxSizeInMB * 1024 * 1024;
+
+  if (file.size > maxSizeInBytes) {
+    showToast({
+      id: 'file-too-large',
+      message: `文件大小不可超過 ${maxSizeInMB}MB`,
+      icon: 'icon/warning.svg'
+    });
+    return;
+  }
+
+  uploadLoading.value = true;
+
+  try {
+    const { status, data, message } = await uploadImage(file);
+    if (status && data && data?.imgUrl) {
+      const { imgUrl } = data;
+      await updateUserInfo({ avatar: imgUrl });
+      await userStore.getUserData();
+
       showToast({
-        id: 'file-too-large',
-        message: `文件大小不可超過 ${maxSizeInMB}MB`,
-        icon: 'icon/warning.svg'
+        id: 'upload-success',
+        message
       });
-      return;
-    }
-
-    avatarFile.value = file;
-    try {
-      const { status, data, message } = await uploadImage(file);
-      if (status && data && data.imgUrl) {
-        const { imgUrl } = data;
-        userStore.avatar = imgUrl;
-        avatarFile.value = null;
-
-        await updateUserInfo({ avatar: imgUrl });
-
-        await userStore.getUserData();
-
-        showToast({
-          id: 'upload-success',
-          message
-        });
-      } else {
-        showToast({
-          id: 'upload-fail',
-          message,
-          icon: 'icon/warning.svg'
-        });
-      }
-    } catch (error: any) {
+    } else {
       showToast({
         id: 'upload-fail',
-        message: error.response?.data?.message || '上傳失敗，請重試',
+        message,
         icon: 'icon/warning.svg'
       });
     }
+  } catch (error: any) {
+    showToast({
+      id: 'upload-fail',
+      message: error.response?.data?.message || '上傳失敗，請重試',
+      icon: 'icon/warning.svg'
+    });
   }
+
+  uploadLoading.value = false;
 };
 </script>
 <style lang="scss" scoped>
-.customfile {
-  top: 175px;
-  left: 200px;
+.custom-file {
+  bottom: 8px;
+  left: 184px;
+  width: 40px;
+  height: 40px;
+}
+
+.avatar-area {
+  ::v-deep(.n-loading-container) {
+    width: 200px;
+    height: 200px;
+
+    &.show {
+      min-height: unset;
+    }
+  }
 }
 
 .menu-title {
