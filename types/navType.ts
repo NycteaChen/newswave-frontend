@@ -4,7 +4,6 @@ declare global {
     value: string;
     badge?: string;
     truncate?: boolean;
-    img?: string;
   }
 
   interface NavItemWithSubType extends NavItemType {
