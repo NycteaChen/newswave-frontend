@@ -50,7 +50,7 @@
           <div class="d-flex justify-content-center">
             <nuxt-link
               :to="`/subscription-plan`"
-              class="text-decoration-underline text-accent"
+              class="text-decoration-underline text-accent is-btn"
               >了解訂閱方案</nuxt-link
             >
           </div>
@@ -139,8 +139,6 @@ const nTabsBus = useEventBus('nTabsBus');
 definePageMeta({
   title: '會員中心'
 });
-
-await useAsyncData('user-data', () => userStore.getUserData());
 
 interface FieldType {
   label: string;

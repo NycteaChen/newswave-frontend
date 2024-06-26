@@ -30,17 +30,17 @@
             :id="field.value"
             v-model:value="formState[field.value]"
             :placeholder="`請輸入${field.label}`"
-            :has-error="!!errorMessage[field.value]"
+            :has-error="field.value === 'name' && !!errorMessage"
             :type="field.type"
             :disabled="field.disabled"
             @press-enter="submit"
           />
         </div>
         <div
-          v-if="errorMessage[field.value]"
+          v-if="field.value === 'name' && errorMessage"
           class="text-danger"
         >
-          {{ errorMessage[field.value] }}
+          {{ errorMessage }}
         </div>
       </div>
       <n-button
@@ -65,8 +65,6 @@ definePageMeta({
   title: '帳戶管理 - 修改個人資料'
 });
 
-await useAsyncData('user-info', () => userStore.getUserInfo());
-
 interface UserInfoFieldType {
   email: UserInfoType['email'];
   name: UserInfoType['name'];
@@ -83,18 +81,14 @@ interface FieldType {
   disabled?: boolean;
 }
 
-const initState: UserInfoFieldType = {
-  email: email.value,
-  name: name.value,
-  birthday: birthday.value,
-  gender: gender.value
-};
+const errorMessage = ref<string>('');
 
-const errorMessage = reactive<Partial<UserInfoFieldType>>({
-  name: ''
+const formState = reactive<UserInfoFieldType>({
+  email: '',
+  name: '',
+  birthday: '',
+  gender: ''
 });
-
-const formState = reactive<UserInfoFieldType>({ ...initState });
 
 const isInvalidated = ref<boolean>(false);
 const btnLoading = ref<boolean>(false);
@@ -137,25 +131,14 @@ const clearValidator = () => {
   isInvalidated.value = false;
 };
 
-const checkValidityHandler = (): boolean => {
+const checkNameValidityHandler = (): boolean => {
   const { pass, message } = nameValidator(formState.name);
-  if (!pass) {
-    errorMessage.name = message || '';
-  } else {
-    errorMessage.name = '';
-  }
+  errorMessage.value = pass ? '' : message || '';
   return pass;
 };
 
-const reset = () => {
-  Object.assign(errorMessage, {
-    name: ''
-  });
-  clearValidator();
-};
-
 const submit = async () => {
-  if (!checkValidityHandler()) {
+  if (!checkNameValidityHandler()) {
     isInvalidated.value = true;
     return;
   }
@@ -166,8 +149,9 @@ const submit = async () => {
 
   if (status) {
     userStore.SET_USER_INFO(data);
+
     Object.assign(formState, data);
-    reset();
+
     showToast({
       id: 'update-info-success',
       message
@@ -184,6 +168,23 @@ const submit = async () => {
   btnLoading.value = false;
   clearValidator();
 };
+
+onMounted(() => {
+  nextTick(async () => {
+    if (!gender.value) {
+      await userStore.getUserInfo();
+      formState.gender = gender.value;
+      formState.birthday = birthday.value;
+    }
+  });
+});
+
+watchEffect(() => {
+  formState.email = email.value;
+  formState.name = name.value;
+  formState.birthday = birthday.value;
+  formState.gender = gender.value;
+});
 </script>
 <style lang="scss" scoped>
 .form {

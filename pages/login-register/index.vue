@@ -222,15 +222,15 @@ const submit = async () => {
     userStore.SET_USER_INFO(data);
     token.value = data?.token;
 
-    showToast({
-      id: 'login-success',
-      message
-    });
-
     setTimeout(async () => {
       await userStore.getUserData();
       await goBack();
       btnLoading.value = false;
+
+      showToast({
+        id: 'login-success',
+        message
+      });
     }, 100);
   } else {
     showToast({
