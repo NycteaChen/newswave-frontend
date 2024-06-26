@@ -1,6 +1,6 @@
 <template>
   <div class="row g-4">
-    <div class="col-md-3 order-2">
+    <div class="col-md-5 col-xl-3 order-2">
       <div class="d-flex flex-column justify-content-between bg-light h-100 rounded-2">
         <section class="p-3">
           <div class="position-relative">
@@ -55,11 +55,11 @@
         <img
           :src="requireImage('member/wave-1.svg')"
           alt="wave-1"
-          class="pt-2"
+          class="pt-2 rounded-bottom-2"
         />
       </div>
     </div>
-    <div class="col-md-5 order-3">
+    <div class="col-md-7 col-xl-5 order-3">
       <div class="d-flex flex-column justify-content-between bg-light rounded-2">
         <div class="p-3 d-flex flex-column gap-3">
           <section
@@ -75,20 +75,23 @@
                 <li
                   v-for="subItem in item.childrenRoute"
                   :key="subItem.label"
+                  class="rounded-2"
                 >
                   <nuxt-link
                     :to="{ name: subItem.value }"
-                    class="d-flex align-items-center menu-link ps-4 rounded-2"
+                    class="d-flex align-items-center menu-link ps-4 gap-2"
                     @click="nTabsBus.emit({ ...item, children: subItem.value }, index)"
                   >
                     <img
-                      :src="requireImage(subItem.img ?? '')"
+                      :src="requireImage(`member/${subItem.value?.split('-')?.[2]}.svg`)"
                       :alt="subItem.label"
-                      class="w-auto me-2"
+                      class="menu-link-icon"
                     />
-                    <div>
-                      {{ subItem.label }}
-                    </div>
+                    <div>{{ subItem.label }}</div>
+                    <notice-badge
+                      v-if="subItem?.badge === 'notice'"
+                      type="number"
+                    />
                   </nuxt-link>
                 </li>
               </ul>
@@ -98,16 +101,16 @@
         <img
           :src="requireImage('member/wave-2.svg')"
           alt="wave-2"
-          class="pt-2"
+          class="pt-2 rounded-bottom-2"
         />
       </div>
     </div>
-    <section class="d-flex flex-column gap-3 col-md-4 order-1 order-md-4">
+    <section class="d-flex flex-column gap-3 flex-md-row col-xl-4 order-1 order-xl-4 flex-xl-column">
       <nuxt-link
         v-for="field in numberInfoList"
         :key="field.label"
         :to="`/member/article/${field.value}`"
-        class="number d-flex rounded-2 justify-content-between py-3 px-4 text-body-white"
+        class="number d-flex rounded-2 justify-content-between py-3 px-4 text-body-white flex-1 flex-xl-unset"
       >
         <div class="d-flex align-items-center fw-bold">
           <img
@@ -194,6 +197,11 @@ const numberInfoList = computed(() => {
 .menu-link {
   padding-top: 12px;
   padding-bottom: 12px;
+
+  &-icon {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .user-info {
@@ -214,11 +222,17 @@ const numberInfoList = computed(() => {
   line-height: 72px;
 }
 
+::v-deep(.notice-dot) {
+  transform: translateY(0);
+}
+
 @include media-breakpoint-up(md) {
   .menu-body {
     li {
-      :hover {
-        background-color: $light;
+      transition: background 0.3s ease-in-out;
+
+      &:hover {
+        background: $light;
       }
     }
   }

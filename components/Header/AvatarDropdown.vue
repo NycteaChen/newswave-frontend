@@ -87,7 +87,7 @@ const redirectItem = computed(() =>
     : {
         label: '會員中心',
         to: '/member',
-        icon: 'member/member.svg'
+        icon: 'member/basic.svg'
       }
 );
 
@@ -147,7 +147,7 @@ const logoutHandler = async () => {
     }
 
     img {
-      width: 14px;
+      width: 16px;
     }
   }
 }
