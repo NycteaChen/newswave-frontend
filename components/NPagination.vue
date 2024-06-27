@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="totalPages"
-    class="d-flex justify-content-center"
+    class="n-pagination d-flex justify-content-center"
   >
     <div
       v-if="!isLastPage || (isLastPage && btnLoading)"
