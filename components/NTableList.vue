@@ -1,7 +1,7 @@
 <template>
   <div class="n-table-container">
-    <div class="n-list d-flex flex-column gap-3 d-md-none mb-3 container px-0">
-      <n-loading :loading="tableLoading">
+    <n-loading :loading="tableLoading">
+      <div class="n-list d-flex flex-column gap-3 d-md-none mb-3 container px-0">
         <div
           v-for="(rowItem, index) in dataSource"
           :key="`row-${index}`"
@@ -27,8 +27,8 @@
           v-if="!dataSource.length && !tableLoading"
           img="icon/no-data.svg"
         />
-      </n-loading>
-    </div>
+      </div>
+    </n-loading>
 
     <n-loading
       class="d-none d-md-block"
@@ -156,7 +156,9 @@ watch(
   height: 200px;
 }
 
-::v-deep(.pagination) {
-  justify-content: flex-end !important;
+@include media-breakpoint-up(md) {
+  ::v-deep(.n-pagination) {
+    justify-content: flex-end !important;
+  }
 }
 </style>
