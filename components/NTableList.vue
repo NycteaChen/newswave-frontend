@@ -1,7 +1,7 @@
 <template>
   <div class="n-table-container">
     <n-loading :loading="tableLoading">
-      <div class="n-list d-flex flex-column gap-3 d-md-none mb-3 container px-0">
+      <div class="n-list d-flex flex-column d-md-none gap-3 mb-3 container px-0">
         <div
           v-for="(rowItem, index) in dataSource"
           :key="`row-${index}`"
@@ -28,13 +28,7 @@
           img="icon/no-data.svg"
         />
       </div>
-    </n-loading>
-
-    <n-loading
-      class="d-none d-md-block"
-      :loading="tableLoading"
-    >
-      <table class="n-table table mb-md-4">
+      <table class="n-table d-none d-md-table table mb-md-4">
         <thead class="table-head">
           <tr>
             <th
