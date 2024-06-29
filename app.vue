@@ -41,6 +41,10 @@ onMounted(async () => {
 
     if (token.value) {
       userStore.getUserData();
+
+      if (route.name === 'member-account-basic') {
+        userStore.getUserInfo();
+      }
     } else {
       userStore.$reset();
     }
