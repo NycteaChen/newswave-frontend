@@ -11,14 +11,16 @@
         class="content text-center"
         :class="item.id === 'magazineSupplier' ? 'container-xxl px-0' : 'container'"
       >
-        <h2 :class="item.background === 'bg-primary-gradient' ? 'text-body-white' : 'text-primary'">
-          {{ item.title }}
-        </h2>
+        <n-transition>
+          <h2 :class="item.background === 'bg-primary-gradient' ? 'text-body-white' : 'text-primary'">
+            {{ item.title }}
+          </h2>
+        </n-transition>
         <component :is="item.component" />
       </div>
     </section>
     <section class="footer-banner d-flex align-items-center">
-      <div class="container d-flex align-items-center justify-content-center gap-3 gap-md-4 flex-wrap">
+      <n-transition class="container d-flex align-items-center justify-content-center gap-3 gap-md-4 flex-wrap">
         <h3 class="text-body-white mb-0">有感興趣的雜誌嗎？</h3>
         <n-button
           text="立即使用"
@@ -26,7 +28,7 @@
           size="lg"
           @click="goToPlan"
         />
-      </div>
+      </n-transition>
     </section>
   </div>
 </template>

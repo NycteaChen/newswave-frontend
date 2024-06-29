@@ -5,8 +5,10 @@
   >
     <div class="container text-center position-relative z-1">
       <div class="text-primary">
-        <h2>NewsWave Plus</h2>
-        <p class="fs-5">無限制閱讀全球各大雜誌，帶您探索世界更多角落</p>
+        <n-transition>
+          <h2>NewsWave Plus</h2>
+          <p class="fs-5">無限制閱讀全球各大雜誌，帶您探索世界更多角落</p>
+        </n-transition>
       </div>
       <plan-selection />
     </div>

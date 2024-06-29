@@ -3,27 +3,28 @@
     <li
       v-for="item in coreList"
       :key="item.title"
-      class="core-value-item d-flex justify-content-center align-items-center flex-column"
     >
-      <div class="core-value-icon-container p-2 rounded-circle bg-body position-relative z-2">
+      <n-transition class="core-value-item d-flex h-100 justify-content-center align-items-center flex-column">
+        <div class="core-value-icon-container p-2 rounded-circle bg-body position-relative z-2">
+          <div
+            class="rounded-circle p-3"
+            :style="{ '--color': item.color }"
+          >
+            <img :src="requireImage(`about/${item.icon}.svg`)" />
+          </div>
+        </div>
         <div
-          class="rounded-circle p-3"
-          :style="{ '--color': item.color }"
+          class="card flex-1 position-relative z-1 text-body-white"
+          :style="{ background: item.icon === 'service' ? item.color : `${item.color}cc` }"
         >
-          <img :src="requireImage(`about/${item.icon}.svg`)" />
+          <div class="card-body px-4 py-5 d-flex flex-column gap-2">
+            <h4 class="card-title text-center">{{ item.title }}</h4>
+            <p class="card-text flex-1">
+              {{ item.content }}
+            </p>
+          </div>
         </div>
-      </div>
-      <div
-        class="card flex-1 position-relative z-1 text-body-white"
-        :style="{ background: item.icon === 'service' ? item.color : `${item.color}cc` }"
-      >
-        <div class="card-body px-4 py-5 d-flex flex-column gap-2">
-          <h4 class="card-title text-center">{{ item.title }}</h4>
-          <p class="card-text flex-1">
-            {{ item.content }}
-          </p>
-        </div>
-      </div>
+      </n-transition>
     </li>
   </ul>
 </template>

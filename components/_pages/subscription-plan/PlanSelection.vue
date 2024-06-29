@@ -1,10 +1,11 @@
 <template>
   <div class="plan-selection row justify-content-center text-center">
     <client-only>
-      <div
-        v-for="item in renderPlanList"
+      <n-transition
+        v-for="(item, index) in renderPlanList"
         :id="`${item.type}Plan`"
         :key="item.title"
+        :delay="isPc && isIntroMode ? (index * 2) / 10 : 0"
         class="col-12 col-xl-4"
         :class="{ 'col-lg-5': !isIntroMode }"
       >
@@ -72,7 +73,7 @@
             <img :src="requireImage('subscription-plan/bottom-wave.svg')" />
           </div>
         </div>
-      </div>
+      </n-transition>
     </client-only>
     <Teleport to="body">
       <auth-hint-modal v-model:visible="showHintModal" />
@@ -90,6 +91,8 @@ interface PlanSelectionProps {
    */
   mode?: 'intro' | 'checkout';
 }
+
+const isPc = inject('isPc');
 
 const selectedPlan = defineModel('plan', { type: Object, default: () => {} });
 

@@ -1,22 +1,23 @@
 <template>
   <section class="selected-magazine bg-primary-gradient position-relative">
     <div class="selected-magazine-container container text-center position-relative z-3">
-      <h2 class="text-body-white">精選雜誌</h2>
-
-      <n-swiper
-        :swiper-list="magazineCategoryList"
-        mode="dark"
-      >
-        <template #slide="{ slideItem }">
-          <magazine-category-card :category-data="slideItem" />
-        </template>
-      </n-swiper>
-      <nuxt-link to="/magazine">
-        <n-button
-          color="secondary"
-          text="瀏覽更多雜誌"
-        />
-      </nuxt-link>
+      <n-transition>
+        <h2 class="text-body-white">精選雜誌</h2>
+        <n-swiper
+          :swiper-list="magazineCategoryList"
+          mode="dark"
+        >
+          <template #slide="{ slideItem }">
+            <magazine-category-card :category-data="slideItem" />
+          </template>
+        </n-swiper>
+        <nuxt-link to="/magazine">
+          <n-button
+            color="secondary"
+            text="瀏覽更多雜誌"
+          />
+        </nuxt-link>
+      </n-transition>
     </div>
 
     <img

@@ -1,26 +1,24 @@
 <template>
   <section class="home-faq bg-body position-relative">
     <div class="container text-center position-relative z-1">
-      <h2 class="text-primary">常見問題</h2>
-      <n-accordion
-        class="faq-accordion text-start mx-auto"
-        :accordion-list="list"
-      />
-
-      <img
-        class="seagull-img d-xl-none"
-        :src="requireImage(`home/seagull.svg`)"
-      />
+      <n-transition>
+        <h2 class="text-primary">常見問題</h2>
+        <n-accordion
+          class="faq-accordion text-start mx-auto"
+          :accordion-list="list"
+        />
+      </n-transition>
+      <n-transition class="seagull-img d-xl-none mx-auto">
+        <img :src="requireImage(`home/seagull.svg`)" />
+      </n-transition>
     </div>
     <img
       class="wave-img"
       :src="requireImage(`home/wave-5.svg`)"
     />
-
-    <img
-      class="seagull-img mt-0 position-absolute d-none d-xl-inline-block"
-      :src="requireImage(`home/seagull.svg`)"
-    />
+    <n-transition class="seagull-img mt-0 position-absolute d-none d-xl-inline-block">
+      <img :src="requireImage(`home/seagull.svg`)" />
+    </n-transition>
   </section>
 </template>
 <script setup lang="ts">

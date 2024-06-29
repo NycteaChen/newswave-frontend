@@ -14,26 +14,28 @@
       ]"
     >
       <div class="container py-5 position-relative z-1">
-        <h3 class="mb-4">
-          <span>{{ item.titlePrefix }}</span>
-          <span
-            class="fs-1 position-relative"
-            :class="item.background === 'bg-primary-gradient' ? 'text-blue-400' : 'text-primary'"
-          >
-            <span class="position-relative z-2">{{ item.titleSuffix }}</span>
+        <n-transition>
+          <h3 class="mb-4">
+            <span>{{ item.titlePrefix }}</span>
             <span
-              class="deco-text fs-1 z-1 text-muted position-absolute"
-              :class="{ 'opacity-75': item.background === 'bg-primary-gradient' }"
+              class="fs-1 position-relative"
+              :class="item.background === 'bg-primary-gradient' ? 'text-blue-400' : 'text-primary'"
             >
-              {{ item.decoText }}
+              <span class="position-relative z-2">{{ item.titleSuffix }}</span>
+              <span
+                class="deco-text fs-1 z-1 text-muted position-absolute"
+                :class="{ 'opacity-75': item.background === 'bg-primary-gradient' }"
+              >
+                {{ item.decoText }}
+              </span>
             </span>
-          </span>
-        </h3>
-        <img
-          class="wave-icon mb-4 mt-xl-4"
-          :class="index ? 'mb-xl-5' : 'mb-xl-0'"
-          :src="requireImage('icon/wave-cyan.svg')"
-        />
+          </h3>
+          <img
+            class="wave-icon mb-4 mt-xl-4"
+            :class="index ? 'mb-xl-5' : 'mb-xl-0'"
+            :src="requireImage('icon/wave-cyan.svg')"
+          />
+        </n-transition>
         <component :is="item.component" />
       </div>
       <img
