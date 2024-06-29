@@ -46,7 +46,7 @@
             <div class="overflow-hidden">
               <n-image
                 :img-src="magazineContent?.categoryImg || ''"
-                class="card-img-top"
+                class="card-img-top object-fit-cover"
                 :alt="item.imageDescribe || ''"
               />
             </div>
@@ -177,8 +177,7 @@ watch(
 }
 
 .card .card-img-top {
-  height: 250px;
-  object-fit: cover;
+  height: 250px !important;
   transition: all 0.3s ease-in-out;
 }
 
