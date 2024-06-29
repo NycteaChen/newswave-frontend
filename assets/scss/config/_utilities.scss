@@ -58,7 +58,8 @@ $utilities: map-merge(
       class: 'whitespace',
       responsive: true,
       values: (
-        'nowrap': nowrap
+        'nowrap': nowrap,
+        'pre-wrap': pre-wrap
       )
     )
   )

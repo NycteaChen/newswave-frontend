@@ -1,9 +1,9 @@
 <template>
   <div
-    ref="target"
+    ref="targetRef"
     class="n-transition"
     :style="{ '--delay': `${delay}s` }"
-    :class="[animationName, targetIsVisible ? 'show opacity-100' : 'opacity-0']"
+    :class="[animationName, showTarget ? 'show opacity-100' : 'opacity-0']"
   >
     <slot />
   </div>
@@ -14,12 +14,9 @@ interface NTransitionProps {
   delay?: number;
 }
 
-const target = ref(null);
-const targetIsVisible = ref(false);
-
-const { stop } = useIntersectionObserver(target, ([{ isIntersecting }]) => {
-  targetIsVisible.value = isIntersecting;
-});
+const scrollY = inject<any>('scrollY');
+const targetRef = ref<HTMLElement | null>(null);
+const showTarget = ref<boolean>(false);
 
 withDefaults(defineProps<NTransitionProps>(), {
   animationName: 'fade-in-up',
@@ -27,10 +24,12 @@ withDefaults(defineProps<NTransitionProps>(), {
 });
 
 watch(
-  () => targetIsVisible.value,
+  () => scrollY.value,
   (val) => {
-    if (val) {
-      stop();
+    if (val < 30) {
+      showTarget.value = false;
+    } else if ((targetRef.value?.getBoundingClientRect()?.y || 0) < (window.innerHeight * 5) / 7) {
+      showTarget.value = true;
     }
   }
 );

@@ -1,6 +1,6 @@
 <template>
   <div
-    id="accordionFlushExample"
+    id="nAccordion"
     class="accordion accordion-flush"
   >
     <div
@@ -8,7 +8,10 @@
       :key="item.title"
       class="accordion-item bg-transparent"
     >
-      <h3 class="accordion-header py-4">
+      <h3
+        :id="`heading-${index}`"
+        class="accordion-header py-4"
+      >
         <button
           class="accordion-button collapsed"
           type="button"
@@ -23,14 +26,15 @@
       <div
         :id="`flush-collapse${index}`"
         class="accordion-collapse collapse"
-        data-bs-parent="#accordionFlushExample"
+        :aria-labelledby="`heading-${index}`"
+        data-bs-parent="#nAccordion"
       >
         <div class="accordion-body">
           <img
             class="wave-icon mb-3"
             :src="requireImage('icon/wave-cyan.svg')"
           />
-          <p class="mb-0 fs-md-5 text-pre-wrap">{{ item.content }}</p>
+          <p class="mb-0 fs-md-5 whitespace-pre-wrap">{{ item.content }}</p>
         </div>
       </div>
     </div>
@@ -77,7 +81,9 @@ withDefaults(defineProps<NAccordionProps>(), {
   width: 36px;
 }
 
-.text-pre-wrap {
-  white-space: pre-wrap;
+@include media-breakpoint-down(md) {
+  .collapsing {
+    transition: height 0.15s linear !important;
+  }
 }
 </style>

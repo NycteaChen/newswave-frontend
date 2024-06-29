@@ -1,5 +1,5 @@
 <template>
-  <div class="magazine-supplier">
+  <n-transition class="magazine-supplier">
     <swiper
       v-for="(swiper, index) in swiperList"
       :key="index"
@@ -31,7 +31,7 @@
         </client-only>
       </swiper-slide>
     </swiper>
-  </div>
+  </n-transition>
 </template>
 <script lang="ts" setup>
 const topSupplierList = [

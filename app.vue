@@ -3,7 +3,7 @@
     <n-page-loading />
     <teleport to="body">
       <n-toast />
-      <notice-modal />
+      <notice-modal v-if="token" />
     </teleport>
     <n-header v-if="!isLoginPage" />
     <nuxt-layout class="layouts">
