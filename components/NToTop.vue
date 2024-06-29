@@ -12,7 +12,10 @@
 const scrollY = inject<any>('scrollY');
 
 const goToTop = () => {
-  scrollY.value = 0;
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 };
 </script>
 
