@@ -143,6 +143,8 @@ const submit = async () => {
     return;
   }
 
+  clearValidator();
+
   btnLoading.value = true;
 
   const { status, message, data } = await updateUserInfo(formState);
@@ -166,7 +168,6 @@ const submit = async () => {
   }
 
   btnLoading.value = false;
-  clearValidator();
 };
 
 onMounted(() => {
