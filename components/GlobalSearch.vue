@@ -1,26 +1,21 @@
 <template>
   <div class="global-search">
-    <teleport
-      to="body"
-      :disabled="!isMobile"
+    <div
+      class="search-input"
+      :class="{ show: showInput, 'opacity-50': disabledInput }"
     >
-      <div
-        class="search-input position-absolute"
-        :class="{ show: showInput, 'opacity-50': disabledInput }"
-      >
-        <n-input
-          ref="searchInputRef"
-          v-model:value="keyword"
-          :disabled="disabledInput"
-          inputmode="search"
-          placeholder="搜尋文章標題"
-          suffix-icon="icon/search.svg"
-          :suffix-icon-click-fn="goToSearch"
-          @press-enter="goToSearch"
-          @click-icon="goToSearch"
-        />
-      </div>
-    </teleport>
+      <n-input
+        ref="searchInputRef"
+        v-model:value="keyword"
+        :disabled="disabledInput"
+        inputmode="search"
+        placeholder="搜尋文章標題"
+        suffix-icon="icon/search.svg"
+        :suffix-icon-click-fn="goToSearch"
+        @press-enter="goToSearch"
+        @click-icon="goToSearch"
+      />
+    </div>
     <nav-icon-btn
       class="position-relative"
       :class="showInput ? 'opacity-0 z-minus' : 'opacity-100'"
@@ -30,7 +25,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-const isMobile = inject<any>('isMobile');
 const keyword = ref<string>('');
 
 const disabledInput = ref<boolean>(false);
@@ -67,6 +61,7 @@ onClickOutside(searchInputRef, () => {
 </script>
 <style lang="scss" scoped>
 .search-input {
+  position: fixed;
   z-index: -1;
   width: 0;
   opacity: 0;
@@ -110,7 +105,7 @@ onClickOutside(searchInputRef, () => {
     &.show {
       padding: 8px 12px 0;
       width: 100%;
-      height: 100%;
+      height: 100vh;
       background: rgba($gray-100, 0.9);
     }
   }
@@ -126,6 +121,7 @@ onClickOutside(searchInputRef, () => {
   }
 
   .search-input {
+    position: absolute;
     right: 0;
     transition: all 0.3s ease-in-out;
 
