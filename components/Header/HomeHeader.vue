@@ -117,7 +117,10 @@ const goToPlan = () => {
   }
 
   const plusIntroRef: HTMLElement | null = document.querySelector('#plusIntro');
-  scrollY.value = plusIntroRef?.offsetTop || 0;
+  window.scrollTo({
+    top: plusIntroRef?.offsetTop || 0,
+    behavior: 'smooth'
+  });
 };
 
 onMounted(() => {
