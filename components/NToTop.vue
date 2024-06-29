@@ -2,7 +2,7 @@
   <div
     class="n-to-top cursor-pointer position-fixed z-to-top border border-layout rounded-pill bg-body d-flex flex-column justify-content-between align-items-center"
     :class="{ show: scrollY > 30 }"
-    @click="goToTop"
+    @click="smoothScrollTo(0)"
   >
     <img :src="requireImage('icon/arrow-top.svg')" />
     <span>Top</span>
@@ -10,13 +10,6 @@
 </template>
 <script lang="ts" setup>
 const scrollY = inject<any>('scrollY');
-
-const goToTop = () => {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  });
-};
 </script>
 
 <style lang="scss" scoped>
