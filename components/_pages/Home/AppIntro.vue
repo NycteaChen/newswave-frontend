@@ -1,7 +1,9 @@
 <template>
   <section class="app-intro bg-body-light position-relative">
     <div class="container text-center position-relative z-1">
-      <h2 class="text-primary">您不可或缺的新聞管家</h2>
+      <n-transition>
+        <h2 class="text-primary">您不可或缺的新聞管家</h2>
+      </n-transition>
       <div class="intro-container row mx-1 flex-column">
         <figure
           v-for="(item, index) in introList"
@@ -9,30 +11,36 @@
           class="intro-item col d-md-flex my-xl-0 align-items-md-center justify-content-md-evenly"
           :class="{ 'my-4 flex-md-row-reverse': index === 1 }"
         >
-          <img
-            class="intro-img"
-            :src="requireImage(`home/intro-${index + 1}.png`)"
-          />
-          <div>
-            <figcaption>
-              <h3 class="mt-3">{{ item.title }}</h3>
-            </figcaption>
+          <n-transition :animation-name="isMobile ? 'fade-in-up' : `fade-in-${index === 1 ? 'right' : 'left'}`">
             <img
-              class="wave-icon"
-              :src="requireImage('icon/wave-cyan.svg')"
+              class="intro-img"
+              :src="requireImage(`home/intro-${index + 1}.png`)"
             />
-            <p
-              v-for="(desc, idx) in item.descList"
-              :key="idx"
-              class="intro-description"
-              :class="{ 'mb-0': !index }"
-            >
-              {{ desc }}
-            </p>
-          </div>
+          </n-transition>
+          <n-transition :animation-name="isMobile ? 'fade-in-up' : `fade-in-${index === 1 ? 'left' : 'right'}`">
+            <div>
+              <figcaption>
+                <h3 class="mt-3">{{ item.title }}</h3>
+              </figcaption>
+              <img
+                class="wave-icon"
+                :src="requireImage('icon/wave-cyan.svg')"
+              />
+              <p
+                v-for="(desc, idx) in item.descList"
+                :key="idx"
+                class="intro-description"
+                :class="{ 'mb-0': !index }"
+              >
+                {{ desc }}
+              </p>
+            </div>
+          </n-transition>
         </figure>
       </div>
-      <go-use-button />
+      <n-transition>
+        <go-use-button />
+      </n-transition>
     </div>
 
     <img
@@ -42,6 +50,8 @@
   </section>
 </template>
 <script lang="ts" setup>
+const isMobile = inject('isMobile');
+
 const introList = [
   {
     title: '多元的新聞來源',

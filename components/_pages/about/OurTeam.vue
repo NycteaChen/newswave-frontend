@@ -1,10 +1,13 @@
 <template>
   <ul class="our-team row row-cols-1 g-3 row-cols-lg-2 g-xl-4 row-cols-xxl-3 g-xxl-5 mt-0">
     <li
-      v-for="member in teamMemberList"
+      v-for="(member, index) in teamMemberList"
       :key="member.name"
     >
-      <div class="card h-100 bg-primary">
+      <n-transition
+        class="card h-100 bg-primary"
+        :delay="isMobile ? 0 : (index * 1) / 10"
+      >
         <div class="card-header border-0 p-0 position-relative">
           <n-avatar
             class="mx-auto"
@@ -38,19 +41,21 @@
           <div class="member-role position-relative">{{ member.role }}</div>
           <ul class="ps-3 flex-1 member-desc d-flex flex-column gap-2 fs-sm text-muted">
             <li
-              v-for="(item, index) in member.desc"
-              :key="`${member.name}-desc-${index}`"
+              v-for="(item, idx) in member.desc"
+              :key="`${member.name}-desc-${idx}`"
             >
               {{ item }}
             </li>
           </ul>
         </div>
-      </div>
+      </n-transition>
     </li>
   </ul>
 </template>
 
 <script lang="ts" setup>
+const isMobile = inject('isMobile');
+
 const teamMemberList = [
   {
     name: '開發人員1',

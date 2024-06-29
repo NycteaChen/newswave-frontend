@@ -1,18 +1,20 @@
 <template>
   <section class="hot-news bg-body position-relative">
     <div class="hot-news-container container text-center position-relative z-1">
-      <h2 class="text-primary">熱門新聞</h2>
-      <n-swiper :swiper-list="newsList">
-        <template #slide="{ slideItem }">
-          <news-card :news-data="slideItem" />
-        </template>
-      </n-swiper>
-      <nuxt-link to="/news">
-        <n-button
-          color="secondary"
-          text="瀏覽更多新聞"
-        />
-      </nuxt-link>
+      <n-transition>
+        <h2 class="text-primary">熱門新聞</h2>
+        <n-swiper :swiper-list="newsList">
+          <template #slide="{ slideItem }">
+            <news-card :news-data="slideItem" />
+          </template>
+        </n-swiper>
+        <nuxt-link to="/news">
+          <n-button
+            color="secondary"
+            text="瀏覽更多新聞"
+          />
+        </nuxt-link>
+      </n-transition>
     </div>
     <img
       class="wave-img"

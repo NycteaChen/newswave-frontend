@@ -1,5 +1,8 @@
 <template>
-  <section class="home-banner">
+  <section
+    class="home-banner"
+    :style="scrollStyleVariable"
+  >
     <div class="position-relative">
       <div class="banner-container container">
         <div
@@ -12,7 +15,10 @@
           <div
             class="slogan-area position-relative z-1 text-center mt-3 text-md-start mt-md-0 col col-md-6 flex-md-fill"
           >
-            <div class="slogan text-body-white position-relative z-1">
+            <div
+              class="slogan text-body-white position-relative z-1"
+              :style="scrollStyleVariable"
+            >
               <h1>NewsWave</h1>
               <h1>將您推向世界脈動</h1>
             </div>
@@ -27,6 +33,15 @@
     </div>
   </section>
 </template>
+<script lang="ts" setup>
+const scrollY = inject<any>('scrollY');
+
+const scrollStyleVariable = computed(() => ({
+  '--scroll-less': `${scrollY.value / 2}px`,
+  '--scroll-more': `${scrollY.value * 2.5}px`,
+  '--scroll': `${scrollY.value}px`
+}));
+</script>
 <style lang="scss" scoped>
 %circle {
   position: absolute;
@@ -41,7 +56,7 @@
     @extend %circle;
 
     right: -187px;
-    bottom: -187px;
+    bottom: calc(var(--scroll) - 187px);
     width: 375px;
     height: 375px;
     content: '';
@@ -83,7 +98,7 @@
     position: relative;
 
     &::after {
-      bottom: 118px;
+      bottom: calc(var(--scroll-more) + 118px);
       left: -134px;
       width: 324px;
       height: 324px;
@@ -97,7 +112,7 @@
     margin-bottom: 64px;
 
     &-area::after {
-      top: 8px;
+      top: calc(8px - var(--scroll-less));
       left: -162px;
       width: 216px;
       height: 216px;
@@ -107,8 +122,8 @@
 
   .home-banner {
     &::before {
-      top: -300px;
-      right: -300px;
+      top: calc(-300px + var(--scroll));
+      right: calc(-300px + var(--scroll));
       width: 600px;
       height: 600px;
     }
@@ -122,8 +137,8 @@
 @include media-breakpoint-up(xl) {
   .home-banner {
     &::before {
-      top: -400px;
-      right: -400px;
+      top: calc(-400px + var(--scroll));
+      right: calc(-400px + var(--scroll-less));
       width: 800px;
       height: 800px;
     }
@@ -137,7 +152,7 @@
     margin-bottom: 64px;
 
     &-area::after {
-      top: -62px;
+      top: calc(-62px - var(--scroll-less));
       width: 324px;
       height: 324px;
     }
