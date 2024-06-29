@@ -42,7 +42,7 @@
                 </figcaption>
               </figure>
 
-              <p class="card-text mx-2 pb-3 mx-md-4 pb-md-4 border-bottom mb-2">
+              <p class="whitespace-pre-wrap mx-2 pb-3 mx-md-4 pb-md-4 border-bottom mb-2">
                 {{ articleData?.content }}
               </p>
               <footer class="p-3">
@@ -183,10 +183,6 @@ useHead({
 <style lang="scss" scoped>
 .card.has-paywall {
   padding-bottom: 150px;
-}
-
-.card-text {
-  white-space: pre-wrap;
 }
 
 @include media-breakpoint-up(md) {
