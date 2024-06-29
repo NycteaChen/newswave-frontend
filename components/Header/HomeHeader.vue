@@ -117,10 +117,7 @@ const goToPlan = () => {
   }
 
   const plusIntroRef: HTMLElement | null = document.querySelector('#plusIntro');
-  window.scrollTo({
-    top: plusIntroRef?.offsetTop || 0,
-    behavior: 'smooth'
-  });
+  smoothScrollTo(plusIntroRef?.offsetTop || 0);
 };
 
 onMounted(() => {

@@ -65,12 +65,13 @@ const sectionList = computed(() => [
 ]);
 
 const isPc = inject<any>('isPc');
-const scrollY = inject<any>('scrollY');
+
 const goToPlan = () => {
   const yearPlanRef: HTMLElement | null = document.querySelector('#yearPlan');
   const planSelectionRef: HTMLElement | null = document.querySelector('#planSelection');
   const offsetTop = (!isPc.value ? yearPlanRef?.offsetTop : planSelectionRef?.offsetTop) || 0;
-  scrollY.value = offsetTop - (!isPc.value ? 80 : 0);
+
+  smoothScrollTo(offsetTop - (!isPc.value ? 80 : 0));
 };
 </script>
 <style lang="scss" scoped>
