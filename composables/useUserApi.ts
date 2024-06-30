@@ -242,6 +242,30 @@ class userApi {
     });
     return res;
   }
+
+  static async followNewsTopic(topic: string) {
+    const params = {
+      topic
+    };
+    const res = await useApi(`/user/follow-topic`, {
+      method: 'post',
+      params
+    });
+
+    return res;
+  }
+
+  static async deleteFollowNewsTopic(topic: string): Promise<ApiResponseType<undefined>> {
+    const params = {
+      topic
+    };
+    const res = await useApi(`/user/follow-topic`, {
+      method: 'delete',
+      params
+    });
+
+    return res;
+  }
 }
 
 export default () => userApi;

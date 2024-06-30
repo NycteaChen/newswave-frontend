@@ -6,6 +6,7 @@
       :key="followBtn.id"
       type="button"
       :class="'follow-btn-' + followBtn.class"
+      @click="toggleFollowBtn(followBtn.id)"
     >
       <!--icon 判斷暫時這樣處理-->
       <img
@@ -92,7 +93,7 @@ interface FollowNewsStatus {
 
 const followNewsStatus = ref<FollowNewsStatus[]>(categoryTopic);
 
-const { getFollowNewsTopic } = useUserApi();
+const { getFollowNewsTopic, followNewsTopic, deleteFollowNewsTopic } = useUserApi();
 
 const getFollowNewsTopicHandler = async () => {
   const { status, data } = await getFollowNewsTopic();
@@ -108,6 +109,42 @@ const getFollowNewsTopicHandler = async () => {
     });
   }
 };
+
+const followNewsTopicHandler = async (topic: string) => {
+  const { status, message } = await followNewsTopic(topic);
+  if (status) {
+    followNewsStatus.value = followNewsStatus.value.map((topicItem: FollowNewsStatus) => {
+      if (topicItem.name === topic) {
+        return { ...topicItem, subscribe: true };
+      }
+      return topicItem;
+    });
+    console.log(status, message);
+  }
+};
+const deleteFollowNewsTopicHandler = async (topic: string) => {
+  const { status, message } = await deleteFollowNewsTopic(topic);
+  if (status) {
+    followNewsStatus.value = followNewsStatus.value.map((topicItem: FollowNewsStatus) => {
+      if (topicItem.name === topic) {
+        return { ...topicItem, subscribe: false };
+      }
+      return topicItem;
+    });
+    console.log(status, message);
+  }
+};
+
+function toggleFollowBtn(id: number) {
+  const followNewsTopicStatus = followNewsStatus.value.find(
+    (topic: FollowNewsStatus) => id === topic.id
+  ) as FollowNewsStatus;
+  if (!followNewsTopicStatus.subscribe) {
+    followNewsTopicHandler(followNewsTopicStatus.name);
+  } else {
+    deleteFollowNewsTopicHandler(followNewsTopicStatus.name);
+  }
+}
 
 onMounted(async () => {
   await nextTick(() => {
