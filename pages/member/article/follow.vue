@@ -78,6 +78,7 @@
       </template>
     </button>
   </div>
+  <n-toast />
 </template>
 <script lang="ts" setup>
 definePageMeta({
@@ -119,7 +120,10 @@ const followNewsTopicHandler = async (topic: string) => {
       }
       return topicItem;
     });
-    console.log(status, message);
+    showToast({
+      id: 'follow-success',
+      message
+    });
   }
 };
 const deleteFollowNewsTopicHandler = async (topic: string) => {
@@ -131,7 +135,10 @@ const deleteFollowNewsTopicHandler = async (topic: string) => {
       }
       return topicItem;
     });
-    console.log(status, message);
+    showToast({
+      id: 'delete-follow-success',
+      message
+    });
   }
 };
 
