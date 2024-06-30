@@ -24,3 +24,7 @@ logs
 !.env.example
 
 .vscode/*
+
+
+utils/teamMemberList.ts
+assets/image/about/team

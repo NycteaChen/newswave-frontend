@@ -38,7 +38,11 @@
               <img :src="requireImage(`about/github.svg`)" />
             </nuxt-link>
           </h4>
-          <div class="member-role position-relative">{{ member.role }}</div>
+          <div>{{ member.role }}</div>
+          <img
+            class="divider"
+            :src="requireImage('about/divider.svg')"
+          />
           <ul class="ps-3 flex-1 member-desc d-flex flex-column gap-2 fs-sm text-muted">
             <li
               v-for="(item, idx) in member.desc"
@@ -52,53 +56,8 @@
     </li>
   </ul>
 </template>
-
 <script lang="ts" setup>
 const isMobile = inject('isMobile');
-
-const teamMemberList = [
-  {
-    name: '開發人員1',
-    avatar: '',
-    role: '全端工程師',
-    desc: [
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis error, atque adipisci sed pariatur tempore tempora asperiores molestias doloremque mollitia laboriosam repellendus quam incidunt officiis consequatur. Ipsa porro soluta similique.'
-    ],
-    github: 'https://github.com'
-  },
-  {
-    name: '開發人員2',
-    avatar: '',
-    role: '前端工程師',
-    desc: [
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis error, atque adipisci sed pariatur tempore tempora asperiores molestias doloremque mollitia laboriosam repellendus quam incidunt officiis consequatur. Ipsa porro soluta similique.'
-    ]
-  },
-  {
-    name: '開發人員3',
-    avatar: '',
-    role: '後端工程師',
-    desc: [
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis error, atque adipisci sed pariatur tempore tempora asperiores molestias doloremque mollitia laboriosam repellendus quam incidunt officiis consequatur. Ipsa porro soluta similique.'
-    ]
-  },
-  {
-    name: '開發人員4',
-    avatar: '',
-    role: '後端工程師',
-    desc: [
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis error, atque adipisci sed pariatur tempore tempora asperiores molestias doloremque mollitia laboriosam repellendus quam incidunt officiis consequatur. Ipsa porro soluta similique.'
-    ]
-  },
-  {
-    name: '開發人員5',
-    avatar: '',
-    role: '後端工程師',
-    desc: [
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis error, atque adipisci sed pariatur tempore tempora asperiores molestias doloremque mollitia laboriosam repellendus quam incidunt officiis consequatur. Ipsa porro soluta similique.'
-    ]
-  }
-];
 </script>
 <style lang="scss" scoped>
 .card {
@@ -146,20 +105,8 @@ const teamMemberList = [
   }
 }
 
-.member-role {
-  margin-bottom: 36px;
-
-  &::after {
-    position: absolute;
-    top: 20px;
-    left: 40%;
-    width: 100%;
-    color: $gray-100;
-    content: '“';
-    font-size: 60px;
-    font-family: 'Noto Sans TC', Poppins, sans-serif, Arial, Helvetica;
-    transform: translateX(-50%);
-    -webkit-text-stroke: 1px $primary;
-  }
+.divider {
+  width: 24px;
+  height: 24px;
 }
 </style>
