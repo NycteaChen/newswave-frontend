@@ -38,7 +38,7 @@
         class="icon"
         src="@/assets/image/icon/follow/internationality.svg"
       />
-      <span class="fs-4">{{ followBtn.name }}</span>
+      <span class="fs-6">{{ followBtn.name }}</span>
       <template v-if="followBtn.class === 'technology'">
         <img
           v-if="!followBtn.subscribe"
