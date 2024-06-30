@@ -25,8 +25,10 @@
               class="menu-item mb-3 d-flex align-items-center gap-2"
               @click="navigateTo(redirectItem.to)"
             >
-              <img :src="requireImage(redirectItem.icon)" />
-
+              <svg-icon
+                :name="redirectItem.icon"
+                class="menu-item-icon"
+              />
               {{ redirectItem.label }}
             </li>
           </nuxt-link>
@@ -34,7 +36,10 @@
             class="menu-item text-primary d-flex align-items-center gap-2"
             @click="logoutHandler"
           >
-            <img :src="requireImage('icon/logout.svg')" />
+            <svg-icon
+              name="logout"
+              class="menu-item-icon"
+            />
             <span>登出</span>
           </li>
         </template>
@@ -82,12 +87,12 @@ const redirectItem = computed(() =>
     ? {
         label: '首頁',
         to: '/news',
-        icon: 'icon/home.svg'
+        icon: 'home'
       }
     : {
         label: '會員中心',
         to: '/member',
-        icon: 'member/basic.svg'
+        icon: 'member-basic'
       }
 );
 
@@ -124,7 +129,7 @@ const logoutHandler = async () => {
     showToast({
       id: 'logout-fail',
       message,
-      icon: 'icon/warning.svg'
+      type: 'warning'
     });
   }
 };
@@ -144,10 +149,12 @@ const logoutHandler = async () => {
       padding-left: 48px;
       cursor: pointer;
       transition: all 0.3s ease-in-out;
-    }
 
-    img {
-      width: 16px;
+      .menu-item-icon {
+        fill: currentcolor;
+        width: 16px;
+        height: 16px;
+      }
     }
   }
 }

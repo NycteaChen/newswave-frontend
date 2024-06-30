@@ -4,7 +4,10 @@
     :class="{ show: scrollY > 30 }"
     @click="smoothScrollTo(0)"
   >
-    <img :src="requireImage('icon/arrow-top.svg')" />
+    <svg-icon
+      name="arrow"
+      class="top-icon fill-primary"
+    />
     <span>Top</span>
   </div>
 </template>
@@ -19,6 +22,7 @@ const scrollY = inject<any>('scrollY');
   padding: 17px 0;
   width: 52px;
   height: 80px;
+  gap: 12px;
   color: $blue-300;
   font-size: 12px;
   transition: bottom 0.3s ease-in-out;
@@ -27,7 +31,7 @@ const scrollY = inject<any>('scrollY');
     bottom: 30px;
   }
 
-  img {
+  .top-icon {
     width: 28px;
   }
 }

@@ -8,7 +8,7 @@ export default async ({ text = '', message = '' }) => {
   } else {
     showToast({
       id: 'copy-fail',
-      icon: 'icon/warning.svg',
+      type: 'warning',
       message: '複製文字失敗'
     });
   }

@@ -1,81 +1,22 @@
 <template>
-  <!-- <div>我的追蹤 6-6</div> -->
-  <div class="follow-container">
+  <div class="follow-container gap-3 d-flex">
     <button
       v-for="followBtn in followNewsStatus"
       :key="followBtn.id"
       type="button"
+      class="d-flex align-items-center justify-content-center"
       :class="'follow-btn-' + followBtn.class"
       @click="toggleFollowBtn(followBtn.id)"
     >
-      <!--icon 判斷暫時這樣處理-->
-      <img
-        v-if="followBtn.class === 'finance'"
-        class="icon"
-        src="@/assets/image/icon/follow/finance.svg"
+      <svg-icon
+        class="flex-shrink-0 icon"
+        :name="`follow-${followBtn.class}`"
       />
-      <img
-        v-if="followBtn.class === 'technology'"
-        class="icon"
-        src="@/assets/image/icon/follow/technology.svg"
+      <span class="fs-6 fw-bold">{{ followBtn.name }}</span>
+      <svg-icon
+        :name="followBtn.subscribe ? 'minus' : 'plus'"
+        class="flex-shrink-0 icon"
       />
-      <img
-        v-if="followBtn.class === 'physical'"
-        class="icon"
-        src="@/assets/image/icon/follow/physical.svg"
-      />
-      <img
-        v-if="followBtn.class === 'society'"
-        class="icon"
-        src="@/assets/image/icon/follow/society.svg"
-      />
-      <img
-        v-if="followBtn.class === 'entertainment'"
-        class="icon"
-        src="@/assets/image/icon/follow/entertainment.svg"
-      />
-      <img
-        v-if="followBtn.class === 'internationality'"
-        class="icon"
-        src="@/assets/image/icon/follow/internationality.svg"
-      />
-      <span class="fs-6">{{ followBtn.name }}</span>
-      <template v-if="followBtn.class === 'technology'">
-        <img
-          v-if="!followBtn.subscribe"
-          class="icon"
-          src="@/assets/image/icon/follow/plus-blue.svg"
-        />
-        <img
-          v-else
-          class="icon"
-          src="@/assets/image/icon/follow/minus-blue.svg"
-        />
-      </template>
-      <template v-else-if="followBtn.class === 'society'">
-        <img
-          v-if="!followBtn.subscribe"
-          class="icon"
-          src="@/assets/image/icon/follow/plus-yellow.svg"
-        />
-        <img
-          v-else
-          class="icon"
-          src="@/assets/image/icon/follow/minus-yellow.svg"
-        />
-      </template>
-      <template v-else>
-        <img
-          v-if="!followBtn.subscribe"
-          class="icon"
-          src="@/assets/image/icon/follow/plus.svg"
-        />
-        <img
-          v-else
-          class="icon"
-          src="@/assets/image/icon/follow/minus.svg"
-        />
-      </template>
     </button>
   </div>
   <n-toast />
@@ -173,12 +114,9 @@ onMounted(async () => {
 
 <style lang="scss" scope>
 .follow-container {
-  display: flex;
   flex-wrap: wrap;
-  gap: 50px;
   max-width: 550px;
   width: 100%;
-  font-weight: bold;
 
   @media (width <= 576px) {
     justify-content: center;
@@ -187,9 +125,6 @@ onMounted(async () => {
 }
 
 @mixin follow-btn($backgroundColor, $fontColor, $borderColor) {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 8px;
   width: 120px;
   border: 1px solid $borderColor;
@@ -201,6 +136,7 @@ onMounted(async () => {
   .icon {
     width: 20px;
     height: 20px;
+    fill: currentcolor;
   }
 }
 
@@ -208,16 +144,16 @@ onMounted(async () => {
   @include follow-btn($red, $white, $red);
 }
 
-.follow-btn-technology {
-  @include follow-btn($white, $blue, $blue);
+.follow-btn-tech {
+  @include follow-btn($blue, $white, $blue);
 }
 
-.follow-btn-physical {
+.follow-btn-sport {
   @include follow-btn($orange, $white, $orange);
 }
 
 .follow-btn-society {
-  @include follow-btn($white, $yellow, $yellow);
+  @include follow-btn($yellow, $white, $yellow);
 }
 
 .follow-btn-entertainment {

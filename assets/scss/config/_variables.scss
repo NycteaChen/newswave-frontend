@@ -130,15 +130,16 @@ $pink-600: shade-color($pink, 20%) !default;
 $pink-700: shade-color($pink, 40%) !default;
 $pink-800: shade-color($pink, 60%) !default;
 $pink-900: shade-color($pink, 80%) !default;
-$red-100: #fee7e7 !default;
-$red-200: #fdcdcc !default;
-$red-300: #fbaeac !default;
-$red-400: #e36d63 !default;
-$red-500: #c1433d !default;
-$red-600: #bf2e22 !default;
-$red-700: #93241a !default;
-$red-800: #681912 !default;
-$red-900: #3d0f0b !default;
+$red-100: #fef3f3 !default;
+$red-200: #fee7e7 !default;
+$red-300: #fdcdcc !default;
+$red-400: #fbaeac !default;
+$red-500: #fa8a86 !default;
+$red-600: #f9564f !default;
+$red-700: $red !default;
+$red-800: #c1433d !default;
+$red-900: #9d3632 !default;
+$red-1000: #6f2623 !default;
 $orange-100: #ffe5d0 !default;
 $orange-200: #fecba1 !default;
 $orange-300: #feb272 !default;
@@ -175,15 +176,16 @@ $teal-600: shade-color($teal, 20%) !default;
 $teal-700: shade-color($teal, 40%) !default;
 $teal-800: shade-color($teal, 60%) !default;
 $teal-900: shade-color($teal, 80%) !default;
-$cyan-100: #d3f2fd !default;
-$cyan-200: #a2e4fb !default;
-$cyan-300: #71d6f9 !default;
-$cyan-400: #40c8f7 !default;
-$cyan-500: #3bb8e4 !default;
-$cyan-600: #0897c9 !default;
-$cyan-700: #067298 !default;
-$cyan-800: #044d67 !default;
-$cyan-900: #022936 !default;
+$cyan-100: #f4fafc !default;
+$cyan-200: #e9f5f8 !default;
+$cyan-300: #d0eaf1 !default;
+$cyan-400: #b4deea !default;
+$cyan-500: #93d2e3 !default;
+$cyan-600: #68c5db !default;
+$cyan-700: #5db0c4 !default;
+$cyan-800: #5199aa !default;
+$cyan-900: #427d8b !default;
+$cyan-1000: #2f5862 !default;
 $blues: (
   'blue-100': $blue-100,
   'blue-200': $blue-200,
@@ -237,7 +239,8 @@ $reds: (
   'red-600': $red-600,
   'red-700': $red-700,
   'red-800': $red-800,
-  'red-900': $red-900
+  'red-900': $red-900,
+  'red-1000': $red-1000,
 ) !default;
 $oranges: (
   'orange-100': $orange-100,
@@ -292,7 +295,8 @@ $cyans: (
   'cyan-600': $cyan-600,
   'cyan-700': $cyan-700,
   'cyan-800': $cyan-800,
-  'cyan-900': $cyan-900
+  'cyan-900': $cyan-900,
+  'cyan-1000': $cyan-1000
 ) !default;
 
 // fusv-enable

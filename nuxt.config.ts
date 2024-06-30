@@ -68,7 +68,8 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '@pinia-plugin-persistedstate/nuxt',
     '@vueuse/nuxt',
-    'nuxt-swiper'
+    'nuxt-swiper',
+    '@nuxtjs/svg-sprite'
   ],
   swiper: {
     modules: ['navigation', 'pagination', 'autoplay']

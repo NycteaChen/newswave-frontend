@@ -3,7 +3,10 @@
     <div class="pt-3 px-4 text-center">
       <h6 class="text-muted mb-2">{{ dateTimeFormat }}</h6>
       <div class="weather-area rounded-pill d-inline-flex py-1 px-3 align-items-center gap-2 text-body-white mb-3">
-        <img :src="requireImage('icon/position.svg')" />
+        <svg-icon
+          name="location"
+          class="fill-body-white location-icon"
+        />
         <span class="fw-bold">{{ `臺灣, ${countryName}` }}</span>
       </div>
       <div class="d-flex align-items-center justify-content-center">
@@ -24,7 +27,7 @@
           </div>
           <div
             v-if="+currentWeather.temperature > 30"
-            class="high-warning"
+            class="fs-sm text-danger"
           >
             高溫警報
           </div>
@@ -37,10 +40,12 @@
         <li
           v-for="(item, index) in warningList"
           :key="index"
-          class="warning-item d-flex align-items-center gap-2 justify-content-center rounded-2"
+          class="warning-item text-danger fs-sm d-flex align-items-center gap-2 justify-content-center rounded-2"
         >
-          <img :src="requireImage('icon/warning.svg')" />
-
+          <svg-icon
+            name="warning"
+            class="warning-item-icon"
+          />
           <div class="truncate fw-bold">{{ item }}</div>
         </li>
       </ul>
@@ -160,7 +165,7 @@ const warningList = ['花蓮外海4級地震警報', '東北部1級海嘯警報'
 .weather-area {
   background: $blue-300;
 
-  img {
+  .location-icon {
     width: 11px;
     height: 24px;
   }
@@ -169,12 +174,11 @@ const warningList = ['花蓮外海4級地震警報', '東北部1級海嘯警報'
 .warning-item {
   padding: 2px 10px;
   background: $yellow;
-  color: $orange;
-  font-size: 14px;
 
-  img {
+  &-icon {
     width: 16px;
     height: 24px;
+    fill: currentcolor;
   }
 }
 
@@ -193,11 +197,6 @@ const warningList = ['花蓮外海4級地震警報', '東北部1級海嘯警報'
 
   .temperature {
     font-size: 48px;
-  }
-
-  .high-warning {
-    color: $orange;
-    font-size: 14px;
   }
 }
 </style>

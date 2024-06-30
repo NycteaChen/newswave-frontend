@@ -8,11 +8,10 @@
         color="secondary"
         :loading="item.loading || false"
         :text="item.text"
-        :icon-src="requireImage(`icon/${item.icon}.svg`)"
+        :icon-src="item.icon"
         @click="item.clickFn()"
       />
     </client-only>
-
     <Teleport to="body">
       <auth-hint-modal v-model:visible="showHintModal" />
     </Teleport>
@@ -58,7 +57,7 @@ const isCollected = computed<boolean>(() => collects.value?.includes(String(rout
 const btnList = computed(() => [
   {
     text: '收藏',
-    icon: `collect${isCollected.value ? '-active' : ''}`,
+    icon: isCollected.value ? 'collect-fill' : 'member-collect',
     clickFn: collect,
     loading: collectLoading.value
   },

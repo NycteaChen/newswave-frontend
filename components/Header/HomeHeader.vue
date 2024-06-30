@@ -20,12 +20,11 @@
           aria-label="Toggle navigation"
           @click="toggleHandler"
         >
-          <img
-            class="navbar-toggler-icon"
+          <svg-icon
+            :name="buttonIconType"
             :class="buttonIconType"
+            class="navbar-toggler-icon fill-body-white"
             style="background-image: none"
-            :src="requireImage(`icon/${buttonIconType}.svg`)"
-            alt="expand-icon"
           />
         </button>
         <div

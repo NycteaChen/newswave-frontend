@@ -1,8 +1,8 @@
 <template>
   <div class="article-paywall w-100 d-flex flex-column align-items-center gap-3">
-    <img
-      class="lock-icon"
-      :src="requireImage('icon/lock.svg')"
+    <svg-icon
+      name="lock"
+      class="lock-icon fill-body"
     />
     <h5 class="mb-0">解鎖閱讀全部內容</h5>
     <div class="d-flex flex-column gap-3 flex-sm-row">
@@ -88,6 +88,7 @@ defineExpose({ btnLoading });
 
   .lock-icon {
     width: 22px;
+    height: 22px;
   }
 }
 </style>

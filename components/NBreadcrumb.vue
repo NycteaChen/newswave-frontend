@@ -29,8 +29,13 @@
       class="d-flex align-items-center d-md-none mobile-breadcrumb-item"
       :to="prevRoute?.value"
     >
-      <img :src="requireImage('icon/arrow-top.svg')" />
-      <span class="fs-sm text-decoration-underline text-primary">{{ prevRoute?.label }}</span>
+      <svg-icon
+        class="arrow-icon fill-primary"
+        name="arrow"
+      />
+      <span class="fs-sm text-decoration-underline text-primary">
+        {{ prevRoute?.label }}
+      </span>
     </nuxt-link>
   </nav>
 </template>
@@ -61,7 +66,7 @@ watchImmediate(
 </script>
 <style lang="scss" scoped>
 .mobile-breadcrumb-item {
-  img {
+  .arrow-icon {
     padding: 7px 0;
     width: 22px;
     height: 22px;

@@ -19,12 +19,12 @@
             :loading="collectLoading"
             :is-small="true"
             :show-text="false"
-            class="w-100"
+            class="w-100 d-flex"
           >
-            <img
+            <svg-icon
               v-show="!collectLoading"
-              class="position-absolute h-100"
-              :src="requireImage(`icon/collect${isCollected ? '-active' : ''}.svg`)"
+              :name="isCollected ? 'collect-fill' : 'member-collect'"
+              class="collect-icon fill-primary"
             />
           </n-loading>
         </div>
@@ -147,6 +147,11 @@ const collect = async () => {
 
   ::v-deep(.n-loading) {
     background: transparent;
+  }
+
+  .collect-icon {
+    width: 16px;
+    height: 16px;
   }
 }
 

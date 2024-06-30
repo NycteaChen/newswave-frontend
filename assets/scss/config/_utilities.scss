@@ -31,7 +31,29 @@ $utilities: map-merge(
         'blue-400': $blue-400,
         'muted': $text-muted,
         'accent': $accent,
-        'danger': $danger
+        'danger': $danger,
+        'success': $success
+      )
+    )
+  )
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    'fill': (
+      property: 'fill',
+      class: 'fill',
+      responsive: true,
+      values: (
+        'body': $dark,
+        'body-white': $gray-100,
+        'primary': $primary,
+        'blue-400': $blue-400,
+        'muted': $text-muted,
+        'accent': $accent,
+        'danger': $danger,
+        'success': $success
       )
     )
   )

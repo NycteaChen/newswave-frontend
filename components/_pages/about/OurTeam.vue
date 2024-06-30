@@ -35,7 +35,10 @@
               :to="member.github"
               target="_blank"
             >
-              <img :src="requireImage(`about/github.svg`)" />
+              <svg-icon
+                name="link-github"
+                class="github-icon fill-body"
+              />
             </nuxt-link>
           </h4>
           <div>{{ member.role }}</div>
@@ -94,7 +97,8 @@ const isMobile = inject('isMobile');
   }
 }
 
-.link {
+.github-icon,
+.divider {
   width: 24px;
   height: 24px;
 }
@@ -103,10 +107,5 @@ const isMobile = inject('isMobile');
   li {
     list-style-type: disc;
   }
-}
-
-.divider {
-  width: 24px;
-  height: 24px;
 }
 </style>

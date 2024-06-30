@@ -18,7 +18,10 @@
       v-else
       class="default-avatar d-flex align-items-center justify-content-center w-100 h-100"
     >
-      <img :src="requireImage('icon/avatar.svg')" />
+      <svg-icon
+        name="avatar"
+        class="default-avatar-icon"
+      />
     </div>
   </div>
 </template>
@@ -53,8 +56,10 @@ const avatarPhoto = computed(() =>
 .default-avatar {
   background: $blue-300;
 
-  img {
+  &-icon {
+    fill: $blue-100;
     max-width: 45%;
+    max-height: 100%;
   }
 }
 </style>

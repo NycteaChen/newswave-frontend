@@ -10,8 +10,12 @@
       />
       <template v-else>
         <div class="card-body py-0">
-          <div class="pay-status pt-3 pt-md-4 mb-md-2 d-flex flex-column align-items-center gap-3 gap-md-4">
-            <img :src="requireImage(`icon/${isPaid ? 'checked' : 'warning'}.svg`)" />
+          <div class="pt-3 pt-md-4 mb-md-2 d-flex flex-column align-items-center gap-3 gap-md-4">
+            <svg-icon
+              :name="`${isPaid ? 'checked' : 'warning'}`"
+              class="pay-status-icon"
+              :class="`fill-${isPaid ? 'success' : 'danger'}`"
+            />
             <h3 class="text-center mb-0">{{ renderText }}</h3>
           </div>
           <ul>
@@ -112,13 +116,15 @@ onMounted(async () => {
   min-height: 350px;
 }
 
-.pay-status img {
+.pay-status-icon {
   width: 80px;
+  height: 80px;
 }
 
 @include media-breakpoint-up(md) {
-  .pay-status img {
+  .pay-status-icon {
     width: 120px;
+    height: 120px;
   }
 }
 </style>

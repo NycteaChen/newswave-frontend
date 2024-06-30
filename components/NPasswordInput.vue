@@ -3,7 +3,7 @@
     v-bind="$attrs"
     v-model:value="value"
     :type="inputType"
-    :suffix-icon="`icon/eye${eyeType}.svg`"
+    :suffix-icon="`eye${eyeType}`"
     :suffix-icon-click-fn="showPasswordHandler"
     @click-icon="showPasswordHandler"
   />
@@ -20,3 +20,10 @@ const showPasswordHandler = () => {
   showPassword.value = !showPassword.value;
 };
 </script>
+<style lang="scss" scoped>
+::v-deep(.suffix-icon) {
+  svg {
+    fill: $blue-300 !important;
+  }
+}
+</style>

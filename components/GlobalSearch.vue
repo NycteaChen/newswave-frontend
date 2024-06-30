@@ -10,7 +10,7 @@
         :disabled="disabledInput"
         inputmode="search"
         placeholder="搜尋文章標題"
-        suffix-icon="icon/search.svg"
+        suffix-icon="search"
         :suffix-icon-click-fn="goToSearch"
         @press-enter="goToSearch"
         @click-icon="goToSearch"

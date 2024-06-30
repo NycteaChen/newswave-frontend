@@ -85,10 +85,9 @@
                     class="d-flex align-items-center menu-link ps-4 gap-2"
                     @click="nTabsBus.emit({ ...item, children: subItem.value }, index)"
                   >
-                    <img
-                      :src="requireImage(`member/${subItem.value?.split('-')?.[2]}.svg`)"
-                      :alt="subItem.label"
-                      class="menu-link-icon"
+                    <svg-icon
+                      :name="`member-${subItem.value?.split('-')?.[2]}`"
+                      class="menu-link-icon fill-primary"
                     />
                     <div>{{ subItem.label }}</div>
                     <notice-badge
@@ -110,20 +109,21 @@
     </div>
     <section class="d-flex flex-column gap-3 flex-md-row col-xl-4 order-1 order-xl-4 flex-xl-column">
       <nuxt-link
-        v-for="field in numberInfoList"
+        v-for="field in statisticInfoList"
         :key="field.label"
         :to="`/member/article/${field.value}`"
-        class="number d-flex rounded-2 justify-content-between py-3 px-4 text-body-white flex-1 flex-xl-unset"
+        class="statistic d-flex rounded-2 justify-content-between py-3 px-4 text-body-white flex-1 flex-xl-unset"
       >
-        <div class="d-flex align-items-center fw-bold">
-          <img
-            :src="requireImage(field.img ?? '')"
-            :alt="field.label"
-            class="pe-3 w-auto"
+        <div class="d-flex align-items-center fw-bold gap-3">
+          <svg-icon
+            :name="field.img"
+            class="statistic-icon fill-body-white"
           />
-          <div class="number-title">{{ field.label }}</div>
+          <div class="statistic-title">{{ field.label }}</div>
         </div>
-        <h2 class="number-text pe-4 mb-0 align-items-center">{{ field.length }}</h2>
+        <h2 class="statistic-text pe-4 mb-0 align-items-center">
+          {{ field.length }}
+        </h2>
       </nuxt-link>
     </section>
   </div>
@@ -140,12 +140,18 @@ definePageMeta({
   title: '會員中心'
 });
 
-interface FieldType {
+interface InfoItemType {
   label: string;
   value: string;
+}
+
+interface UserInfoType extends InfoItemType {
   note?: string;
-  img?: string;
-  length?: number;
+}
+
+interface StatisticInfoType extends InfoItemType {
+  img: string;
+  length: number;
 }
 
 const uploadLoading = ref<boolean>(false);
@@ -166,25 +172,25 @@ const userInfoList = computed(() => {
       note: isVip.value ? '訂閱效期至' : ''
     }
   ];
-  return list as FieldType[];
+  return list as UserInfoType[];
 });
 
-const numberInfoList = computed(() => {
+const statisticInfoList = computed(() => {
   const list = [
     {
       label: '我的收藏',
       value: 'collect',
-      img: 'icon/number-collects.svg',
-      length: collects.value.length
+      img: 'collect-fill',
+      length: collects.value?.length
     },
     {
       label: '追蹤主題',
       value: 'follow',
-      img: 'icon/number-follows.svg',
-      length: follows.value.length
+      img: 'member-follow',
+      length: follows.value?.length
     }
   ];
-  return list as FieldType[];
+  return list as StatisticInfoType[];
 });
 
 const handleFileUpload = async (event: Event) => {
@@ -198,7 +204,7 @@ const handleFileUpload = async (event: Event) => {
     showToast({
       id: 'file-too-large',
       message: `文件大小不可超過 ${maxSizeInMB}MB`,
-      icon: 'icon/warning.svg'
+      type: 'warning'
     });
     return;
   }
@@ -220,14 +226,14 @@ const handleFileUpload = async (event: Event) => {
       showToast({
         id: 'upload-fail',
         message,
-        icon: 'icon/warning.svg'
+        type: 'warning'
       });
     }
   } catch (error: any) {
     showToast({
       id: 'upload-fail',
       message: error.response?.data?.message || '上傳失敗，請重試',
-      icon: 'icon/warning.svg'
+      type: 'warning'
     });
   }
 
@@ -272,17 +278,22 @@ const handleFileUpload = async (event: Event) => {
   font-size: 20px;
 }
 
-.number {
+.statistic {
   background-color: $blue-300;
-}
 
-.number-title {
-  font-size: 22px;
-}
+  &-icon {
+    width: 21px;
+    height: 21px;
+  }
 
-.number-text {
-  font-size: 48px;
-  line-height: 72px;
+  &-title {
+    font-size: 22px;
+  }
+
+  &-text {
+    font-size: 48px;
+    line-height: 72px;
+  }
 }
 
 ::v-deep(.notice-dot) {

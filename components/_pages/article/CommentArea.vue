@@ -19,7 +19,7 @@
             class="operation-btn"
             :loading="buttonInfo.loading"
             :text="buttonInfo.text"
-            :icon-src="requireImage(`icon/${buttonInfo.icon}.svg`)"
+            :icon-src="buttonInfo.icon"
             @click="buttonInfo.clickFn()"
           />
         </div>
@@ -135,8 +135,8 @@ const successDeleteHandler = (commentId: CommentType['id']) => {
 const addArticleCommentHandler = async () => {
   if (!commentValue.value?.trim()) {
     showToast({
-      id: `comment-empty`,
-      icon: 'icon/warning.svg',
+      id: 'comment-empty',
+      type: 'warning',
       message: '請輸入留言內容'
     });
     return;
@@ -156,7 +156,7 @@ const addArticleCommentHandler = async () => {
   }
   showToast({
     id: `comment-${status}`,
-    icon: status ? '' : 'icon/warning.svg',
+    type: status ? 'success' : 'warning',
     message
   });
 
@@ -168,7 +168,7 @@ const buttonInfo = computed(() =>
     ? {
         text: '留言',
         loading: btnLoading.value,
-        icon: 'comment',
+        icon: 'member-comment',
         clickFn: () => {
           addArticleCommentHandler();
         }

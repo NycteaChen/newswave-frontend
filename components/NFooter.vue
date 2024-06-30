@@ -9,10 +9,7 @@
           logo-type="light"
           class="mx-auto mx-md-0"
         />
-        <img
-          class="wave-icon"
-          :src="requireImage('icon/wave.svg')"
-        />
+        <wave-icon />
         <p>© 2024 NewsWave 專題使用</p>
         <cite class="fst-normal">
           Illustration by
@@ -63,11 +60,17 @@
               <nuxt-link
                 :to="link.path"
                 class="text-body-white is-btn"
-                :class="{ 'link-text-hidden': item.type === 'socialMedia' }"
+                :class="{
+                  'w-100 h-100 d-flex justify-content-center align-items-center ': item.type === 'socialMedia'
+                }"
                 :target="item.target || ''"
-                :style="item.type === 'socialMedia' ? renderSocialMedia(link.title) : {}"
               >
-                {{ link.title }}
+                <svg-icon
+                  v-if="item.type === 'socialMedia'"
+                  :name="`link-${link.title}`"
+                  class="fill-body-white link-icon"
+                />
+                <template v-else>{{ link.title }}</template>
               </nuxt-link>
             </li>
           </ul>
@@ -151,10 +154,6 @@ const illustrationAuthorList = [
     link: 'https://icons8.com/illustrations/author/Go8GMpKPAq1W'
   }
 ];
-
-const renderSocialMedia = (type: string) => ({
-  backgroundImage: `url(${requireImage(`footer/${type}.svg`)})`
-});
 </script>
 <style lang="scss" scoped>
 .pt-64 {
@@ -163,6 +162,12 @@ const renderSocialMedia = (type: string) => ({
 
 .n-footer {
   padding-bottom: 80px;
+
+  ::v-deep(.wave-icon) {
+    margin-top: 32px;
+    margin-bottom: 32px;
+    stroke: $blue-400;
+  }
 }
 
 .footer-desc {
@@ -174,23 +179,16 @@ const renderSocialMedia = (type: string) => ({
   text-decoration: underline;
 }
 
-.wave-icon {
-  margin-top: 32px;
-  margin-bottom: 32px;
-  width: 36px;
-}
-
 .social-media-item {
   width: 40px;
   height: 40px;
   border: 1px solid $border-color;
 
   a {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+    .link-icon {
+      width: 16px;
+      height: 16px;
+    }
   }
 }
 
