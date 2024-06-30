@@ -93,21 +93,27 @@ interface FollowNewsStatus {
 }
 
 const followNewsStatus = ref<FollowNewsStatus[]>(categoryTopic);
+const userStore = useUserStore();
+const { follows } = storeToRefs(userStore);
 
 const { getFollowNewsTopic, followNewsTopic, deleteFollowNewsTopic } = useUserApi();
 
-const getFollowNewsTopicHandler = async () => {
+const getFollowNewsTopicHandler = async (isOnMounted: boolean) => {
   const { status, data } = await getFollowNewsTopic();
   const userFollowNewsTopic = data as string[];
   if (status) {
-    userFollowNewsTopic.forEach((topic: string) => {
-      followNewsStatus.value = followNewsStatus.value.map((topicItem: FollowNewsStatus) => {
-        if (topicItem.name === topic) {
-          return { ...topicItem, subscribe: true };
-        }
-        return topicItem;
+    if (isOnMounted) {
+      userFollowNewsTopic.forEach((topic: string) => {
+        followNewsStatus.value = followNewsStatus.value.map((topicItem: FollowNewsStatus) => {
+          if (topicItem.name === topic) {
+            return { ...topicItem, subscribe: true };
+          }
+          return topicItem;
+        });
       });
-    });
+    } else {
+      follows.value = userFollowNewsTopic;
+    }
   }
 };
 
@@ -120,6 +126,8 @@ const followNewsTopicHandler = async (topic: string) => {
       }
       return topicItem;
     });
+    follows.value = followNewsStatus.value.filter((e) => e.subscribe).map((e) => e.name);
+
     showToast({
       id: 'follow-success',
       message
@@ -135,6 +143,8 @@ const deleteFollowNewsTopicHandler = async (topic: string) => {
       }
       return topicItem;
     });
+    follows.value = followNewsStatus.value.filter((e) => e.subscribe).map((e) => e.name);
+
     showToast({
       id: 'delete-follow-success',
       message
@@ -151,11 +161,12 @@ function toggleFollowBtn(id: number) {
   } else {
     deleteFollowNewsTopicHandler(followNewsTopicStatus.name);
   }
+  getFollowNewsTopicHandler(false);
 }
 
 onMounted(async () => {
   await nextTick(() => {
-    getFollowNewsTopicHandler();
+    getFollowNewsTopicHandler(true);
   });
 });
 </script>
