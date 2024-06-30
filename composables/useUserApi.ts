@@ -233,6 +233,36 @@ class userApi {
     const res = await useApi(`/upload/image`, {
       method: 'get'
     });
+    return res;
+  }
+
+  static async getFollowNewsTopic(): Promise<ApiResponseType<string[]>> {
+    const res = await useApi(`/user/follow-topic`, {
+      method: 'get'
+    });
+    return res;
+  }
+
+  static async followNewsTopic(topic: string) {
+    const params = {
+      topic
+    };
+    const res = await useApi(`/user/follow-topic`, {
+      method: 'post',
+      params
+    });
+
+    return res;
+  }
+
+  static async deleteFollowNewsTopic(topic: string): Promise<ApiResponseType<undefined>> {
+    const params = {
+      topic
+    };
+    const res = await useApi(`/user/follow-topic`, {
+      method: 'delete',
+      params
+    });
 
     return res;
   }
