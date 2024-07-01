@@ -6,19 +6,20 @@
     <p class="text-muted fs-sm">{{ `目前追蹤主題數：${follows.length}` }}</p>
     <div class="follow-container row row-cols-2 g-2 row-cols-sm-3">
       <div
-        v-for="item in categoryTopic"
+        v-for="item in topicList"
         :key="item.value"
         class="p-2"
       >
         <button
           type="button"
-          class="follow-btn w-100 h-100 rounded-2 is-btn gap-2 d-flex align-items-center justify-content-between"
-          :class="{ active: follows.includes(item.name) }"
+          class="follow-btn w-100 rounded-2 is-btn gap-2 d-flex align-items-center justify-content-between"
+          :class="{ active: follows.includes(item.name), 'cursor-not-allowed opacity-50': item.loading }"
           :style="{ '--color': item.color }"
-          @click="toggleFollowBtn(item.name)"
+          :disabled="item.loading"
+          @click="followTopicHandler(item)"
         >
           <n-spin
-            v-if="loadingItem === item.name"
+            v-if="item.loading"
             is-small
             class="mx-auto"
           />
@@ -46,41 +47,41 @@ definePageMeta({
 const userStore = useUserStore();
 const { follows } = storeToRefs(userStore);
 
-const loadingItem = ref<string>('');
+interface TopicItemType {
+  name: string;
+  value: string;
+  color: string;
+  loading: boolean;
+}
+
+const topicList = ref<TopicItemType[]>(categoryTopic.map((e) => ({ ...e, loading: false })));
 
 const { followNewsTopic, deleteFollowNewsTopic } = useUserApi();
 
-const followNewsTopicHandler = async (topic: string) => {
-  const { status, message } = await followNewsTopic(topic);
+const followTopicHandler = async (item: TopicItemType) => {
+  const topic = item.name;
+  // eslint-disable-next-line no-param-reassign
+  item.loading = true;
+
+  const type = follows.value?.includes(topic) ? 'delete' : 'add';
+
+  const { status, message } = type === 'delete' ? await deleteFollowNewsTopic(topic) : await followNewsTopic(topic);
+
   if (status) {
-    await userStore.getUserData();
+    follows.value = type === 'delete' ? follows.value.filter((e) => e !== topic) : follows.value.concat(topic);
 
     showToast({
-      id: `${topic}-follow-success`,
+      id: `${topic}-${type}-follow-success`,
       message: `${message}：${topic}`
     });
-  }
-};
-const deleteFollowNewsTopicHandler = async (topic: string) => {
-  const { status, message } = await deleteFollowNewsTopic(topic);
-  if (status) {
-    await userStore.getUserData();
-
-    showToast({
-      id: `${topic}-delete-follow-success`,
-      message: `${message}：${topic}`
-    });
-  }
-};
-
-const toggleFollowBtn = async (name: string) => {
-  loadingItem.value = name;
-  if (follows.value?.includes(name)) {
-    await deleteFollowNewsTopicHandler(name);
   } else {
-    await followNewsTopicHandler(name);
+    showToast({
+      id: `${topic}-follow-fail`,
+      message
+    });
   }
-  loadingItem.value = '';
+  // eslint-disable-next-line no-param-reassign
+  item.loading = false;
 };
 </script>
 
@@ -91,6 +92,7 @@ const toggleFollowBtn = async (name: string) => {
 
 .follow-btn {
   padding: 8px;
+  height: 42px;
   border: 1px solid var(--color);
   background-color: var(--color);
   color: $gray-100;
