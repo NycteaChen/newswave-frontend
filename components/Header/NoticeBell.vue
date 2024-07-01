@@ -6,7 +6,7 @@
     >
       <template #dropdownTrigger>
         <div class="position-relative">
-          <nav-icon-btn icon="notice" />
+          <nav-icon-btn icon="member-personal" />
           <notice-badge class="bell-dot" />
         </div>
       </template>
@@ -49,7 +49,7 @@
       v-else
       class="position-relative"
     >
-      <nav-icon-btn icon="notice" />
+      <nav-icon-btn icon="member-personal" />
       <notice-badge class="bell-dot" />
     </div>
   </nuxt-link>

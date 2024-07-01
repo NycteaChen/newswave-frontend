@@ -235,7 +235,7 @@ const submit = async () => {
   } else {
     showToast({
       id: 'fail-message',
-      icon: 'icon/warning.svg',
+      type: 'warning',
       delay: 2500,
       message
     });

@@ -13,18 +13,19 @@
       aria-atomic="true"
     >
       <div class="d-flex gap-3 p-3 pb-0">
-        <div class="toast-icon pt-1 flex-shrink-0">
-          <img
-            :src="requireImage(toastInfo.icon || 'icon/magazine.svg')"
-            alt="toastIcon"
+        <div class="pt-1 flex-shrink-0">
+          <svg-icon
+            :name="toastInfo.icon"
+            class="toast-icon"
+            :class="`fill-${toastInfo.iconColor}`"
           />
         </div>
         <div class="flex-fill">
           <header class="d-flex align-items-center w-100 justify-content-between mb-2">
             <h5 class="text-primary mb-0">系統提示</h5>
-            <img
-              class="toast-icon close-icon is-btn flex-shrink-0"
-              :src="requireImage('icon/close-gray.svg')"
+            <svg-icon
+              name="close"
+              class="close-icon is-btn flex-shrink-0 fill-muted"
               @click="closeToast('hide')"
             />
           </header>
@@ -41,15 +42,17 @@ const nToastBus = useEventBus('nToastBus');
 interface NToastProps {
   id: string;
   message: string;
-  icon?: string;
+  icon: string;
   delay?: number;
+  iconColor: string;
 }
 
 const toastInfo = reactive<NToastProps>({
   id: 'nToast',
   icon: '',
   message: '',
-  delay: 0
+  delay: 0,
+  iconColor: ''
 });
 
 const visible = ref<boolean>(false);
@@ -110,9 +113,11 @@ onBeforeMount(() => {
 
 .toast-icon {
   width: 24px;
+  height: 24px;
+}
 
-  &.close-icon {
-    width: 16px;
-  }
+.close-icon {
+  width: 16px;
+  height: 16px;
 }
 </style>

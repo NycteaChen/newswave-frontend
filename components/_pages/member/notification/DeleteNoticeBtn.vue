@@ -3,7 +3,7 @@
     <n-button
       color="danger"
       type="outline"
-      :icon-src="requireImage(`icon/delete${renderDeleteIcon}.svg`)"
+      icon-src="delete"
       size="sm"
       :text="isMobile ? '' : '刪除通知'"
       icon-position="left"
@@ -56,11 +56,6 @@ const isHover = ref<boolean>(false);
 const btnLoading = ref<boolean>(false);
 const showHintModal = ref<boolean>(false);
 
-const renderDeleteIcon = computed(() => {
-  if (props.disabled) return '-disabled';
-  return isHover.value ? '-active' : '';
-});
-
 const close = () => {
   showHintModal.value = false;
 };
@@ -81,7 +76,7 @@ const deleteAllNoticeHandler = async () => {
 
   showToast({
     id: `delete-notice-${status}`,
-    icon: status ? '' : 'icon/warning.svg',
+    type: status ? 'success' : 'warning',
     message
   });
 

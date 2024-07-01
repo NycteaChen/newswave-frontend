@@ -7,10 +7,13 @@
       <n-transition class="core-value-item d-flex h-100 justify-content-center align-items-center flex-column">
         <div class="core-value-icon-container p-2 rounded-circle bg-body position-relative z-2">
           <div
-            class="rounded-circle p-3"
+            class="rounded-circle p-3 d-flex mw-100 mh-100"
             :style="{ '--color': item.color }"
           >
-            <img :src="requireImage(`about/${item.icon}.svg`)" />
+            <svg-icon
+              class="core-value-icon"
+              :name="`about-${item.icon}`"
+            />
           </div>
         </div>
         <div
@@ -70,6 +73,10 @@ const coreList = [
 
   > div {
     border: 1px dashed var(--color);
+  }
+
+  .core-value-icon {
+    fill: var(--color);
   }
 }
 </style>

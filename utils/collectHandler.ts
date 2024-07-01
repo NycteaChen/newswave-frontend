@@ -15,7 +15,7 @@ export default async (articleId: ArticleType['articleId']) => {
 
   showToast({
     id: `${type}-collect-${status}`,
-    icon: status ? '' : 'icon/warning.svg',
+    type: status ? 'success' : 'warning',
     message
   });
 };

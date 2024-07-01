@@ -30,10 +30,9 @@
               </span>
             </span>
           </h3>
-          <img
-            class="wave-icon mb-4 mt-xl-4"
+          <wave-icon
+            class="mb-4 mt-xl-4"
             :class="index ? 'mb-xl-5' : 'mb-xl-0'"
-            :src="requireImage('icon/wave-cyan.svg')"
           />
         </n-transition>
         <component :is="item.component" />
@@ -93,10 +92,6 @@ const sectionList = computed(() => [
 </script>
 <style lang="scss" scoped>
 .about-us {
-  .wave-icon {
-    width: 36px;
-  }
-
   .deco-text {
     top: 25%;
     left: calc($h1-font-size + 1.5vw);

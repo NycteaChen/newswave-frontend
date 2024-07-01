@@ -22,7 +22,10 @@
             class="close-btn is-btn"
             @click="visible = false"
           >
-            <img :src="requireImage('icon/close-gray.svg')" />
+            <svg-icon
+              name="close"
+              class="fill-muted w-100 h-100"
+            />
           </div>
         </div>
         <div class="modal-body p-4 text-start">

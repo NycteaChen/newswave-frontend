@@ -123,7 +123,7 @@ const getMagazineArticleQuotaHandler = async () => {
   if (!status) {
     showToast({
       id: 'free-read-fail',
-      icon: 'icon/warning.svg',
+      type: 'warning',
       message
     });
   }

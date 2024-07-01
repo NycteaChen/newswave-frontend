@@ -24,36 +24,36 @@
               <span class="plan-price text-body-white px-1">{{ item.price }}</span>
               /月
             </h5>
-            <div
+            <n-tag
               v-if="item.recommend"
-              class="recommend-label d-flex align-items-center rounded-1 text-body-white position-absolute"
-            >
-              <img
-                class="me-1"
-                :src="requireImage('icon/ship-anchor.svg')"
-              />
-              <span>推薦</span>
-            </div>
-            <img
-              :class="{ 'checked-icon-show': item.type === selectedPlan?.type }"
-              class="checked-icon position-absolute"
-              :src="requireImage('icon/checked.svg')"
+              text="推薦"
+              icon-name="ship-anchor"
             />
+            <div
+              class="checked-icon position-absolute d-flex rounded-circle bg-body"
+              :class="{ 'checked-icon-show': item.type === selectedPlan?.type }"
+            >
+              <svg-icon
+                name="checked"
+                class="fill-success mw-100 mh-100"
+              />
+            </div>
           </div>
           <div class="card-content pt-4">
             <div class="card-body">
               <ul class="access-list">
                 <li
                   v-for="access in item.accessList"
-                  :key="access.value"
+                  :key="access.icon"
                   class="access-list-item fs-5 mb-3"
                 >
-                  <div class="d-flex align-items-center justify-content-center">
-                    <img
-                      class="me-2"
-                      :src="requireImage(`icon/${access.value}.svg`)"
+                  <div class="d-flex align-items-center justify-content-center gap-2">
+                    <svg-icon
+                      :name="access.icon"
+                      class="access-list-item-icon"
+                      :class="`fill-${access.color}`"
                     />
-                    <span :class="{ 'text-accent': access.value === 'discount' }"> {{ access.label }}</span>
+                    <span :class="{ 'text-accent': access.color === 'accent' }"> {{ access.label }}</span>
                   </div>
                 </li>
               </ul>
@@ -110,19 +110,23 @@ const { isVip, planType } = storeToRefs(userStore);
 const accessList = [
   {
     label: '各大新聞內容',
-    value: 'news'
+    icon: 'message',
+    color: 'success'
   },
   {
     label: '會員基本功能',
-    value: 'member'
+    icon: 'member-basic',
+    color: 'success'
   },
   {
     label: '嚴選雜誌專欄',
-    value: 'magazine'
+    icon: 'tick',
+    color: 'success'
   },
   {
     label: '獨家優惠價格',
-    value: 'discount'
+    icon: 'checked',
+    color: 'accent'
   }
 ];
 
@@ -212,23 +216,9 @@ watchImmediate(
   height: 216px;
 }
 
-.recommend-label {
-  top: 16px;
-  left: 16px;
-  padding: 8px 12px;
-  background: $accent;
-
-  img {
-    width: 24px;
-    height: 24px;
-  }
-}
-
-.access-list-item {
-  div > img {
-    width: 24px;
-    height: 24px;
-  }
+.access-list-item-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .current-hint {
@@ -247,6 +237,7 @@ watchImmediate(
 .checked-icon {
   top: 16px;
   right: 16px;
+  padding: 1px;
   width: 28px;
   height: 28px;
   opacity: 0;

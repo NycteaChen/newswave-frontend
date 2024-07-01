@@ -3,7 +3,7 @@
     <n-button
       color="danger"
       type="outline"
-      :icon-src="requireImage(`icon/delete${isHover ? '-active' : ''}.svg`)"
+      icon-src="delete"
       :text="isMobile ? '' : '刪除留言'"
       size="sm"
       icon-position="left"
@@ -61,7 +61,7 @@ const deleteArticleCommentHandler = async () => {
 
   showToast({
     id: `delete-comment-${status}`,
-    icon: status ? '' : 'icon/warning.svg',
+    type: status ? 'success' : 'warning',
     message
   });
 

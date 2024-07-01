@@ -8,7 +8,7 @@
       :class="color === 'accent' ? 'fixed-width' : 'w-100'"
       v-bind="props"
       text="前往使用"
-      :icon-src="requireImage('icon/ship.svg')"
+      icon-src="ship"
     />
   </nuxt-link>
 </template>

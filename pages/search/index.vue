@@ -19,7 +19,7 @@
           v-model:value="searchQuery[field.value]"
           :inputmode="field.inputmode || 'text'"
           :placeholder="`請輸入${field.label}`"
-          suffix-icon="icon/search.svg"
+          suffix-icon="search"
           @press-enter="goToSearch"
         />
         <n-select

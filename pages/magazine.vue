@@ -9,7 +9,10 @@
         role="alert"
       >
         <div class="fs-sm me-2">NewsWave Plus 享雜誌無限制觀看</div>
-        <img :src="requireImage('icon/arrow-right.svg')" />
+        <svg-icon
+          name="arrow"
+          class="arrow-icon"
+        />
       </div>
     </nuxt-link>
 
@@ -28,8 +31,11 @@ useHead({
 </script>
 <style lang="scss" scoped>
 .alert {
-  img {
-    width: 8px;
+  .arrow-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentcolor;
+    transform: rotate(90deg);
   }
 }
 </style>

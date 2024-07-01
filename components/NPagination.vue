@@ -13,7 +13,7 @@
         size="sm"
         :loading="btnLoading"
         text="載入更多"
-        :icon-src="requireImage('icon/more.svg')"
+        icon-src="rotate"
         @click.prevent="handleNextPage"
       />
     </div>
@@ -32,10 +32,9 @@
             aria-label="Previous"
             @click.prevent="handlePreviousPage"
           >
-            <img
-              src="/assets/image/icon/previous.svg"
-              alt="Previous"
-              aria-hidden="true"
+            <svg-icon
+              name="arrow-line"
+              class="page-icon arrow-previous"
             />
           </a>
         </li>
@@ -58,7 +57,16 @@
             v-if="current - 1 > 3"
             class="page-item disabled"
           >
-            <span class="page-link">...</span>
+            <a
+              class="page-link"
+              href="#"
+              @click.prevent="handlePreviousPage"
+            >
+              <svg-icon
+                name="more"
+                class="page-icon"
+              />
+            </a>
           </li>
           <li
             v-for="i in showPage"
@@ -77,7 +85,16 @@
             v-if="totalPages - current > 3"
             class="page-item disabled"
           >
-            <span class="page-link">...</span>
+            <a
+              class="page-link"
+              href="#"
+              @click.prevent="handlePreviousPage"
+            >
+              <svg-icon
+                name="more"
+                class="page-icon"
+              />
+            </a>
           </li>
           <li
             class="page-item"
@@ -117,10 +134,9 @@
             aria-label="Next"
             @click.prevent="handleNextPage"
           >
-            <img
-              src="/assets/image/icon/next.svg"
-              alt="Previous"
-              aria-hidden="true"
+            <svg-icon
+              name="arrow-line"
+              class="page-icon arrow-next"
             />
           </a>
         </li>
@@ -181,9 +197,26 @@ const handlePageClick = (page: number) => {
 };
 </script>
 <style lang="scss" scoped>
+.page-link {
+  .page-icon {
+    fill: $primary;
+    width: 12px;
+    height: 12px;
+
+    &.arrow-previous {
+      transform: rotate(180deg);
+    }
+  }
+}
+
 .pagination .page-item.active .page-link {
   background: $primary;
   color: $gray-100;
+}
+
+.disabled {
+  cursor: not-allowed;
+  pointer-events: unset;
 }
 
 @include media-breakpoint-down(md) {

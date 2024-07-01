@@ -16,6 +16,7 @@
                 v-for="item in comment?.article?.topic"
                 :key="item"
                 :text="item"
+                :article-id="comment?.article?.articleId"
               />
               <delete-comment-btn
                 :comment-id="comment.id"

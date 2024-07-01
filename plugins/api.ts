@@ -17,7 +17,7 @@ export default defineNuxtPlugin(() => {
         userStore.$reset();
         showToast({
           id: 'auth-fail',
-          icon: 'icon/warning.svg',
+          type: 'warning',
           message: '憑證過期，請重新登入'
         });
         return navigateTo('/login-register');

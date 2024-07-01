@@ -30,10 +30,7 @@
         data-bs-parent="#nAccordion"
       >
         <div class="accordion-body">
-          <img
-            class="wave-icon mb-3"
-            :src="requireImage('icon/wave-cyan.svg')"
-          />
+          <wave-icon class="mb-3" />
           <p class="mb-0 fs-md-5 whitespace-pre-wrap">{{ item.content }}</p>
         </div>
       </div>
@@ -75,10 +72,6 @@ withDefaults(defineProps<NAccordionProps>(), {
 
 .accordion-flush > .accordion-item:last-child {
   border-bottom: 1px solid $blue-300;
-}
-
-.wave-icon {
-  width: 36px;
 }
 
 @include media-breakpoint-down(md) {

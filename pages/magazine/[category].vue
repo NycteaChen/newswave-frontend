@@ -1,7 +1,7 @@
 <template>
-  <section class="title mb-4 bg-body-light rounded-1">
+  <section class="category-intro mb-4 bg-body-light rounded-1">
     <div class="d-flex">
-      <div class="title-img me-4 flex-shrink-0">
+      <div class="category-img me-4 flex-shrink-0">
         <n-image
           :img-src="magazineContent?.categoryImg || ''"
           :alt="magazineContent?.categoryDescribe || ''"
@@ -19,16 +19,14 @@
       </div>
     </div>
     <div
-      class="d-md-none btn-expand d-flex align-items-center justify-content-center gap-1"
-      :class="{ show: showFullContent }"
+      class="d-md-none btn-expand d-flex align-items-center text-body-white justify-content-center gap-1"
       @click="toggleMagazineContent"
     >
-      <span class="expand-text">{{ showFullContent ? '收合' : '展開' }}</span>
-      <img
-        v-if="!showFullContent"
-        :src="requireImage('icon/angle-down.svg')"
-        alt="展開"
-        class="expand-img"
+      <span class="fs-xs">{{ showFullContent ? '收合' : '展開' }}</span>
+      <svg-icon
+        class="expand-icon"
+        :class="{ expand: showFullContent }"
+        name="arrow"
       />
     </div>
   </section>
@@ -50,9 +48,11 @@
                 :alt="item.imageDescribe || ''"
               />
             </div>
-            <NTags
+            <n-tag
               v-if="item.tags?.length"
-              :type="item.tags[0]"
+              :color="item.tags[0]?.toUpperCase() === 'HOT' ? 'red' : 'cyan'"
+              :text="item.tags[0]?.toUpperCase()"
+              :icon-name="item.tags[0]?.toUpperCase() === 'HOT' ? 'hot' : 'flag'"
             />
             <div class="card-body">
               <h5 class="card-title limit-line-two text-primary">
@@ -171,7 +171,7 @@ watch(
 );
 </script>
 <style lang="scss" scoped>
-.title-img {
+.category-img {
   width: 120px;
   height: 120px;
 }
@@ -195,17 +195,17 @@ watch(
 .upload-time {
   position: relative;
   padding-left: 8px;
-}
 
-.upload-time::before {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 1px;
-  height: 16px;
-  background-color: $gray-300;
-  content: '';
-  transform: translateY(-50%);
+  &::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 1px;
+    height: 16px;
+    background-color: $gray-300;
+    content: '';
+    transform: translateY(-50%);
+  }
 }
 
 .card {
@@ -215,15 +215,10 @@ watch(
     line-height: 33px;
     transition: all 0.3s ease-in-out;
   }
-}
 
-.card-body {
-  padding: 8px 24px 16px;
-}
-
-.expand-img {
-  max-width: 9px;
-  height: 10px;
+  .card-body {
+    padding: 8px 24px 16px;
+  }
 }
 
 .btn-expand {
@@ -234,26 +229,32 @@ watch(
   border: 0;
   border-radius: 20px;
   background-color: $blue-300;
-  color: $gray-100;
-}
 
-.expand-text {
-  font-size: 12px;
+  .expand-icon {
+    width: 9px;
+    height: 10px;
+    fill: currentcolor;
+    transition: transform 0.3s ease-in-out;
+
+    &:not(.expand) {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 @include media-breakpoint-down(md) {
-  .title {
+  .category-intro {
     padding: 12px;
-  }
 
-  .title-img {
-    width: 80px;
-    height: 80px;
+    .category-img {
+      width: 80px;
+      height: 80px;
+    }
   }
 }
 
 @include media-breakpoint-up(md) {
-  .title {
+  .category-intro {
     padding: 16px;
   }
 

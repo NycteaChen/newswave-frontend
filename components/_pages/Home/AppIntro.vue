@@ -22,10 +22,7 @@
               <figcaption>
                 <h3 class="mt-3">{{ item.title }}</h3>
               </figcaption>
-              <img
-                class="wave-icon"
-                :src="requireImage('icon/wave-cyan.svg')"
-              />
+              <wave-icon />
               <p
                 v-for="(desc, idx) in item.descList"
                 :key="idx"
@@ -91,13 +88,12 @@ const introList = [
   }
 }
 
-.wave-icon {
+::v-deep(.wave-icon) {
   margin: 24px 0;
-  width: 36px;
 }
 
 @include media-breakpoint-up(md) {
-  .wave-icon {
+  ::v-deep(.wave-icon) {
     margin-top: 56px;
   }
 }

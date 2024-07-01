@@ -10,13 +10,13 @@ export const categoryTopic = [
   {
     id: 2,
     name: '科技',
-    class: 'technology',
+    class: 'tech',
     subscribe: false
   },
   {
     id: 3,
     name: '體育',
-    class: 'physical',
+    class: 'sport',
     subscribe: false
   },
   {

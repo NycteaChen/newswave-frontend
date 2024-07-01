@@ -30,7 +30,10 @@
       class="slide-hint position-absolute end-0 top-0 d-md-none"
       :class="arrivedState.right ? 'opacity-0 z-minus' : 'opacity-100'"
     >
-      <img :src="requireImage('icon/arrow-right.svg')" />
+      <svg-icon
+        name="arrow"
+        class="slide-hint-icon"
+      />
     </div>
   </nav>
 </template>
@@ -178,11 +181,14 @@ watch(
 
 .slide-hint {
   padding: 8px 15px;
-  background: linear-gradient(90deg, $body-bg 0%, $blue-100 100%);
+  background: linear-gradient(90deg, transparent 0%, $body-bg 25%, $blue-100 100%);
   transition: opacity 0.3s ease-in-out;
 
-  img {
-    width: 10px;
+  &-icon {
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
+    fill: $blue-300;
   }
 }
 </style>

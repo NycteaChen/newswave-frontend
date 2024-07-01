@@ -162,7 +162,7 @@ const submit = async () => {
   } else {
     showToast({
       id: 'password-fail',
-      icon: 'icon/warning.svg',
+      type: 'warning',
       delay: 2500,
       message
     });

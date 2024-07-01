@@ -42,10 +42,7 @@
         </div>
         <div class="headline-col d-flex flex-column gap-3">
           <h3 class="news-title text-body fw-bold limit-line-two">{{ newsData?.title }}</h3>
-          <img
-            class="wave-icon d-none d-md-inline-block"
-            :src="requireImage('icon/wave-cyan.svg')"
-          />
+          <wave-icon class="d-none d-md-inline-block" />
           <div class="d-none d-md-block text-muted">
             <p class="limit-line-four">{{ newsData?.content }}</p>
           </div>
@@ -83,10 +80,6 @@ const isMagazine = computed(() => props.newsData?.articleId?.startsWith('M-'));
 </script>
 
 <style lang="scss" scoped>
-.wave-icon {
-  width: 36px;
-}
-
 .news-item {
   .news-image-container {
     max-width: 140px;

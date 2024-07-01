@@ -22,12 +22,17 @@
       >
         {{ text }}
       </span>
-      <img
+      <svg-icon
         v-if="iconSrc"
         class="btn-icon"
         :class="{ 'opacity-0': loading }"
-        :src="iconSrc"
+        :name="iconSrc"
       />
+      <!-- <img
+        v-if="iconSrc"
+        class="btn-icon"
+        :src="iconSrc"
+      /> -->
     </div>
   </button>
 </template>
@@ -80,6 +85,8 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
   .btn-icon {
     width: 22px;
     height: 22px;
+    fill: currentcolor;
+    transition: fill 0.15s ease-in-out;
   }
 }
 
@@ -104,6 +111,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
   }
 
   .btn-icon {
+    max-width: 15px;
     width: auto;
     height: 12px;
   }
@@ -213,8 +221,8 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
   &:disabled:active {
     @extend %btn-disabled;
 
-    background: $red-100;
-    color: $red-300;
+    background: $red-200;
+    color: $red-400;
   }
 
   &-outline {
@@ -227,9 +235,9 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
     &:disabled:active {
       @extend %btn-disabled;
 
-      border-color: $red-300;
+      border-color: $red-400;
       background: transparent;
-      color: $red-100;
+      color: $red-200;
     }
   }
 
@@ -238,7 +246,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
     &:active:not([disabled]),
     &-outline:hover:not([disabled]),
     &-outline:active:not([disabled]) {
-      background: $red-500;
+      background: $red-800;
       color: $gray-100;
     }
   }
@@ -246,7 +254,7 @@ const isSmallBtn = computed<boolean>(() => props.size === 'sm');
   &:focus-visible:not([disabled]),
   &-outline:focus-visible:not([disabled]) {
     background: $accent;
-    box-shadow: 0 0 0 4px $red-200;
+    box-shadow: 0 0 0 4px $red-300;
     color: $gray-100;
   }
 }

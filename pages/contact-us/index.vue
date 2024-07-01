@@ -75,15 +75,15 @@
             >。
           </li>
         </ol>
-        <ul class="other-contact mx-auto w-100 d-flex flex-column gap-3 gap-lg-4">
+        <ul class="mx-auto w-100 d-flex flex-column gap-3 gap-lg-4">
           <li
             v-for="item in contactList"
             :key="item.icon"
             class="d-flex align-items-center gap-2 gap-lg-3"
           >
-            <img
-              class=""
-              :src="requireImage(`icon/${item.icon}.svg`)"
+            <svg-icon
+              :name="item.icon"
+              class="other-contact-icon fill-primary"
             />
             <a
               v-if="item.href"
@@ -237,7 +237,7 @@ const submit = () => {
   setTimeout(() => {
     showToast({
       id: 'contact-success',
-      // icon: 'icon/warning.svg',
+      // type: 'warning',
       message: '表單發送成功'
     });
 
@@ -287,11 +287,9 @@ useHead({
     display: none;
   }
 
-  .other-contact {
-    img {
-      width: 24px;
-      height: 24px;
-    }
+  .other-contact-icon {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -337,11 +335,9 @@ useHead({
       }
     }
 
-    .other-contact {
-      img {
-        width: 32px;
-        height: 32px;
-      }
+    .other-contact-icon {
+      width: 32px;
+      height: 32px;
     }
   }
 }

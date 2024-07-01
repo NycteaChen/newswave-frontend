@@ -20,7 +20,10 @@
       :class="{ 'is-btn': suffixIconClickFn && !disabled }"
       @click="disabled ? '' : $emit('clickIcon')"
     >
-      <img :src="requireImage(suffixIcon)" />
+      <svg-icon
+        :name="suffixIcon"
+        class="fill-muted mw-100 mh-100"
+      />
     </div>
   </div>
 </template>
@@ -61,9 +64,5 @@ defineEmits<{ (e: 'pressEnter'): void; (e: 'clickIcon'): void }>();
 .suffix-icon {
   right: 12px;
   width: 20px;
-
-  img {
-    max-height: 100%;
-  }
 }
 </style>
