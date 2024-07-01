@@ -77,6 +77,8 @@ NUXT_PUBLIC_WEATHER_KEY= # 中央氣象局 api key，需自行至中央氣象局
 - assets - 靜態資源放置處
   - scss - scss 檔案放置處
   - image - 圖片放置處
+  - sprite
+    - svg - svg icon 放置處
 - components - 拆分元件放置處
   - _pages - 頁面獨有元件
   - 全域共用元件
@@ -101,8 +103,10 @@ NUXT_PUBLIC_WEATHER_KEY= # 中央氣象局 api key，需自行至中央氣象局
 - Nuxt v3.11.2
 - Pinia v2.1.7
 - Bootstrap v5.3.3
-- socket.io-client v1.2.2
-- vueuse v10.9.0
+- Socket.io-client v1.2.2
+- Vueuse v10.9.0
+- Nuxt-swiper: v1.2.2
+- Nuxt-svg-sprite: v1.0.2
 
 
 ## Third-party Service
@@ -113,11 +117,11 @@ NUXT_PUBLIC_WEATHER_KEY= # 中央氣象局 api key，需自行至中央氣象局
 
 ## Codeing Style Tools
 
-- eslint v8.57.0
-- stylelint v16.4.0
-- prettier v3.2.5
-- husky v8.0.0
-- lint-staged v15.2.2
+- Eslint v8.57.0
+- Stylelint v16.4.0
+- Prettier v3.2.5
+- Husky v8.0.0
+- Lint-staged v15.2.2
 
 ## CI/CD
 
@@ -133,5 +137,5 @@ NUXT_PUBLIC_WEATHER_KEY= # 中央氣象局 api key，需自行至中央氣象局
 - [chsiyu](https://github.com/sihyun-user)
 - [chrisT](https://github.com/r37111081)
 - [Ciel](https://github.com/NycteaChen)
-- [kiki880409](https://github.com/kiki880409)
+- [kiki880409](https://github.com/kilee0409)
 - [Alan](https://github.com/LOOFOO)
