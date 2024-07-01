@@ -82,7 +82,7 @@ const memberNav: NavItemWithSubType[] = [
 
 const memberSubNav = memberNav.filter((e) => e.childrenRoute?.length);
 
-const newsNav: NavItemType[] = ['首頁', ...newsCategory()]
+const newsNav: NavItemType[] = ['首頁', ...newsCategory]
   .map((e, index) => ({
     label: e,
     value: index ? `/news?category=${e}` : '/news',

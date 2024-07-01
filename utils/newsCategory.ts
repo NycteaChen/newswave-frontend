@@ -1,40 +1,36 @@
-export default () => ['國際', '社會', '科技', '財經', '體育', '娛樂'];
-
-export const categoryTopic = [
+const newsCategoryList = [
   {
-    id: 1,
-    name: '財經',
-    class: 'finance',
-    subscribe: false
-  },
-  {
-    id: 2,
-    name: '科技',
-    class: 'tech',
-    subscribe: false
-  },
-  {
-    id: 3,
-    name: '體育',
-    class: 'sport',
-    subscribe: false
-  },
-  {
-    id: 4,
-    name: '社會',
-    class: 'society',
-    subscribe: false
-  },
-  {
-    id: 5,
-    name: '娛樂',
-    class: 'entertainment',
-    subscribe: false
-  },
-  {
-    id: 6,
     name: '國際',
-    class: 'internationality',
-    subscribe: false
+    value: 'internationality',
+    color: '#5db0c4'
+  },
+  {
+    name: '社會',
+    value: 'society',
+    color: '#f8b82d'
+  },
+  {
+    name: '科技',
+    value: 'tech',
+    color: '#003c70'
+  },
+  {
+    name: '財經',
+    value: 'finance',
+    color: '#df4d47'
+  },
+  {
+    name: '體育',
+    value: 'sport',
+    color: '#fd9843'
+  },
+  {
+    name: '娛樂',
+    value: 'entertainment',
+    color: '#1ea896'
   }
 ];
+
+export const newsCategory = newsCategoryList.map((e) => e.name);
+
+export const categoryTopic = newsCategoryList;
