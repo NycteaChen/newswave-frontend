@@ -169,12 +169,16 @@ const goToPage = (item: PlanItem) => {
       break;
     default:
       if (token.value) {
-        navigateTo({
-          path: item.redirectPath,
-          query: {
-            plan: isVip.value ? undefined : item.type
-          }
-        });
+        if (isVip.value) {
+          window.location.href = item.redirectPath || '';
+        } else {
+          navigateTo({
+            path: item.redirectPath,
+            query: {
+              plan: item.type
+            }
+          });
+        }
       } else {
         showHintModal.value = true;
       }
