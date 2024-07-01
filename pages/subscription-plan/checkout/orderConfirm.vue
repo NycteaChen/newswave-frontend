@@ -23,7 +23,13 @@
                   @click="payMethod = method.value"
                 >
                   <div class="d-flex gap-2 align-items-center">
-                    <div class="select-circle border rounded-circle" />
+                    <div class="select-circle border rounded-circle d-flex">
+                      <svg-icon
+                        name="checked"
+                        class="checked-icon fill-success mw-100 mh-100"
+                        :class="{ 'checked-icon-show': payMethod === method.value }"
+                      />
+                    </div>
 
                     <div>{{ method.name }}</div>
                     <img
@@ -177,6 +183,8 @@ const goBackHandler = async () => {
 }
 
 .pay-method-item {
+  transition: border 0.2s ease-in-out;
+
   .third-pay-logo {
     margin-left: auto;
     width: 40%;
@@ -187,11 +195,17 @@ const goBackHandler = async () => {
 
     .select-circle {
       border-color: $green !important;
-      background: url('@/assets/image/icon/checked.svg');
-      background-position: center;
-      background-size: cover;
-      background-repeat: no-repeat;
-      transition: all 0.3s ease-in-out;
+    }
+  }
+
+  .checked-icon {
+    opacity: 0;
+    transition: all 0.1s ease-in-out;
+    transform: scale(0.5);
+
+    &-show {
+      opacity: 1;
+      transform: scale(1);
     }
   }
 }

@@ -17,22 +17,24 @@ interface NTransitionProps {
 const scrollY = inject<any>('scrollY');
 const targetRef = ref<HTMLElement | null>(null);
 const showTarget = ref<boolean>(false);
+const targetVisible = useElementVisibility(targetRef);
 
 withDefaults(defineProps<NTransitionProps>(), {
   animationName: 'fade-in-up',
   delay: 0
 });
 
-watch(
-  () => scrollY.value,
-  (val) => {
-    if (val < 30) {
-      showTarget.value = false;
-    } else if ((targetRef.value?.getBoundingClientRect()?.y || 0) < (window.innerHeight * 5) / 7) {
+watch([() => scrollY.value, () => targetVisible.value], (val) => {
+  if (+val[0] < 30) {
+    if (val[1] && (targetRef.value?.getBoundingClientRect()?.y || 0) < (window.innerHeight * 6) / 7) {
       showTarget.value = true;
+    } else {
+      showTarget.value = false;
     }
+  } else if ((targetRef.value?.getBoundingClientRect()?.y || 0) < (window.innerHeight * 6) / 7) {
+    showTarget.value = true;
   }
-);
+});
 </script>
 <style lang="scss" scoped>
 .n-transition {

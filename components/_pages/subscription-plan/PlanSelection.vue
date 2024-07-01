@@ -172,7 +172,7 @@ const goToPage = (item: PlanItem) => {
         navigateTo({
           path: item.redirectPath,
           query: {
-            plan: item.type
+            plan: isVip.value ? undefined : item.type
           }
         });
       } else {
