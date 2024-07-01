@@ -236,13 +236,6 @@ class userApi {
     return res;
   }
 
-  static async getFollowNewsTopic(): Promise<ApiResponseType<string[]>> {
-    const res = await useApi(`/user/follow-topic`, {
-      method: 'get'
-    });
-    return res;
-  }
-
   static async followNewsTopic(topic: string) {
     const params = {
       topic

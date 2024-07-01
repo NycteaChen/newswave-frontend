@@ -148,7 +148,7 @@ const { magazineCategoryList } = storeToRefs(guestStore);
 
 const topicList = computed(() => {
   const newsOptions =
-    newsCategory().map((e) => ({
+    newsCategory.map((e) => ({
       label: e,
       value: e
     })) || [];
