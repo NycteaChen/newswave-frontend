@@ -47,7 +47,7 @@
           如果您對我們的隱私權政策、我們如何使用您的個人資訊、行使您的隱私權有任何疑問，或是對於 NewsWave
           服務、您的帳號有一般問題，請隨時
           <nuxt-link
-            class="is-btn"
+            class="is-btn text-blue-400"
             to="/contact-us"
             target="_blank"
           >

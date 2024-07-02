@@ -1,55 +1,38 @@
 <template>
   <div
-    class="loading-indicator position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-    :class="{ show: isLoading }"
+    class="loading-indicator bg-body position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+    :class="{ hidden: !isLoading }"
   >
     <div class="loader" />
   </div>
 </template>
 
 <script setup lang="ts">
-// const nuxtApp = useNuxtApp();
+const nuxtApp = useNuxtApp();
 const pageLoadingBus = useEventBus('pageLoadingBus');
-const isLoading = ref(false);
-
-// const unsubPageStart = nuxtApp.hook('page:start', () => {
-//   if (process.client) {
-//     console.log('start');
-//     isLoading.value = true;
-//   }
-// });
+const isLoading = ref(true);
 
 const loadingHandler: any = (bool: boolean): void => {
   isLoading.value = bool;
 };
 
-// const unsubPageFinish = nuxtApp.hook('page:finish', () => {
-//   if (process.client) {
-//     console.log('finish');
-//     setTimeout(() => {
-//       isLoading.value = false;
-//       console.log('isLoading.value :>> ', isLoading.value);
-//     }, 400);
-//   }
-// });
+nuxtApp.hook('page:loading:end', () => {
+  if (process.client) {
+    isLoading.value = false;
+  }
+});
 
 onBeforeMount(() => {
   pageLoadingBus.on(loadingHandler);
 });
-
-// onBeforeUnmount(() => {
-//   unsubPageStart();
-//   unsubPageFinish();
-// });
 </script>
 <style lang="scss" scoped>
 .loading-indicator {
-  z-index: -1;
-  background: rgba($gray-100, 0.7);
+  z-index: $zindex-fixed;
   transition: opacity 0.5s ease-in-out;
 
-  &.show {
-    z-index: $zindex-fixed;
+  &.hidden {
+    z-index: -1;
   }
 }
 

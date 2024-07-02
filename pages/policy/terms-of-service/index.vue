@@ -30,6 +30,7 @@
             <div class="fw-bold">隱私權：</div>
             我們尊重您的隱私權，不會將您的個人資訊用於其他目的。請仔細閱讀我們的
             <nuxt-link
+              class="is-btn text-blue-400"
               to="/policy/privacy-policy"
               target="_blank"
             >
@@ -51,7 +52,7 @@
         <div>
           「NewsWave Plus」為 NewsWave 提供的訂閱服務，若對於 NewsWave Plus 服務有一般疑問亦可參考我們的
           <nuxt-link
-            class="is-btn"
+            class="is-btn text-blue-400"
             target="_blank"
             to="/faq"
           >
@@ -86,7 +87,7 @@
         <p class="mb-0">
           如果您對我們的服務條款有任何疑問，請隨時
           <nuxt-link
-            class="is-btn"
+            class="is-btn text-blue-400"
             to="/contact-us"
             target="_blank"
           >

@@ -7,7 +7,7 @@
       ref="formBoxContainerRef"
       class="form-box-container rounded-3 flex-lg-fill px-lg-4 position-relative z-1"
     >
-      <div class="field-container">
+      <div class="field-container d-flex flex-column">
         <header>
           <n-logo
             class="mx-auto"
@@ -16,7 +16,7 @@
           <h3 class="text-center my-4">{{ modeText.name }}</h3>
         </header>
         <form
-          class="row gy-4 needs-validation fs-sm"
+          class="row needs-validation fs-sm mb-3"
           :class="{ 'was-invalidated': isInvalidated }"
           novalidate
         >
@@ -52,22 +52,43 @@
               />
             </client-only>
             <div
-              v-if="errorMessage[field.value]"
-              class="invalid-feedback"
+              class="invalid-feedback d-block mb-1"
+              :class="{ invisible: !isInvalidated }"
             >
-              {{ errorMessage[field.value] }}
+              {{ errorMessage[field.value] || '-' }}
             </div>
           </div>
           <div class="col-12">
+            <p
+              v-if="mode === 'register'"
+              class="fs-sm mb-2 text-muted"
+            >
+              註冊即代表同意我們的
+              <nuxt-link
+                class="is-btn"
+                to="/policy/terms-of-service"
+                target="_blank"
+              >
+                服務條款
+              </nuxt-link>
+              與
+              <nuxt-link
+                class="is-btn"
+                to="/policy/privacy-policy"
+                target="_blank"
+              >
+                隱私權政策
+              </nuxt-link>
+            </p>
             <n-button
-              class="w-100 mb-3"
+              class="w-100"
               :text="modeText.name"
               :loading="btnLoading"
               @click="submit"
             />
           </div>
         </form>
-        <p class="fs-sm text-center mb-0">
+        <p class="fs-sm text-center mb-0 mt-auto">
           {{ modeText.hint }}
           <a
             class="text-primary is-btn"
@@ -261,6 +282,14 @@ const imageList = [
   {
     img: 'https://cdn.pixabay.com/photo/2017/06/18/18/26/holi-2416686_1280.jpg',
     desc: 'Capturing the World’s Stories, One Frame at a Time - Syed Murtaza Ali'
+  },
+  {
+    img: 'https://cdn.pixabay.com/photo/2016/11/23/15/32/pedestrians-1853552_1280.jpg',
+    desc: '在都市中，人們在繁華的街道上匆匆忙忙地來往 - 聯合新聞網'
+  },
+  {
+    img: 'https://images.volleyballworld.com/image/upload/t_editorial_landscape_12_desktop/f_auto/v1719519033/fivb-prd/wjkdxcjroqj0zeyib7qd.jpg',
+    desc: 'Yuki Ishikawa led Japan to a sweep of Canada in the quarterfinals - Volleyball Nations league'
   }
 ];
 
@@ -268,7 +297,7 @@ const bgImageObj = ref<any>({});
 
 watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => {
   if (val[0] && val[1]) {
-    bgImageObj.value = imageList[Math.round(Math.random())] || imageList[0];
+    bgImageObj.value = imageList[Math.round(Math.random() * imageList.length)] || imageList[0];
     const bgImage = `url(${bgImageObj.value.img})`;
     val.forEach((e: HTMLElement | null) => {
       e?.style.setProperty('--bg-image', bgImage);
@@ -280,10 +309,6 @@ watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => 
 .login-register {
   overflow-y: auto;
   min-height: 100vh;
-}
-
-.invalid-feedback {
-  margin-bottom: -15px;
 }
 
 .form-box-container {
@@ -357,7 +382,7 @@ watch([() => loginRegisterRef.value, () => formBoxContainerRef.value], (val) => 
   }
 
   .field-container {
-    height: 524px;
+    height: 552px;
   }
 
   .form-box-container {
