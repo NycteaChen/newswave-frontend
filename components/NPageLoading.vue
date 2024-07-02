@@ -16,9 +16,11 @@ const loadingHandler: any = (bool: boolean): void => {
   isLoading.value = bool;
 };
 
-nuxtApp.hook('page:loading:end', () => {
-  if (process.client) {
-    isLoading.value = false;
+nuxtApp.hook('page:finish', () => {
+  if (process.client && isLoading.value) {
+    setTimeout(() => {
+      isLoading.value = false;
+    }, 300);
   }
 });
 
