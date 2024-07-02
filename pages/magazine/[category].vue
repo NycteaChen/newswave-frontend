@@ -42,10 +42,9 @@
         <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
           <div class="card overflow-hidden">
             <div class="overflow-hidden">
-              <n-image
-                :img-src="magazineContent?.categoryImg || ''"
+              <article-image
+                :article-data="item"
                 class="card-img-top object-fit-cover"
-                :alt="item.imageDescribe || ''"
               />
             </div>
             <n-tag

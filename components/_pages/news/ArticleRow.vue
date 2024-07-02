@@ -3,12 +3,14 @@
     <nuxt-link
       class="d-flex"
       :class="
-        size === 'small' ? 'gap-2 news-item pb-2 border-bottom' : 'flex-column gap-4 flex-md-row p-3 border rounded-2'
+        size === 'small'
+          ? 'small-news-card gap-2 pb-2 border-bottom'
+          : 'big-news-card flex-column gap-3 flex-md-row p-3 border rounded-2'
       "
       :to="`/article/${isMagazine ? newsData?.source?.name : newsData?.topic?.[0]}/${newsData?.articleId}`"
     >
       <template v-if="size === 'small'">
-        <div class="news-image-container overflow-hidden rounded-1 flex-shrink-0">
+        <div class="overflow-hidden rounded-1 flex-shrink-0">
           <article-image
             :article-data="newsData"
             class="news-image object-fit-cover"
@@ -34,10 +36,10 @@
         </div>
       </template>
       <template v-else>
-        <div class="headline-col overflow-hidden rounded-1">
+        <div class="headline-col overflow-hidden rounded-1 flex-shrink-0">
           <article-image
             :article-data="newsData"
-            class="news-image object-fit-cover h-100"
+            class="news-image big object-fit-cover h-100"
           />
         </div>
         <div class="headline-col d-flex flex-column gap-3">
@@ -80,9 +82,16 @@ const isMagazine = computed(() => props.newsData?.articleId?.startsWith('M-'));
 </script>
 
 <style lang="scss" scoped>
-.news-item {
-  .news-image-container {
-    max-width: 140px;
+.big-news-card {
+  .news-image {
+    height: 250px !important;
+  }
+}
+
+.small-news-card {
+  .news-image {
+    width: 133px;
+    height: 88px !important;
   }
 }
 
@@ -91,6 +100,12 @@ const isMagazine = computed(() => props.newsData?.articleId?.startsWith('M-'));
 }
 
 @include media-breakpoint-up(md) {
+  .big-news-card {
+    .news-image {
+      height: 306px !important;
+    }
+  }
+
   .headline-col {
     width: 50%;
   }

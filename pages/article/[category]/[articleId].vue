@@ -31,13 +31,13 @@
               </header>
               <figure
                 v-if="articleData?.image || articleData?.articleId?.startsWith('M-')"
-                class="mb-md-4"
+                class="mx-2 mb-md-4 border-bottom mx-md-4"
               >
                 <article-image
                   :article-data="articleData"
                   class="news-image rounded-1 mb-2 d-block mx-auto"
                 />
-                <figcaption class="fs-sm text-muted mx-2 pt-2 pb-3 border-bottom pt-md-3 pb-md-4 mx-md-4">
+                <figcaption class="image-desc mx-auto fs-sm text-muted pt-2 pb-3 pt-md-3 pb-md-4">
                   {{ articleData?.imageDescribe }}
                 </figcaption>
               </figure>
@@ -186,8 +186,9 @@ useHead({
 }
 
 @include media-breakpoint-up(md) {
-  .news-image {
-    max-width: 75%;
+  .news-image,
+  .image-desc {
+    max-width: 80%;
   }
 }
 </style>
