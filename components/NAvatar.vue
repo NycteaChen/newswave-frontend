@@ -10,17 +10,17 @@
     <n-image
       v-if="avatarPhoto"
       :img-src="avatarPhoto"
-      default-img="icon/user-photo.svg"
       :alt="`${type}-${avatarPhoto}`"
       class="w-100 object-fit-cover"
     />
     <div
       v-else
       class="default-avatar d-flex align-items-center justify-content-center w-100 h-100"
+      :class="avatarType"
     >
       <svg-icon
-        name="avatar"
-        class="default-avatar-icon"
+        :name="`avatar-${avatarType}`"
+        class="avatar-icon"
       />
     </div>
   </div>
@@ -48,18 +48,35 @@ const props = withDefaults(defineProps<NAvatarProps>(), {
 
 const token: any = useCookie('token');
 
-const avatarPhoto = computed(() =>
-  token.value && props.type === 'user' ? avatar?.value || requireImage('icon/user-photo.svg') : props.imgSrc
-);
+const avatarType = computed(() => (token.value ? 'default' : 'visitor'));
+
+const avatarPhoto = computed(() => (token.value && props.type === 'user' ? avatar?.value : props.imgSrc));
 </script>
 <style lang="scss" scoped>
-.default-avatar {
-  background: $blue-300;
+.n-avatar {
+  border: 1px solid $white;
+}
 
-  &-icon {
-    fill: $blue-100;
+.default-avatar {
+  .avatar-icon {
     max-width: 45%;
     max-height: 100%;
+  }
+
+  &.default {
+    background: $blue-200;
+
+    .avatar-icon {
+      fill: $blue-300;
+    }
+  }
+
+  &.visitor {
+    background: $blue-300;
+
+    .avatar-icon {
+      fill: $blue-100;
+    }
   }
 }
 </style>

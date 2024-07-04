@@ -301,6 +301,13 @@ const handleFileUpload = async (event: Event) => {
   transform: translateY(0);
 }
 
+::v-deep(.n-avatar) {
+  .default-avatar .avatar-icon {
+    width: 48px;
+    height: 72px;
+  }
+}
+
 @include media-breakpoint-up(md) {
   .user-id {
     font-size: 16px;

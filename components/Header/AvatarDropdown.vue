@@ -111,6 +111,12 @@ const loginRegisterBtnGroup = computed<BtnTypes[]>(() => [
 const logoutHandler = async () => {
   const { status, message } = await logout();
   if (status) {
+    if (route.path?.startsWith('/member')) {
+      await navigateTo('/news');
+    } else if (String(route.name)?.includes('subscription-plan-checkout')) {
+      await navigateTo('/subscription-plan');
+    }
+
     token.value = undefined;
     userStore.$reset();
     noticeStore.$reset();
@@ -119,12 +125,6 @@ const logoutHandler = async () => {
       id: 'logout-success',
       message
     });
-
-    if (route.path?.startsWith('/member')) {
-      navigateTo('/news');
-    } else if (String(route.name)?.includes('subscription-plan-checkout')) {
-      navigateTo('/subscription-plan');
-    }
   } else {
     showToast({
       id: 'logout-fail',
