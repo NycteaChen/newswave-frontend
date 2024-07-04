@@ -34,16 +34,19 @@
           <div
             v-for="field in userInfoList"
             :key="field.label"
-            class="user-info mb-3 fw-bold p-3 rounded-2"
+            class="bg-body mb-3 fw-bold p-3 rounded-2"
           >
-            <div class="text-muted fs-sm">{{ field.label }}</div>
+            <div class="mb-2 text-muted fs-sm">{{ field.label }}</div>
             <div
               v-if="field.note"
-              class="mb-2 mt-2 text-end fw-normal"
+              class="mb-2 text-end fw-normal"
             >
               {{ field.note }}
             </div>
-            <div class="mt-2 text-end text-break">
+            <div
+              class="text-end text-break"
+              :class="field.label === 'ID' ? 'user-id' : 'fs-5'"
+            >
               {{ field.value }}
             </div>
           </div>
@@ -119,9 +122,9 @@
             :name="field.img"
             class="statistic-icon fill-body-white"
           />
-          <div class="statistic-title">{{ field.label }}</div>
+          <h5 class="mb-0">{{ field.label }}</h5>
         </div>
-        <h2 class="statistic-text pe-4 mb-0 align-items-center">
+        <h2 class="pe-4 mb-0 align-items-center">
           {{ field.length }}
         </h2>
       </nuxt-link>
@@ -263,6 +266,18 @@ const handleFileUpload = async (event: Event) => {
   padding-top: 12px;
 }
 
+.user-id {
+  font-size: 14px;
+
+  @media screen and (width >= 320px) {
+    font-size: 16px;
+  }
+
+  @media screen and (width >= 375px) {
+    font-size: 20px;
+  }
+}
+
 .menu-link {
   padding-top: 12px;
   padding-bottom: 12px;
@@ -273,26 +288,12 @@ const handleFileUpload = async (event: Event) => {
   }
 }
 
-.user-info {
-  background-color: $body-bg;
-  font-size: 20px;
-}
-
 .statistic {
   background-color: $blue-300;
 
   &-icon {
     width: 21px;
     height: 21px;
-  }
-
-  &-title {
-    font-size: 22px;
-  }
-
-  &-text {
-    font-size: 48px;
-    line-height: 72px;
   }
 }
 
@@ -301,6 +302,10 @@ const handleFileUpload = async (event: Event) => {
 }
 
 @include media-breakpoint-up(md) {
+  .user-id {
+    font-size: 16px;
+  }
+
   .menu-body {
     li {
       transition: background 0.3s ease-in-out;
@@ -309,6 +314,18 @@ const handleFileUpload = async (event: Event) => {
         background: $light;
       }
     }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .user-id {
+    font-size: 20px;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .user-id {
+    font-size: 14px;
   }
 }
 </style>
