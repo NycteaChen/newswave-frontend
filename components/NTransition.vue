@@ -3,7 +3,7 @@
     ref="targetRef"
     class="n-transition"
     :style="{ '--delay': `${delay}s` }"
-    :class="[animationName, showTarget ? 'show opacity-100' : 'opacity-0']"
+    :class="hasTransition ? [animationName, showTarget ? 'show opacity-100' : 'opacity-0'] : ''"
   >
     <slot />
   </div>
@@ -12,6 +12,7 @@
 interface NTransitionProps {
   animationName?: string;
   delay?: number;
+  hasTransition?: boolean;
 }
 
 const scrollY = inject<any>('scrollY');
@@ -21,7 +22,8 @@ const targetVisible = useElementVisibility(targetRef);
 
 withDefaults(defineProps<NTransitionProps>(), {
   animationName: 'fade-in-up',
-  delay: 0
+  delay: 0,
+  hasTransition: true
 });
 
 watch([() => scrollY.value, () => targetVisible.value], (val) => {

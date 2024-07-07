@@ -1,6 +1,7 @@
 <template>
   <div class="checkout-layout">
     <div class="pt-3 pt-md-4 container-xxl">
+      <n-breadcrumb class="mb-2" />
       <n-step
         v-model:step="currentStep"
         :step-list="stepList"
@@ -13,6 +14,7 @@
 const scrollY = inject<any>('scrollY');
 
 const route = useRoute();
+const guestStore = useGuestStore();
 
 const currentStep = ref<number>(1);
 const stepList = [
@@ -44,6 +46,10 @@ const checkRoute = () => {
   }
 };
 
+onUnmounted(() => {
+  guestStore.SET_BREADCRUMB_NAV([]);
+});
+
 watch(
   () => currentStep.value,
   () => {
@@ -55,6 +61,7 @@ watchImmediate(
   () => route.name,
   () => {
     checkRoute();
+    guestStore.SET_BREADCRUMB_NAV(renderBreadcrumb());
   }
 );
 </script>

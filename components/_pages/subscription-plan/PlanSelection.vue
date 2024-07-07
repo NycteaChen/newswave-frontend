@@ -8,6 +8,7 @@
         :delay="isPc && isIntroMode ? (index * 2) / 10 : 0"
         class="col-12 col-xl-4"
         :class="{ 'col-lg-5': !isIntroMode }"
+        :has-transition="isIntroMode"
       >
         <div
           class="card mb-4 px-0 mx-auto overflow-hidden"
