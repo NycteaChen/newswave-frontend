@@ -1,5 +1,6 @@
 <template>
   <div class="magazine">
+    <magazine-banner />
     <n-loading :loading="loading">
       <ul
         v-if="magazineCategoryList.length"
@@ -40,6 +41,10 @@ onMounted(async () => {
     loading.value = false;
   });
 });
+
+useHead({
+  titleTemplate: (title) => `${title} - 雜誌`
+});
 </script>
 <style lang="scss" scoped>
 ::v-deep(.magazine-category-card) {
@@ -70,7 +75,7 @@ onMounted(async () => {
 }
 
 @include media-breakpoint-up(xl) {
-  .magazine {
+  ::v-deep(.n-loading-container) {
     margin: 0 -12px;
   }
 
