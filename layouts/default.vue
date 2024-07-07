@@ -121,8 +121,7 @@ const { magazineCategoryList } = storeToRefs(guestStore);
 watchImmediate([() => route.fullPath, () => magazineCategoryList.value], () => {
   if (isArticlePage.value) return;
 
-  const list = renderBreadcrumb();
-  guestStore.SET_BREADCRUMB_NAV(list);
+  guestStore.SET_BREADCRUMB_NAV(renderBreadcrumb());
 });
 
 onUnmounted(() => {

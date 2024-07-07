@@ -25,6 +25,17 @@ export default (): NavItemType[] => {
       label: '搜尋',
       value: ''
     });
+  } else if (String(route.name).includes('subscription-plan-checkout')) {
+    list = [
+      {
+        label: '方案介紹',
+        value: '/subscription-plan'
+      },
+      {
+        label: '訂閱流程',
+        value: ''
+      }
+    ];
   } else {
     list = [];
   }
