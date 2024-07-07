@@ -20,7 +20,18 @@
           aria-expanded="false"
           :aria-controls="`flush-collapse${index}`"
         >
-          <h3 class="me-3">{{ item.title }}</h3>
+          <slot
+            v-if="slots.title"
+            name="title"
+            :item="item"
+            :index="index"
+          />
+          <h3
+            v-else
+            class="me-3 mb-0"
+          >
+            {{ item.title }}
+          </h3>
         </button>
       </h3>
       <div
@@ -46,6 +57,8 @@ export type AccordionItem = {
 interface NAccordionProps {
   accordionList?: AccordionItem[];
 }
+
+const slots = useSlots();
 
 withDefaults(defineProps<NAccordionProps>(), {
   accordionList: () => []
