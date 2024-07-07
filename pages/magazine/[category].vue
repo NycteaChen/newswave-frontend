@@ -1,89 +1,92 @@
 <template>
-  <section class="category-intro mb-4 bg-body-light rounded-1">
-    <div class="d-flex">
-      <div class="category-img me-4 flex-shrink-0">
-        <n-image
-          :img-src="magazineContent?.categoryImg || ''"
-          :alt="magazineContent?.categoryDescribe || ''"
-          class="object-fit-cover"
+  <div class="magazine-category">
+    <magazine-banner />
+    <section class="category-intro mb-4 bg-body-light rounded-1">
+      <div class="d-flex">
+        <div class="category-img me-4 flex-shrink-0">
+          <n-image
+            :img-src="magazineContent?.categoryImg || ''"
+            :alt="magazineContent?.categoryDescribe || ''"
+            class="object-fit-cover"
+          />
+        </div>
+        <div class="text-primary">
+          <div class="fw-bold fs-3">{{ magazineContent?.categoryName }}</div>
+          <p
+            class="mb-0 mt-2 mt-md-4"
+            :class="{ 'limit-line-two': !showFullContent }"
+          >
+            {{ magazineContent?.categoryDescribe }}
+          </p>
+        </div>
+      </div>
+      <div
+        class="d-md-none btn-expand d-flex align-items-center text-body-white justify-content-center gap-1"
+        @click="toggleMagazineContent"
+      >
+        <span class="fs-xs">{{ showFullContent ? '收合' : '展開' }}</span>
+        <svg-icon
+          class="expand-icon"
+          :class="{ expand: showFullContent }"
+          name="arrow"
         />
       </div>
-      <div class="text-primary">
-        <div class="fw-bold fs-3">{{ magazineContent?.categoryName }}</div>
-        <p
-          class="mb-0 mt-2 mt-md-4"
-          :class="{ 'limit-line-two': !showFullContent }"
-        >
-          {{ magazineContent?.categoryDescribe }}
-        </p>
-      </div>
-    </div>
-    <div
-      class="d-md-none btn-expand d-flex align-items-center text-body-white justify-content-center gap-1"
-      @click="toggleMagazineContent"
-    >
-      <span class="fs-xs">{{ showFullContent ? '收合' : '展開' }}</span>
-      <svg-icon
-        class="expand-icon"
-        :class="{ expand: showFullContent }"
-        name="arrow"
-      />
-    </div>
-  </section>
-  <n-loading :loading="showLoading">
-    <ul
-      v-if="renderList.length"
-      class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
-    >
-      <li
-        v-for="item in renderList"
-        :key="item.articleId"
+    </section>
+    <n-loading :loading="showLoading">
+      <ul
+        v-if="renderList.length"
+        class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4"
       >
-        <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
-          <div class="card overflow-hidden">
-            <div class="overflow-hidden">
-              <article-image
-                :article-data="item"
-                class="card-img-top object-fit-cover"
+        <li
+          v-for="item in renderList"
+          :key="item.articleId"
+        >
+          <nuxt-link :to="`/article/${$route.params.category}/${item.articleId}`">
+            <div class="card overflow-hidden">
+              <div class="overflow-hidden">
+                <article-image
+                  :article-data="item"
+                  class="card-img-top object-fit-cover"
+                />
+              </div>
+              <n-tag
+                v-if="item.tags?.length"
+                :color="item.tags[0]?.toUpperCase() === 'HOT' ? 'red' : 'cyan'"
+                :text="item.tags[0]?.toUpperCase()"
+                :icon-name="item.tags[0]?.toUpperCase() === 'HOT' ? 'hot' : 'flag'"
               />
-            </div>
-            <n-tag
-              v-if="item.tags?.length"
-              :color="item.tags[0]?.toUpperCase() === 'HOT' ? 'red' : 'cyan'"
-              :text="item.tags[0]?.toUpperCase()"
-              :icon-name="item.tags[0]?.toUpperCase() === 'HOT' ? 'hot' : 'flag'"
-            />
-            <div class="card-body">
-              <h5 class="card-title limit-line-two text-primary">
-                {{ item.title }}
-              </h5>
-              <div class="d-flex justify-content-between text-muted">
-                <div class="d-flex align-items-center">
-                  <!--   <img
+              <div class="card-body">
+                <h5 class="card-title limit-line-two text-primary">
+                  {{ item.title }}
+                </h5>
+                <div class="d-flex justify-content-between text-muted">
+                  <div class="d-flex align-items-center">
+                    <!--   <img
                     src="https://s3-alpha-sig.figma.com/img/3662/e399/b8712cd3f85b9427a7e6d17ee57ca6cb?Expires=1716768000&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=MDMwFa27gcexv9mYTRKybhb~A-xmnfFc2VD5WTxnQYyLlFSN0vU7d3vGWt6Iiz4UdDkRIowKrCwqy13nZ6X2J8QSYEY3YS9YOySTWxz4-h2wk-CMBweYBfIxW0wHNKiJ0y6CprMFayB4Dk-N8vBxxAKuinVhbgG0gRLszYyXNKiC49p9g~Vv5B4HKj9jcuNTSFEql6Yb0Jnr9IX7HTeuZskjcTwXgr2DmfD70Blct7zEsUHgO73AfXreEb6QvQFXNi8ZNzdqEyiS86gaR2sovuSQqoYLvHsehifDYWMiQM3v0GiEpWxRxDcZjftk83UomaVAN5~i08~joNg7Yhq5jg__"
                     alt="作者頭像"
                     class="author-img"
                   /> --><span>{{ item.editor }}</span>
+                  </div>
+                  <div class="upload-time">{{ getPublishedDays(item.publishedAt) }} 天前</div>
                 </div>
-                <div class="upload-time">{{ getPublishedDays(item.publishedAt) }} 天前</div>
               </div>
             </div>
-          </div>
-        </nuxt-link>
-      </li>
-    </ul>
-    <n-empty
-      v-else-if="!showLoading"
-      text="暫無文章資料"
-      width="300"
+          </nuxt-link>
+        </li>
+      </ul>
+      <n-empty
+        v-else-if="!showLoading"
+        text="暫無文章資料"
+        width="300"
+      />
+    </n-loading>
+    <n-pagination
+      v-model:current="pagination.current"
+      class="pagination-position"
+      :total-pages="pagination.totalPages"
+      :btn-loading="loadMoreLoading"
     />
-  </n-loading>
-  <n-pagination
-    v-model:current="pagination.current"
-    class="pagination-position"
-    :total-pages="pagination.totalPages"
-    :btn-loading="loadMoreLoading"
-  />
+  </div>
 </template>
 <script setup lang="ts">
 import type { PaginationType } from '@/components/NPagination.vue';
@@ -168,6 +171,10 @@ watch(
     getMagazineArticlePageHandler();
   }
 );
+
+useHead({
+  titleTemplate: (title) => `${title} - '雜誌'`
+});
 </script>
 <style lang="scss" scoped>
 .category-img {
