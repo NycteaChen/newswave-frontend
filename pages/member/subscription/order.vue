@@ -36,7 +36,7 @@ const tableColumn: ColumnItemType[] = [
     width: '20%'
   },
   {
-    title: '到期日',
+    title: '到期時間',
     dataIndex: 'subscribeExpiredAt',
     width: '20%'
   }
@@ -53,9 +53,8 @@ const getSubscriptionListHandler = async () => {
     dataList.value = data.map((e) => ({
       ...e,
       payStatus: e.payStatus === 'paid' ? '已付款' : '尚未付款',
-      createdAt: useDateFormat(e.createdAt, 'YYYY/MM/DD HH:mm:ss').value,
-      subscribeExpiredAt:
-        e.payStatus === 'paid' ? useDateFormat(e.subscribeExpiredAt, 'YYYY/MM/DD HH:mm:ss').value : '-'
+      createdAt: useDateFormat(e.createdAt, 'YYYY/MM/DD HH:mm').value,
+      subscribeExpiredAt: e.payStatus === 'paid' ? useDateFormat(e.subscribeExpiredAt, 'YYYY/MM/DD HH:mm').value : '-'
     }));
   }
 

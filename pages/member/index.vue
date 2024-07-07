@@ -171,7 +171,7 @@ const userInfoList = computed(() => {
     },
     {
       label: '訂閱狀態',
-      value: isVip.value ? useDateFormat(subscribeExpiredAt.value, 'YYYY/MM/DD HH:mm:ss').value : '目前無訂閱',
+      value: isVip.value ? useDateFormat(subscribeExpiredAt.value, 'YYYY/MM/DD HH:mm').value : '目前無訂閱',
       note: isVip.value ? '訂閱效期至' : ''
     }
   ];
