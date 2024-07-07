@@ -72,7 +72,7 @@ const infoList = computed(() => [
   },
   {
     title: '訂閱到期日',
-    value: isVip.value ? useDateFormat(subscribeExpiredAt.value, 'YYYY/MM/DD HH:mm:ss').value : '-'
+    value: isVip.value ? useDateFormat(subscribeExpiredAt.value, 'YYYY/MM/DD HH:mm').value : '-'
   },
   {
     title: '自動續訂',
