@@ -1,60 +1,65 @@
 <template>
-  <form
-    class="form pt-3 needs-validation fs-sm bg-body-light rounded-2 my-0 mx-auto mx-md-0 overflow-hidden"
-    :class="{ 'was-invalidated': isInvalidated }"
-    novalidate
+  <n-loading
+    :loading="loading"
+    class="account-basic"
   >
-    <div class="bg-body d-flex gap-4 flex-column p-3 mx-3">
-      <div
-        v-for="field in fieldList"
-        :key="field.value"
-        class="col-12"
-        :class="{ 'col-sm-6': field.type === 'radio' }"
-      >
-        <div class="d-flex flex-column">
-          <label class="form-label fs-6">
-            {{ field.label }}
-            <span
-              v-if="field.require"
-              class="text-accent"
-              >*</span
-            >
-          </label>
-          <n-radio-group
-            v-if="field.type === 'radio'"
-            v-model:checked="formState[field.value]"
-            :options="field.options"
-          />
-          <n-input
-            v-else
-            :id="field.value"
-            v-model:value="formState[field.value]"
-            :placeholder="`請輸入${field.label}`"
-            :has-error="field.value === 'name' && !!errorMessage"
-            :type="field.type"
-            :disabled="field.disabled"
-            @press-enter="submit"
-          />
-        </div>
+    <form
+      class="form pt-3 needs-validation fs-sm bg-body-light rounded-2 my-0 mx-auto mx-md-0 overflow-hidden"
+      :class="{ 'was-invalidated': isInvalidated }"
+      novalidate
+    >
+      <div class="bg-body d-flex gap-4 flex-column p-3 mx-3">
         <div
-          v-if="field.value === 'name' && errorMessage"
-          class="text-danger"
+          v-for="field in fieldList"
+          :key="field.value"
+          class="col-12"
+          :class="{ 'col-sm-6': field.type === 'radio' }"
         >
-          {{ errorMessage }}
+          <div class="d-flex flex-column">
+            <label class="form-label fs-6">
+              {{ field.label }}
+              <span
+                v-if="field.require"
+                class="text-accent"
+                >*</span
+              >
+            </label>
+            <n-radio-group
+              v-if="field.type === 'radio'"
+              v-model:checked="formState[field.value]"
+              :options="field.options"
+            />
+            <n-input
+              v-else
+              :id="field.value"
+              v-model:value="formState[field.value]"
+              :placeholder="`請輸入${field.label}`"
+              :has-error="field.value === 'name' && !!errorMessage"
+              :type="field.type"
+              :disabled="field.disabled"
+              @press-enter="submit"
+            />
+          </div>
+          <div
+            v-if="field.value === 'name' && errorMessage"
+            class="text-danger"
+          >
+            {{ errorMessage }}
+          </div>
         </div>
+        <n-button
+          class="w-100"
+          text="確認"
+          :loading="btnLoading"
+          @click="submit"
+        />
       </div>
-      <n-button
-        class="w-100"
-        text="確認"
-        :loading="btnLoading"
-        @click="submit"
+      <img
+        class="mt-2"
+        :src="requireImage('member/wave-2.svg')"
       />
-    </div>
-    <img
-      class="mt-2"
-      :src="requireImage('member/wave-2.svg')"
-    />
-  </form>
+    </form>
+  </n-loading>
 </template>
 <script lang="ts" setup>
 const { updateUserInfo } = useUserApi();
@@ -82,6 +87,7 @@ interface FieldType {
 }
 
 const errorMessage = ref<string>('');
+const loading = ref<boolean>(true);
 
 const formState = reactive<UserInfoFieldType>({
   email: '',
@@ -177,6 +183,7 @@ onMounted(() => {
       formState.gender = gender.value;
       formState.birthday = birthday.value;
     }
+    loading.value = false;
   });
 });
 
@@ -188,7 +195,11 @@ watchEffect(() => {
 });
 </script>
 <style lang="scss" scoped>
-.form {
+.account-basic {
   max-width: 540px;
+
+  ::v-deep(.n-loading) {
+    z-index: 2;
+  }
 }
 </style>
