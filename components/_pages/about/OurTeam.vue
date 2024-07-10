@@ -41,12 +41,12 @@
               />
             </nuxt-link>
           </h4>
-          <div>{{ member.role }}</div>
+          <h5 class="mb-0">{{ member.role }}</h5>
           <img
             class="divider"
             :src="requireImage('about/divider.svg')"
           />
-          <ul class="ps-3 flex-1 member-desc d-flex flex-column gap-2 fs-sm text-muted">
+          <ul class="ps-3 flex-1 member-desc d-flex flex-column gap-2 text-muted">
             <li
               v-for="(item, idx) in member.desc"
               :key="`${member.name}-desc-${idx}`"
