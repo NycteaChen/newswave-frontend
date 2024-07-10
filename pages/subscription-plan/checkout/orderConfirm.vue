@@ -73,6 +73,14 @@
       >
         隱私權政策
       </nuxt-link>
+      ，若對產品有疑問，也可以參考我們的
+      <nuxt-link
+        class="is-btn"
+        to="/faq"
+        target="_blank"
+      >
+        常見問題集
+      </nuxt-link>
       ，祝福您有愉快的產品體驗。
     </p>
   </div>

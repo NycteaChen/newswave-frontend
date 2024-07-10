@@ -135,7 +135,7 @@
 <script setup lang="ts">
 const { memberSubNav } = useNav();
 const userStore = useUserStore();
-const { id, name, isVip, subscribeExpiredAt, collects, follows } = storeToRefs(userStore);
+const { name, isVip, subscribeExpiredAt, collects, follows } = storeToRefs(userStore);
 const { uploadImage, updateUserInfo } = useUserApi();
 const nTabsBus = useEventBus('nTabsBus');
 
@@ -161,10 +161,10 @@ const uploadLoading = ref<boolean>(false);
 
 const userInfoList = computed(() => {
   const list = [
-    {
-      label: 'ID',
-      value: id.value
-    },
+    // {
+    //   label: 'ID',
+    //   value: id.value
+    // },
     {
       label: '會員狀態',
       value: isVip.value ? '訂閱會員' : '免費會員'
