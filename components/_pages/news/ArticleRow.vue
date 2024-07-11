@@ -24,12 +24,12 @@
           >
             {{ newsData?.content }}
           </p>
-          <div class="d-flex align-items-center mt-auto justify-content-between">
+          <div class="d-flex align-items-center mt-auto justify-content-between gap-1 flex-wrap">
             <article-label
               :text="newsData?.topic?.[0]"
               :article-id="newsData?.articleId"
             />
-            <div class="publish-date text-muted text-end">
+            <div class="text-muted text-end">
               {{ useDateFormat(newsData?.publishedAt, 'YYYY/MM/DD').value }}
             </div>
           </div>

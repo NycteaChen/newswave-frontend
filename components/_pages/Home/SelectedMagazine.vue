@@ -4,7 +4,7 @@
       <n-transition>
         <h2 class="text-body-white">精選雜誌</h2>
         <n-swiper
-          :swiper-list="magazineCategoryList"
+          :swiper-list="magazineCategoryList.slice(0, 6)"
           mode="dark"
         >
           <template #slide="{ slideItem }">
