@@ -177,4 +177,18 @@ watchDeep(
     transform: translate(50px, 0);
   }
 }
+
+@include media-breakpoint-up(xl) {
+  ::v-deep(.news-container) {
+    .small-news-card {
+      .news-title {
+        height: 54px;
+      }
+
+      .news-image {
+        height: 95px !important;
+      }
+    }
+  }
+}
 </style>
