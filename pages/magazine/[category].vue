@@ -173,7 +173,7 @@ watch(
 );
 
 useHead({
-  titleTemplate: (title) => `${title} - '雜誌'`
+  titleTemplate: (title) => `${title} - 雜誌`
 });
 </script>
 <style lang="scss" scoped>
