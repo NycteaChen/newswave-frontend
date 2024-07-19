@@ -25,7 +25,7 @@ Password： user1234
 
 ![首頁](https://i.imgur.com/YHTYhNt.png)
 ![新聞列表](https://i.imgur.com/X5SMoos.png)
-![會員中心](https://i.imgur.com/AyebLWv.png)
+![會員中心](https://images.cakeresume.com/post-images/60d46732-fb97-4cf3-81d9-91e964dcdba0.png)
 
 ## 安裝
 
