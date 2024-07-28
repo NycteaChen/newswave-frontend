@@ -10,7 +10,9 @@
 
 <img width="500" src="https://i.imgur.com/4ARRsXj.jpeg" />
 
-- DEMO: [NewsWave](https://newswave-92gm.onrender.com/)
+- DEMO 1: https://newswave-frontend.onrender.com/
+- DEMO 2: https://newswave-92gm.onrender.com/
+
 
 NewsWave 是一個提供零廣告干擾的免費新聞閱讀應用程式，無論何時何地，只要透過可連接網路的行動裝置，NewsWave 便能為您提供最新、最有價值的新聞資訊。會員可收藏喜歡的文章、與其他用戶留言互動、追蹤有興趣的新聞主題，系統將推播最新相關文章通知，除此之外，會員亦可透過訂閱制服務無限制觀看精選雜誌專欄文章，打造專屬於使用者的閱讀之旅。
 
