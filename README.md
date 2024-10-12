@@ -33,6 +33,12 @@ Password： user1234
 ### News List
 ![News list](https://i.imgur.com/X5SMoos.png)
 
+### Register
+![Register](https://i.imgur.com/oKYooFQ.png)
+
+### Magazine List & Notification
+![Magazine list & notice](https://i.imgur.com/ErHtPRx.png)
+
 ### Member Center
 ![Member center](https://images.cakeresume.com/post-images/60d46732-fb97-4cf3-81d9-91e964dcdba0.png)
 
